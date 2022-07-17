@@ -17,5 +17,5 @@ spring:
       hibernate:
         show_sql: true
         format_sql: true
-    database-platform: org.hibernate.dialect.MySQL5Dialect
-    defer-datasource-initialization: true
+#    database-platform: org.hibernate.dialect.MySQL8Dialect
+#    defer-datasource-initialization: true
