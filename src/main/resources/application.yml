@@ -1,7 +1,7 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://plogging-db.cdvumpepcdrw.ap-northeast-2.rds.amazonaws.com:3306/dev_ploggingdb?
+    url: jdbc:mysql://plogging-db.cdvumpepcdrw.ap-northeast-2.rds.amazonaws.com/dev_ploggingdb
     username: admin
     password: Pplogging1234!
 
