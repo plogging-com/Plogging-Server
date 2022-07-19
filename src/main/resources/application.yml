@@ -1,7 +1,7 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://plogging-db.cdvumpepcdrw.ap-northeast-2.rds.amazonaws.com/dev_ploggingdb?autoReconnect=true
+    url: jdbc:mysql://plogging-db.cdvumpepcdrw.ap-northeast-2.rds.amazonaws.com/dev_ploggingdb?autoReconnect=true&useSSL=false
     username: admin
     password: Pplogging1234!
 
@@ -17,5 +17,5 @@ spring:
       hibernate:
         show_sql: true
         format_sql: true
-#    database-platform: org.hibernate.dialect.MySQL8Dialect
-#    defer-datasource-initialization: true
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    defer-datasource-initialization: true
