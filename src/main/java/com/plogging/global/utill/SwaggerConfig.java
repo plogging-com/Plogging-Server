@@ -21,6 +21,10 @@ import java.util.List;
 @EnableSwagger2
 public class SwaggerConfig {
 
+    /**
+     * 지라 테스트
+     */
+
     @Bean
     public Docket restAPI() {
 //        List<Parameter> global = new ArrayList<>();
