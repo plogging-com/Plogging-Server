@@ -1,21 +1,22 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://plogging-db.cdvumpepcdrw.ap-northeast-2.rds.amazonaws.com/dev_ploggingdb
+    url: jdbc:mysql://ploggingrds2.cdvumpepcdrw.ap-northeast-2.rds.amazonaws.com:3306/ploggingdb
     username: admin
-    password: Pplogging1234!
+    password: Pplogging123!!
 
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
 
   jpa:
+    database: mysql
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
 
     properties:
       hibernate:
         show_sql: true
         format_sql: true
-    database-platform: org.hibernate.dialect.MySQL5Dialect
+    database-platform: org.hibernate.dialect.MySQL8Dialect
     defer-datasource-initialization: true
