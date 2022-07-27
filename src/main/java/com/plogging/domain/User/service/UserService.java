@@ -7,7 +7,5 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 public interface UserService {
-    User join(UserJoinReq userJoinReq);
 
-    User delete(UserDeleteReq userDeleteReq);
 }

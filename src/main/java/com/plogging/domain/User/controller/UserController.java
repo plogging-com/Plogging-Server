@@ -17,25 +17,7 @@ public class UserController {
 
     private final UserService userService;
 
-    @PostMapping("/join")
-    public ApplicationResponse<User> join(@Valid @RequestBody UserJoinReq userJoinReq){
-        return ApplicationResponse.create(
-                "가입완료",
-                userService.join(userJoinReq)
-        );
-    }
 
-    @PostMapping("/delete")
-    public ResponseEntity<User> delete(@Valid @RequestBody UserDeleteReq userDeleteReq){
-        return ResponseEntity.ok(
-                userService.delete(userDeleteReq)
-        );
-    }
-
-    @GetMapping("/")
-    public String test(){
-        return "Succese";
-    }
 
 
 }
