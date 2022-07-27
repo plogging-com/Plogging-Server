@@ -11,13 +11,5 @@ import org.springframework.stereotype.Service;
 public class UserServiceImpl implements UserService{
 
 
-    @Override
-    public User join(UserJoinReq userJoinReq) {
-        return null;
-    }
 
-    @Override
-    public User delete(UserDeleteReq userDeleteReq) {
-        return null;
-    }
 }
