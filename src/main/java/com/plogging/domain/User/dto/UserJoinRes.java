@@ -1,18 +1,19 @@
 package com.plogging.domain.User.dto;
 
 import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+
 @Getter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@ApiModel(description = "회원가입 반환 객체")
-public class UserJoinReq {
+@ApiModel(description = "회원가입 응답 객체")
+public class UserJoinRes {
 
-    private String id;
-
-    private String password;
-
+    private String username;
 }
