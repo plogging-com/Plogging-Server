@@ -1,11 +1,10 @@
 package com.plogging.domain.User.service;
 
-import com.plogging.domain.User.dto.UserDeleteReq;
 import com.plogging.domain.User.dto.UserJoinReq;
-import com.plogging.domain.User.entity.User;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
+import com.plogging.domain.User.dto.UserJoinRes;
+import com.plogging.global.dto.ApplicationResponse;
 
 public interface UserService {
 
+    UserJoinRes join(UserJoinReq userJoinReq);
 }
