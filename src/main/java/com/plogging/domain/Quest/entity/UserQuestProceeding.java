@@ -17,7 +17,6 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 public class UserQuestProceeding {
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name="userQuestProceedingIdx")
@@ -34,6 +33,4 @@ public class UserQuestProceeding {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="questIdx")
     private Quest quest;
-
-
 }
