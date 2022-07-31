@@ -17,8 +17,7 @@ import java.time.LocalDateTime;
 @Builder
 public class UserQuestDiary {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name="userQuestDiaryIdx")
     private Long id;
 
@@ -33,5 +32,4 @@ public class UserQuestDiary {
     private LocalDateTime time;
     private String comment;
     private String photo;
-
 }
