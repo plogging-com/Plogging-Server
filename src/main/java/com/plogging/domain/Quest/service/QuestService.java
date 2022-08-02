@@ -1,26 +1,27 @@
 package com.plogging.domain.Quest.service;
 
-import com.plogging.domain.Quest.dto.quest.request.QuestReq;
+import com.plogging.domain.Quest.dto.quest.request.CreateQuestReq;
+import com.plogging.domain.Quest.dto.quest.request.EditQuestReq;
 import com.plogging.domain.Quest.dto.quest.response.QuestRes;
-import com.plogging.domain.Quest.entity.Quest;
-import com.plogging.domain.Quest.repository.QuestRepository;
 import com.plogging.global.dto.ApplicationResponse;
-import lombok.RequiredArgsConstructor;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
-@RequiredArgsConstructor
-@Transactional(readOnly = true)
-public class QuestService {
+public interface QuestService {
 
-    private final QuestRepository questRepository;
-    // private final S3Service s3Service;
+    // C
+    ApplicationResponse<QuestRes> questCreate(CreateQuestReq createQuestReq);
+
+    // R
+    ApplicationResponse<QuestRes> findById(Long id);
+    ApplicationResponse<Page<QuestRes>> findAll(Pageable pageable);
+
+    // U
+    ApplicationResponse<QuestRes> edit(Long id, EditQuestReq editQuestReq);
+
+    // D
+    ApplicationResponse<Void> deleteById(Long id);
 
 
-    @Transactional
-    public ApplicationResponse<QuestRes> questCreate(QuestReq questReq) {
-        String imageURL = "www.s3-plogging.aws불라불라";// s3Service.makeImage(questReq.getPhoto());
-        Quest quest = questRepository.save(questReq.toEntity(imageURL));
-        QuestRes questRes = QuestRes.create(quest);
-        return ApplicationResponse.create("created", questRes);
-    }
+
 }
