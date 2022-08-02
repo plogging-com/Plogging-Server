@@ -38,5 +38,14 @@ public class ApplicationResponse<T> {
                 .build();
     }
 
+    public static <T> ApplicationResponse<T> ok(T data){
+        return (ApplicationResponse<T>) ApplicationResponse.builder()
+                .data(data)
+                .localDateTime(LocalDateTime.now())
+                .message("성공")
+                .httpStatus(HttpStatus.OK)
+                .build();
+    }
+
 
 }
