@@ -7,7 +7,6 @@ import com.plogging.domain.User.exception.NotFoundUserException;
 import com.plogging.domain.User.exception.UserIdDuplicationException;
 import com.plogging.domain.User.repository.UserRepository;
 import com.plogging.global.jwt.service.JwtService;
-import com.plogging.global.utill.SHA256Util;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -19,7 +18,6 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final JwtService jwtService;
-    private final SHA256Util sha256Util;
 
     private final UserRefreshTokenService userRefreshTokenService;
 
@@ -27,15 +25,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserJoinRes join(UserJoinReq userJoinReq) {
-        userJoinReq.setPassword(sha256Util.encrypt(userJoinReq.getPassword()));
-
-        if(!userRepository.findByLoginId(userJoinReq.getId()).isEmpty()) throw new UserIdDuplicationException();
 
         String name = userRepository.save(User.toEntity(userJoinReq)).getName();
-
         return UserJoinRes.builder().username(name).build();
     }
-
 
     @Override
     public User delete(UserDeleteReq userDeleteReq) {
