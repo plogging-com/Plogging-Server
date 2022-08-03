@@ -25,7 +25,7 @@ public class Board {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="userIdx")
+    @JoinColumn(name="user_idx")
     private User user;
 
     @OneToMany(mappedBy="board", cascade=ALL)
