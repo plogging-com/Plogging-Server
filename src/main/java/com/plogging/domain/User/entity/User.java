@@ -74,12 +74,12 @@ public class User {
 
     public static User toEntity(UserJoinReq userJoinReq) {
         return User.builder()
-                .loginId(userJoinReq.getId())
+                .loginId(userJoinReq.getLoginId())
                 .password(userJoinReq.getPassword())
                 .name(userJoinReq.getName())
-                .nickName(userJoinReq.getNickname())
+                .nickName(userJoinReq.getNickName())
                 .phone(userJoinReq.getPhone())
-                .photo(userJoinReq.getPhoto())
+                .photo(userJoinReq.getGrowth())
                 .signUpDate(LocalDateTime.now())
                 .level(1).build();
     }
