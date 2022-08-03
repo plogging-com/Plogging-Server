@@ -7,9 +7,6 @@ import com.plogging.domain.User.dto.UserLoginRes;
 import com.plogging.domain.User.service.UserService;
 import com.plogging.global.dto.ApplicationResponse;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,10 +22,6 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/join")
-    @ApiOperation(value = "사용자 회원가입", notes = "회원가입 진햅합니다.")
-    @ApiResponses(value = {
-
-    })
     public ApplicationResponse<UserJoinRes> join(@Valid @RequestBody UserJoinReq userJoinReq){
         return ApplicationResponse.create(
                 "가입완료",
