@@ -70,6 +70,9 @@ public class JwtServiceImpl implements JwtService{
     public String resolveAccessToken() {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
         return request.getHeader("X-ACCESS-TOKEN");
+        /**
+         *
+         */
     }
 
     @Override
