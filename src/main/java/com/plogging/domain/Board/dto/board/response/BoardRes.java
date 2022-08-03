@@ -24,5 +24,7 @@ public class BoardRes {
         boardRes.time = board.getTime();
         boardRes.photo = board.getPhoto();
         boardRes.status = board.getStatus();
+
+        return boardRes;
     }
 }
