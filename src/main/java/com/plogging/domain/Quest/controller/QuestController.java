@@ -1,8 +1,8 @@
 package com.plogging.domain.Quest.controller;
 
-import com.plogging.domain.Quest.dto.quest.request.QuestReq;
+import com.plogging.domain.Quest.dto.quest.request.CreateQuestReq;
 import com.plogging.domain.Quest.dto.quest.response.QuestRes;
-import com.plogging.domain.Quest.service.QuestService;
+import com.plogging.domain.Quest.service.QuestServiceImpl;
 import com.plogging.global.dto.ApplicationResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -13,12 +13,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class QuestController {
 
-    private final QuestService questService;
+    private final QuestServiceImpl questServiceImpl;
 
     @PostMapping("/quest")
-    public ApplicationResponse<QuestRes> questCreate(@ModelAttribute QuestReq questReq) {
-        return questService.questCreate(questReq);
+    public ApplicationResponse<QuestRes> questCreate(@ModelAttribute CreateQuestReq createQuestReq) {
+        return questServiceImpl.questCreate(createQuestReq);
     }
+
+
 //    @GettMapping("/quest")
 //    @PutMapping("/quest")
 //    @DeleteMapping("/quest")
