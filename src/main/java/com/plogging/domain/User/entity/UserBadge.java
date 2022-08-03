@@ -26,4 +26,7 @@ public class UserBadge {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="badgeIdx")
     private Badge badge;
+
+
+
 }

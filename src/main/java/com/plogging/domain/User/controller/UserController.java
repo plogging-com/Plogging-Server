@@ -2,6 +2,8 @@ package com.plogging.domain.User.controller;
 
 import com.plogging.domain.User.dto.UserJoinReq;
 import com.plogging.domain.User.dto.UserJoinRes;
+import com.plogging.domain.User.dto.UserLoginReq;
+import com.plogging.domain.User.dto.UserLoginRes;
 import com.plogging.domain.User.service.UserService;
 import com.plogging.global.dto.ApplicationResponse;
 import io.swagger.annotations.Api;
@@ -19,7 +21,6 @@ public class UserController {
 
     private final UserService userService;
 
-
     @PostMapping("/join")
     public ApplicationResponse<UserJoinRes> join(@Valid @RequestBody UserJoinReq userJoinReq){
         return ApplicationResponse.create(
@@ -27,6 +28,16 @@ public class UserController {
                 userService.join(userJoinReq)
         );
     }
+
+    @PostMapping("/login")
+    public ApplicationResponse<UserLoginRes> login(@Valid @RequestBody UserLoginReq userLoginReq){
+        return ApplicationResponse.create(
+                "로그인 성공",
+                userService.login(userLoginReq)
+        );
+    }
+
+
 
 
 }
