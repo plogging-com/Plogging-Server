@@ -33,11 +33,11 @@ public class JwtServiceImpl implements JwtService{
 
     private final long REFRESH_TOKEN_VALID_TIME  = 60 * 60 * 24 * 7 * 1000L;
 
-    @Value("${spring.jwt.access-key}")
-    private String JWT_ACCESS_SECRET_KEY;
+//    @Value("${spring.jwt.access-key}")
+    private String JWT_ACCESS_SECRET_KEY="test";
 
-    @Value("${spring.jwt.refresh-key}")
-    private String JWT_REFRESH_SECRET_KEY;
+//    @Value("${spring.jwt.refresh-key}")
+    private String JWT_REFRESH_SECRET_KEY="test";
 
     private Long userId;
 
