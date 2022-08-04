@@ -25,7 +25,7 @@ public class Board {
     @Column(name="boardIdx")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = ALL) // createBoard 테스트를 위해 user를 임의 생성 및 영속성 추가해야 하므로 cascade = ALL 해줌, 추후 제거
     @JoinColumn(name="userIdx")
     private User user;
 

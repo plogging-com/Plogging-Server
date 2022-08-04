@@ -23,7 +23,9 @@ public class BoardServiceImpl implements BoardService{
     @Override
     public ApplicationResponse<BoardRes> boardCreate(createBoardReq createBoardReq) {
         String imageURL = "~~"; // s3Service.makeImage(questReq.getPhoto());
-        User user = userRepository.getById(createBoardReq.getUser_idx());
+
+        // User user = userRepository.getById(createBoardReq.getUser_idx());
+        User user = new User();
 
         Board board = boardRepository.save(createBoardReq.toEntityWithPhoto(imageURL, user));
 
