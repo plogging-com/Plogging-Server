@@ -21,3 +21,12 @@ spring:
     database-platform: org.hibernate.dialect.MySQL8Dialect
     defer-datasource-initialization: true
 
+  jwt:
+    access-key: ploggingaccesskey1234!!@
+    refresh-key: ploggingrefreshkey1234!!@
+
+sms:
+  service-id: ncp:sms:kr:280044915694:infra-sms
+  access-key: JUARhMRAzpFrstZqd775
+  secret-key: lgiOpHwGvTW5HjcIaCKkhATBHFB3qeRuWzaBOrZZ
+  phone-num: 0318488224

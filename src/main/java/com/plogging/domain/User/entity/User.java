@@ -1,11 +1,10 @@
 package com.plogging.domain.User.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.plogging.domain.Board.entity.*;
 import com.plogging.domain.Quest.entity.UserQuestComplete;
 import com.plogging.domain.Quest.entity.UserQuestDiary;
 import com.plogging.domain.Quest.entity.UserQuestProceeding;
-import com.plogging.domain.User.dto.UserJoinReq;
+import com.plogging.domain.User.dto.request.UserJoinReq;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -31,7 +30,6 @@ public class User {
 
     private String loginId;
     private String password;
-    private String name;
     private String nickName;
     private String phone;
     private String photo;
@@ -69,18 +67,21 @@ public class User {
     @OneToMany(mappedBy="user", cascade=ALL)
     private List<Inquiry> inquiry = new ArrayList<>();
 
+    @OneToOne(mappedBy = "user" , cascade = ALL , fetch = FetchType.LAZY)
+    private UserRefreshToken userRefreshToken;
 
     public static User toEntity(UserJoinReq userJoinReq) {
         return User.builder()
-                .loginId(userJoinReq.getLoginId())
+                .loginId(userJoinReq.getId())
                 .password(userJoinReq.getPassword())
-                .name(userJoinReq.getName())
-                .nickName(userJoinReq.getNickName())
+                .nickName(userJoinReq.getNickname())
                 .phone(userJoinReq.getPhone())
-                .photo(userJoinReq.getGrowth())
+                .photo(userJoinReq.getPhoto())
                 .signUpDate(LocalDateTime.now())
                 .level(1).build();
     }
 
-
+    public void setUserRefreshToken(UserRefreshToken userRefreshToken) {
+        this.userRefreshToken = userRefreshToken;
+    }
 }
