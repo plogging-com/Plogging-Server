@@ -2,8 +2,6 @@ package com.plogging.domain.User.service;
 
 import com.plogging.domain.User.dto.*;
 import com.plogging.domain.User.entity.User;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
 
 public interface UserService {
     UserJoinRes join(UserJoinReq userJoinReq);
@@ -11,4 +9,7 @@ public interface UserService {
 
     UserLoginRes login(UserLoginReq userLoginReq);
 
+    String checNickname(String name);
+
+    String checkLoginId(String loginId);
 }
