@@ -83,4 +83,7 @@ public class User {
     }
 
 
+    public void addProceedingQuest(UserQuestProceeding userQuestProceeding) {
+        this.userQuestProceedings.add(userQuestProceeding);
+    }
 }
