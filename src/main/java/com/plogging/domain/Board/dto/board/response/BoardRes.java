@@ -17,6 +17,7 @@ public class BoardRes {
     private LocalDateTime time;
     private String photo;
     private PresenceStatus status;
+
     public static BoardRes create(Board board) {
         BoardRes boardRes = new BoardRes();
         boardRes.title = board.getTitle();
