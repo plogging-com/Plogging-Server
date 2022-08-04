@@ -2,14 +2,15 @@ package com.plogging.domain.User.service;
 
 import com.plogging.domain.User.dto.*;
 import com.plogging.domain.User.entity.User;
-import com.plogging.domain.User.entity.UserRefreshToken;
 import com.plogging.domain.User.exception.NotFoundUserException;
 import com.plogging.domain.User.exception.UserIdDuplicationException;
 import com.plogging.domain.User.repository.UserRepository;
 import com.plogging.global.jwt.service.JwtService;
+import com.plogging.global.utill.SHA256Util;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import java.util.regex.Pattern;
 
 
 @Service
@@ -22,11 +23,13 @@ public class UserServiceImpl implements UserService {
     private final UserRefreshTokenService userRefreshTokenService;
 
 
-
     @Override
     public UserJoinRes join(UserJoinReq userJoinReq) {
 
-        String name = userRepository.save(User.toEntity(userJoinReq)).getName();
+        userJoinReq.setPassword(SHA256Util.encrypt(userJoinReq.getPassword()));
+
+        String name = userRepository.save(User.toEntity(userJoinReq)).getNickName();
+
         return UserJoinRes.builder().username(name).build();
     }
 
@@ -45,11 +48,34 @@ public class UserServiceImpl implements UserService {
 
         long refreshTokenIdx = userRefreshTokenService.insertRefreshToken(refreshJwt, user);
 
-        return  UserLoginRes.builder()
-                .name(user.getName())
+        return UserLoginRes.builder()
                 .accessToken(accessJwt)
                 .refreshTokenIdx(refreshTokenIdx).build();
     }
 
+    @Override
+    public String checNickname(String nickName) {
+        if (userRepository.findByNickName(nickName).isEmpty()) {
+            if (Pattern.matches("^[a-z0-9가-힣]{2,5}$", nickName)) {
+                return null;
+            }else {
+                return "닉네임은 2~5글자의 영소문자, 숫자, 한글만 가능합니다.";
+            }
+        } else {
+            return "중복된 닉네임입니다.";
+        }
+    }
 
+    @Override
+    public String checkLoginId(String loginId) {
+        if (userRepository.findByLoginId(loginId).isEmpty()) {
+            if (Pattern.matches("^.*(?=^.{8,20}$)(?=.*\\d)(?=.*[a-zA-Z])(?=.*[!@#$%^&+=]).*$", loginId)) {
+                return null;
+            } else {
+                return "로그인 Id는 6~18글자의 영소문자, 숫자만 가능합니다.";
+            }
+        } else {
+            return "중복된 아이디입니다.";
+        }
+    }
 }

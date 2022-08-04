@@ -31,7 +31,6 @@ public class User {
 
     private String loginId;
     private String password;
-    private String name;
     private String nickName;
     private String phone;
     private String photo;
@@ -74,16 +73,14 @@ public class User {
 
     public static User toEntity(UserJoinReq userJoinReq) {
         return User.builder()
-                .loginId(userJoinReq.getLoginId())
+                .loginId(userJoinReq.getId())
                 .password(userJoinReq.getPassword())
-                .name(userJoinReq.getName())
-                .nickName(userJoinReq.getNickName())
+                .nickName(userJoinReq.getNickname())
                 .phone(userJoinReq.getPhone())
-                .photo(userJoinReq.getGrowth())
+                .photo(userJoinReq.getPhoto())
                 .signUpDate(LocalDateTime.now())
                 .level(1).build();
     }
-
 
     public void setUserRefreshToken(UserRefreshToken userRefreshToken) {
         this.userRefreshToken = userRefreshToken;
