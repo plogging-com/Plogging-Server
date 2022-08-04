@@ -9,12 +9,11 @@ import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class BoardReq {
+public class createBoardReq {
 
     private String title;
     private String content;
@@ -23,7 +22,7 @@ public class BoardReq {
     private PresenceStatus status;
     private Long user_idx;
 
-    public Board toEntity(String photo, User user) {
+    public Board toEntityWithPhoto(String photo, User user) {
         return new Board(user, this.title, this.content, this.time, photo, this.status);
     }
 }
