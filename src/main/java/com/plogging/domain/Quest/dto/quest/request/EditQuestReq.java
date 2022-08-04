@@ -9,12 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class QuestReq {
-
+public class EditQuestReq {
     private String name;
     private MultipartFile photo;
-
-    public Quest toEntity(String photo) {
-        return new Quest(this.name, photo);
-    }
 }
