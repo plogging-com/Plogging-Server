@@ -2,7 +2,7 @@ package com.plogging.domain.Quest.controller;
 
 import com.plogging.domain.Quest.dto.quest.request.CreateQuestReq;
 import com.plogging.domain.Quest.dto.quest.response.QuestRes;
-import com.plogging.domain.Quest.service.QuestServiceImpl;
+import com.plogging.domain.Quest.service.quest.QuestServiceImpl;
 import com.plogging.global.dto.ApplicationResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -17,7 +17,7 @@ public class QuestController {
 
     @PostMapping("/quest")
     public ApplicationResponse<QuestRes> questCreate(@ModelAttribute CreateQuestReq createQuestReq) {
-        return questServiceImpl.questCreate(createQuestReq);
+        return questServiceImpl.create(createQuestReq);
     }
 
 

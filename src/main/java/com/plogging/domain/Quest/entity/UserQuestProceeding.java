@@ -14,7 +14,6 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @NoArgsConstructor
-@AllArgsConstructor
 @Builder
 public class UserQuestProceeding {
     @Id
@@ -33,4 +32,24 @@ public class UserQuestProceeding {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="questIdx")
     private Quest quest;
+
+    @Builder
+    public UserQuestProceeding(Long id, int level, int gage, LocalDateTime startTime, User user, Quest quest) {
+        this.id = id;
+        this.level = level;
+        this.gage = gage;
+        this.startTime = startTime;
+        this.addUser(user);
+        this.addQuest(quest);
+    }
+
+    private void addQuest(Quest quest) {
+        this.quest = quest;
+        quest.addProceedingQuest(this);
+    }
+
+    private void addUser(User user) {
+        this.user = user;
+        user.addProceedingQuest(this);
+    }
 }
