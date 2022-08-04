@@ -39,6 +39,11 @@ public class Quest {
         this.name = name;
         this.photo = photo;
     }
+
+    public void edit(String name, String photoURL) {
+        if(name != null && !name.isEmpty()) this.name = name;
+        if(photoURL != null && !photoURL.isEmpty()) this.photo = photoURL;
+    }
 }
 // 1. 1km 마다 쓰레기 10개 줍기
 // 2. 10일 동안 쓰레기 40개 줍기
