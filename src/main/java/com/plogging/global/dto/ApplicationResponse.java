@@ -32,6 +32,7 @@ public class ApplicationResponse<T> {
 
     public static <T> ApplicationResponse<T> ok(){
         return (ApplicationResponse<T>) ApplicationResponse.builder()
+                .success(true)
                 .data(null)
                 .localDateTime(LocalDateTime.now())
                 .message("성공")
@@ -41,6 +42,7 @@ public class ApplicationResponse<T> {
 
     public static <T> ApplicationResponse<T> ok(T data){
         return (ApplicationResponse<T>) ApplicationResponse.builder()
+                .success(true)
                 .data(data)
                 .localDateTime(LocalDateTime.now())
                 .message("성공")
