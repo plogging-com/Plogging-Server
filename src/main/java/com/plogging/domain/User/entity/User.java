@@ -1,11 +1,10 @@
 package com.plogging.domain.User.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.plogging.domain.Board.entity.*;
 import com.plogging.domain.Quest.entity.UserQuestComplete;
 import com.plogging.domain.Quest.entity.UserQuestDiary;
 import com.plogging.domain.Quest.entity.UserQuestProceeding;
-import com.plogging.domain.User.dto.UserJoinReq;
+import com.plogging.domain.User.dto.request.UserJoinReq;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

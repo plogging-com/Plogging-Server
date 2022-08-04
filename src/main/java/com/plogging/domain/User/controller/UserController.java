@@ -1,9 +1,9 @@
 package com.plogging.domain.User.controller;
 
-import com.plogging.domain.User.dto.UserJoinReq;
-import com.plogging.domain.User.dto.UserJoinRes;
-import com.plogging.domain.User.dto.UserLoginReq;
-import com.plogging.domain.User.dto.UserLoginRes;
+import com.plogging.domain.User.dto.request.UserJoinReq;
+import com.plogging.domain.User.dto.response.UserJoinRes;
+import com.plogging.domain.User.dto.request.UserLoginReq;
+import com.plogging.domain.User.dto.response.UserLoginRes;
 import com.plogging.domain.User.service.UserService;
 import com.plogging.global.dto.ApiErrorResponse;
 import com.plogging.global.dto.ApplicationResponse;
@@ -12,8 +12,6 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
