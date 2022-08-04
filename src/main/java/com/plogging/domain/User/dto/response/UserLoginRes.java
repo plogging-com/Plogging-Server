@@ -1,4 +1,4 @@
-package com.plogging.domain.User.dto;
+package com.plogging.domain.User.dto.response;
 
 import io.swagger.annotations.ApiModel;
 import lombok.*;

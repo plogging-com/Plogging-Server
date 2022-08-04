@@ -21,10 +21,6 @@ import java.util.List;
 @EnableSwagger2
 public class SwaggerConfig {
 
-    /**
-     * 지라 테스트
-     */
-
     @Bean
     public Docket restAPI() {
 //        List<Parameter> global = new ArrayList<>();
@@ -48,7 +44,7 @@ public class SwaggerConfig {
         return new ApiInfoBuilder()
                 .title("plogging api sheet")
                 .version("1.0.0")
-                .description("ㅇㅅㅇ 화이팅!")
+                .description("화이팅!")
                 .build();
     }
 
