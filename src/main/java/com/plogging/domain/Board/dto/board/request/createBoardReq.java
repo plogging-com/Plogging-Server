@@ -17,12 +17,11 @@ public class createBoardReq {
 
     private String title;
     private String content;
-    private LocalDateTime time;
     private MultipartFile photo;
     private PresenceStatus status;
     private Long user_idx;
 
     public Board toEntityWithPhoto(String photo, User user) {
-        return new Board(user, this.title, this.content, this.time, photo, this.status);
+        return new Board(user, this.title, this.content, LocalDateTime.now(), photo, this.status);
     }
 }
