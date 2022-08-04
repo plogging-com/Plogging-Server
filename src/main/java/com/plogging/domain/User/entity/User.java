@@ -1,12 +1,11 @@
 package com.plogging.domain.User.entity;
 
-import com.plogging.domain.Board.entity.Comment;
-import com.plogging.domain.Board.entity.Inquiry;
-import com.plogging.domain.Board.entity.Heart;
-import com.plogging.domain.Board.entity.Report;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.plogging.domain.Board.entity.*;
 import com.plogging.domain.Quest.entity.UserQuestComplete;
 import com.plogging.domain.Quest.entity.UserQuestDiary;
 import com.plogging.domain.Quest.entity.UserQuestProceeding;
+import com.plogging.domain.User.dto.UserJoinReq;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -27,19 +26,21 @@ import static javax.persistence.CascadeType.ALL;
 public class User {
 
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name="userIdx")
+    @Column(name="user_idx")
     private Long id;
 
+    private String loginId;
     private String password;
     private String name;
     private String nickName;
     private String phone;
     private String photo;
     private String growth;
-
     private LocalDateTime signUpDate;
-
     private int level;
+
+    @OneToMany(mappedBy="user", cascade=ALL)
+    private List<Board> boardList = new ArrayList<>();
 
     @OneToMany(mappedBy="user", cascade=ALL)
     private List<UserBadge> userBadges;
@@ -67,4 +68,19 @@ public class User {
 
     @OneToMany(mappedBy="user", cascade=ALL)
     private List<Inquiry> inquiry = new ArrayList<>();
+
+
+    public static User toEntity(UserJoinReq userJoinReq) {
+        return User.builder()
+                .loginId(userJoinReq.getLoginId())
+                .password(userJoinReq.getPassword())
+                .name(userJoinReq.getName())
+                .nickName(userJoinReq.getNickName())
+                .phone(userJoinReq.getPhone())
+                .photo(userJoinReq.getGrowth())
+                .signUpDate(LocalDateTime.now())
+                .level(1).build();
+    }
+
+
 }
