@@ -69,8 +69,6 @@ public class User {
     @OneToMany(mappedBy="user", cascade=ALL)
     private List<Inquiry> inquiry = new ArrayList<>();
 
-    @OneToOne(mappedBy = "user" , cascade = ALL , fetch = FetchType.LAZY)
-    private UserRefreshToken userRefreshToken;
 
     public static User toEntity(UserJoinReq userJoinReq) {
         return User.builder()
@@ -85,7 +83,4 @@ public class User {
     }
 
 
-    public void setUserRefreshToken(UserRefreshToken userRefreshToken) {
-        this.userRefreshToken = userRefreshToken;
-    }
 }

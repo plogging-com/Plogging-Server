@@ -21,6 +21,3 @@ spring:
     database-platform: org.hibernate.dialect.MySQL8Dialect
     defer-datasource-initialization: true
 
-#  jwt:
-#    access-key: ploggingaccesskey1234!!@
-#    refresh-key: ploggingrefreshkey1234!!@
