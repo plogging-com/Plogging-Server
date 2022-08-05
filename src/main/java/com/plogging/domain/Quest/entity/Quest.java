@@ -44,6 +44,10 @@ public class Quest {
         if(name != null && !name.isEmpty()) this.name = name;
         if(photoURL != null && !photoURL.isEmpty()) this.photo = photoURL;
     }
+
+    public void addProceedingQuest(UserQuestProceeding userQuestProceeding) {
+        this.userQuestProceedings.add(userQuestProceeding);
+    }
 }
 // 1. 1km 마다 쓰레기 10개 줍기
 // 2. 10일 동안 쓰레기 40개 줍기

@@ -17,7 +17,7 @@ public class ApplicationResponse<T> {
     private LocalDateTime localDateTime;
     private HttpStatus httpStatus;
     private String message;
-    private T data;
+    private T data; // == body
 
     public static <T> ApplicationResponse<T> create(String message, T data){
         return (ApplicationResponse<T>) ApplicationResponse.builder()

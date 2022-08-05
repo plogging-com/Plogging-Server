@@ -1,4 +1,4 @@
-package com.plogging.domain.Quest.service;
+package com.plogging.domain.Quest.service.questComplete;
 
 import com.plogging.domain.Quest.dto.quest.request.CreateQuestReq;
 import com.plogging.domain.Quest.dto.quest.request.EditQuestReq;
@@ -7,10 +7,10 @@ import com.plogging.global.dto.ApplicationResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-public interface QuestService {
+public interface QuestCompleteService {
 
     // C
-    ApplicationResponse<QuestRes> questCreate(CreateQuestReq createQuestReq);
+    ApplicationResponse<QuestRes> create(CreateQuestReq createQuestReq);
 
     // R
     ApplicationResponse<QuestRes> findById(Long id);
