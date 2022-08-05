@@ -44,6 +44,7 @@ public class UserController {
     }
 
     @PostMapping("/login")
+    @ApiOperation(value = "사용자 로그인", notes = "로그인을 진행합니다.")
     public ApplicationResponse<UserLoginRes> login(@Valid @RequestBody UserLoginReq userLoginReq){
         return ApplicationResponse.create(
                 "로그인 성공",

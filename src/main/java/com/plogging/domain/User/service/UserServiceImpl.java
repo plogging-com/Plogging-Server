@@ -9,6 +9,7 @@ import com.plogging.domain.User.entity.User;
 import com.plogging.domain.User.exception.NotFoundUserException;
 import com.plogging.domain.User.repository.UserRepository;
 //import com.plogging.global.jwt.service.JwtService;
+import com.plogging.global.jwt.service.JwtService;
 import com.plogging.global.utill.SHA256Util;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,9 +22,9 @@ import java.util.regex.Pattern;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
-//    private final JwtService jwtService;
+    private final JwtService jwtService;
 
-//    private final UserRefreshTokenService userRefreshTokenService;
+    private final UserRefreshTokenService userRefreshTokenService;
 
 
     @Override
@@ -46,15 +47,13 @@ public class UserServiceImpl implements UserService {
 
         User user = userRepository.findByLoginId(userLoginReq.getLoginId()).orElseThrow(NotFoundUserException::new);
 
-//        String accessJwt = jwtService.createAccessJwt(user.getLoginId());
-//        String refreshJwt = jwtService.createRefreshJwt(user.getLoginId());
-//
-//        long refreshTokenIdx = userRefreshTokenService.insertRefreshToken(refreshJwt, user);
+        if(!user.getPassword().equals(SHA256Util.encrypt(userLoginReq.getPassword())))throw new NotFoundUserException();
 
-//        return UserLoginRes.builder()
-//                .accessToken(accessJwt)
-//                .refreshTokenIdx(refreshTokenIdx).build();
-        return null;
+        String accessJwt = jwtService.createAccessJwt(user.getLoginId());
+        String refreshJwt = jwtService.createRefreshJwt(user.getLoginId());
+        long refreshTokenIdx = userRefreshTokenService.insertRefreshToken(refreshJwt, user);
+
+        return UserLoginRes.from(user , accessJwt , refreshTokenIdx);
     }
 
     @Override
