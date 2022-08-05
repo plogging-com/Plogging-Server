@@ -2,6 +2,7 @@ package com.plogging.global.exception;
 
 
 import com.plogging.global.dto.ApiErrorResponse;
+import com.plogging.global.dto.ApplicationErrorResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -17,7 +18,7 @@ public class GlobalExceptionHandler {
     private static final String INTERNAL_SERVER_ERROR_CODE = "S0001";
 
     @ExceptionHandler(ApplicationException.class)
-    public ResponseEntity<ApiErrorResponse> applicationException(ApplicationException e){
+    public ApplicationErrorResponse<Void> applicationException(ApplicationException e){
         String errorCode = e.getErrorCode();
 
         log.warn(
@@ -26,9 +27,7 @@ public class GlobalExceptionHandler {
                 errorCode,
                 e.getMessage()
         );
-        return ResponseEntity
-                .status(e.getHttpStatus())
-                .body(new ApiErrorResponse(errorCode, Arrays.asList(e.getMessage())));
+        return ApplicationErrorResponse.error(e);
     }
 
 }
