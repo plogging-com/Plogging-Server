@@ -49,13 +49,17 @@ public class Board {
     @Enumerated(EnumType.STRING)
     private PresenceStatus status;
 
-    public Board (User user, String title, String content, LocalDateTime time, String photo, PresenceStatus status){
+    @Enumerated(EnumType.STRING)
+    private BoardCategory category;
+
+    public Board (User user, String title, String content, LocalDateTime time, String photo, PresenceStatus status, BoardCategory category){
         this.user = user;
         this.title = title;
         this.content = content;
         this.time = time;
         this.photo = photo;
         this.status = status;
+        this.category = category;
     }
 
 }
