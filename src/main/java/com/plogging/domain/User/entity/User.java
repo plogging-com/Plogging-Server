@@ -85,6 +85,7 @@ public class User {
 
     public void addProceedingQuest(UserQuestProceeding userQuestProceeding) {
         this.userQuestProceedings.add(userQuestProceeding);
+    }
 
     public void setUserRefreshToken(UserRefreshToken userRefreshToken) {
         this.userRefreshToken = userRefreshToken;
