@@ -33,4 +33,11 @@ public class UserQuestComplete {
     private int level;
     private LocalDateTime endTime;
 
+    @Builder
+    public UserQuestComplete(User user, Quest quest, int level) {
+        this.user = user;
+        this.quest = quest;
+        this.level = level;
+        this.endTime = LocalDateTime.now();
+    }
 }

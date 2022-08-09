@@ -35,10 +35,18 @@ public class UserQuestProceeding {
 
     @Builder
     public UserQuestProceeding(Long id, int level, int gage, LocalDateTime startTime, User user, Quest quest) {
-        this.id = id;
         this.level = level;
         this.gage = gage;
         this.startTime = startTime;
+        this.addUser(user);
+        this.addQuest(quest);
+    }
+
+    @Builder
+    public UserQuestProceeding(User user, Quest quest) {
+        this.level = 1;
+        this.gage = 0;
+        this.startTime = LocalDateTime.now();
         this.addUser(user);
         this.addQuest(quest);
     }
@@ -51,5 +59,17 @@ public class UserQuestProceeding {
     private void addUser(User user) {
         this.user = user;
         user.addProceedingQuest(this);
+    }
+
+    public boolean completeAll() {
+        if(this.gage != 100) return false;
+        return this.level == 4;
+    }
+
+    public void levelUp() {
+        if(gage == 100){
+            this.level++;
+            this.gage = 0;
+        }
     }
 }

@@ -22,7 +22,4 @@ public interface QuestProceedingService {
 
     // D
     ApplicationResponse<List<QuestProceedingRes>> deleteById(Long id);
-
-
-
 }
