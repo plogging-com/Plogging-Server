@@ -24,8 +24,9 @@ import static javax.persistence.CascadeType.ALL;
 @Builder
 public class User {
 
-    @Id @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name="user_idx")
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "user_idx")
     private Long id;
 
     private String loginId;
@@ -37,37 +38,37 @@ public class User {
     private LocalDateTime signUpDate;
     private int level;
 
-    @OneToMany(mappedBy="user", cascade=ALL)
+    @OneToMany(mappedBy = "user", cascade = ALL)
     private List<Board> boardList = new ArrayList<>();
 
-    @OneToMany(mappedBy="user", cascade=ALL)
+    @OneToMany(mappedBy = "user", cascade = ALL)
     private List<UserBadge> userBadges;
 
-    @OneToMany(mappedBy="user", cascade=ALL)
+    @OneToMany(mappedBy = "user", cascade = ALL)
     private List<Step> steps = new ArrayList<>();
 
-    @OneToMany(mappedBy="user", cascade=ALL)
+    @OneToMany(mappedBy = "user", cascade = ALL)
     private List<UserQuestDiary> userQuestDiaries = new ArrayList<>();
 
-    @OneToMany(mappedBy="user", cascade=ALL)
+    @OneToMany(mappedBy = "user", cascade = ALL)
     private List<UserQuestProceeding> userQuestProceedings = new ArrayList<>();
 
-    @OneToMany(mappedBy="user", cascade=ALL)
+    @OneToMany(mappedBy = "user", cascade = ALL)
     private List<UserQuestComplete> userQuestCompletes = new ArrayList<>();
 
-    @OneToMany(mappedBy="user", cascade=ALL)
+    @OneToMany(mappedBy = "user", cascade = ALL)
     private List<Heart> hearts = new ArrayList<>();
 
-    @OneToMany(mappedBy="user", cascade=ALL)
+    @OneToMany(mappedBy = "user", cascade = ALL)
     private List<Comment> comments = new ArrayList<>();
 
-    @OneToMany(mappedBy="user", cascade=ALL)
+    @OneToMany(mappedBy = "user", cascade = ALL)
     private List<Report> reports = new ArrayList<>();
 
-    @OneToMany(mappedBy="user", cascade=ALL)
+    @OneToMany(mappedBy = "user", cascade = ALL)
     private List<Inquiry> inquiry = new ArrayList<>();
 
-    @OneToOne(mappedBy = "user" , cascade = ALL , fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "user", cascade = ALL, fetch = FetchType.LAZY)
     private UserRefreshToken userRefreshToken;
 
     public static User toEntity(UserJoinReq userJoinReq) {
@@ -82,13 +83,11 @@ public class User {
     }
 
 
-
     public void addProceedingQuest(UserQuestProceeding userQuestProceeding) {
         this.userQuestProceedings.add(userQuestProceeding);
     }
 
-    public void setUserRefreshToken(UserRefreshToken userRefreshToken) {
-        this.userRefreshToken = userRefreshToken;
-
+        public void setUserRefreshToken(UserRefreshToken userRefreshToken){
+            this.userRefreshToken = userRefreshToken;
+        }
     }
-}
