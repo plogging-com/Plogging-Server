@@ -1,5 +1,8 @@
 package com.plogging.global.dto;
 
+import com.plogging.domain.Quest.dto.userQuestComplete.response.QuestCompRes;
+import com.plogging.domain.Quest.exception.CanNotCompleteQuestException;
+import com.plogging.global.exception.ApplicationException;
 import lombok.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -51,4 +54,13 @@ public class ApplicationResponse<T> {
     }
 
 
+    public static <T> ApplicationResponse<T> error(ApplicationException e){
+        return (ApplicationResponse<T>) ApplicationResponse.builder()
+                .success(false)
+                .httpCode(e.getHttpStatus().value())
+                .localDateTime(LocalDateTime.now())
+                .httpStatus(e.getHttpStatus())
+                .message(e.getMessage())
+                .build();
+    }
 }
