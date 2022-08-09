@@ -3,9 +3,17 @@ package com.plogging.domain.Quest.service.quest;
 import com.plogging.domain.Quest.dto.quest.request.CreateQuestReq;
 import com.plogging.domain.Quest.dto.quest.request.EditQuestReq;
 import com.plogging.domain.Quest.dto.quest.response.QuestRes;
+import com.plogging.domain.Quest.dto.userQuestComplete.response.QuestCompRes;
 import com.plogging.domain.Quest.entity.Quest;
+import com.plogging.domain.Quest.entity.UserQuestComplete;
+import com.plogging.domain.Quest.entity.UserQuestProceeding;
+import com.plogging.domain.Quest.exception.CanNotCompleteQuestException;
 import com.plogging.domain.Quest.exception.QuestIdNotFoundException;
+import com.plogging.domain.Quest.repository.QuestCompleteRepository;
+import com.plogging.domain.Quest.repository.QuestProceedingRepository;
 import com.plogging.domain.Quest.repository.QuestRepository;
+import com.plogging.domain.User.entity.User;
+import com.plogging.global.dto.ApplicationErrorResponse;
 import com.plogging.global.dto.ApplicationResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -21,6 +29,9 @@ import java.util.List;
 public class QuestServiceImpl implements QuestService{
 
     private final QuestRepository questRepository;
+    private final QuestProceedingRepository questProceedingRepository;
+    private final QuestCompleteRepository questCompleteRepository;
+    public static int OVER_LEVEL = 5;
     // private final S3Service s3Service; //TODO
 
     @Transactional
@@ -59,6 +70,22 @@ public class QuestServiceImpl implements QuestService{
     @Override
     public ApplicationResponse<Void> deleteById(Long id) {
         questRepository.deleteById(id);
+        return ApplicationResponse.ok();
+    }
+
+    @Override
+    public ApplicationResponse<Void> makeAllQuestProceeding(User user) {
+        findAllOG().forEach((q)->questProceedingRepository.save(new UserQuestProceeding(user, q)));
+        return ApplicationResponse.ok();
+    }
+
+    @Transactional
+    @Override
+    public ApplicationResponse<Void> completeQuest(UserQuestProceeding userQuestProceeding, Quest quest, User user) {
+        if(userQuestProceeding.getGage() < 100) return ApplicationResponse.error(new CanNotCompleteQuestException()); //TODO ApplicationErrorResponse
+        questCompleteRepository.save(new UserQuestComplete(user, quest, userQuestProceeding.getLevel()));
+        userQuestProceeding.levelUp();
+        if(userQuestProceeding.getLevel() == OVER_LEVEL) questProceedingRepository.deleteById(userQuestProceeding.getId());
         return ApplicationResponse.ok();
     }
 
