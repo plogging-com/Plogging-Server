@@ -25,6 +25,18 @@ spring:
     access-key: ploggingaccesskey1234!!@
     refresh-key: ploggingrefreshkey1234!!@
 
+cloud:
+  aws:
+    s3:
+      bucket: buketName
+    credentials:
+      accesskey: AKVABMA6U2IKIL4R3R7E
+      secretkey: kciHJGlpupjKPnjkEU7/pp9R+cOFdvKu9McFp2cc
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false
+
 sms:
   service-id: ncp:sms:kr:280044915694:infra-sms
   access-key: JUARhMRAzpFrstZqd775
