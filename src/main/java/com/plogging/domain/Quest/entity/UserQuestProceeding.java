@@ -33,4 +33,14 @@ public class UserQuestProceeding {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="questIdx")
     private Quest quest;
+
+    public UserQuestProceeding(User user, Quest quest) {
+        this.user = user;
+
+        this.quest = quest;
+
+        this.level = 1;
+        this.gage = 0;
+        this.startTime = LocalDateTime.now();
+    }
 }

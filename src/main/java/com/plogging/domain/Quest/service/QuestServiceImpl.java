@@ -5,8 +5,8 @@ import com.plogging.domain.Quest.dto.quest.request.EditQuestReq;
 import com.plogging.domain.Quest.dto.quest.response.QuestRes;
 import com.plogging.domain.Quest.entity.Quest;
 import com.plogging.domain.Quest.exception.QuestIdNotFoundException;
-import com.plogging.domain.Quest.exception.QuestNameNotFoundException;
 import com.plogging.domain.Quest.repository.QuestRepository;
+import com.plogging.domain.User.entity.User;
 import com.plogging.global.dto.ApplicationResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -20,11 +20,10 @@ import org.springframework.transaction.annotation.Transactional;
 public class QuestServiceImpl implements QuestService{
 
     private final QuestRepository questRepository;
-    // private final S3Service s3Service; //TODO
 
     @Transactional
     @Override
-    public ApplicationResponse<QuestRes> questCreate(CreateQuestReq createQuestReq) {
+    public ApplicationResponse<QuestRes> create(CreateQuestReq createQuestReq) {
         String photoURL = "";
         if(createQuestReq.getPhoto()!=null) photoURL = "www.s3-plogging.aws불라불라";// s3Service.makeImage(createQuestReq.getPhoto());
         Quest quest = questRepository.save(createQuestReq.toEntityWithPhoto(photoURL));
@@ -58,5 +57,16 @@ public class QuestServiceImpl implements QuestService{
     public ApplicationResponse<Void> deleteById(Long id) {
         questRepository.deleteById(id);
         return ApplicationResponse.ok();
+    }
+
+    @Override
+    public ApplicationResponse<Void> makeAllQuestProceeding(User user) {
+//        questRepository.findAll().forEach((q)->q);
+        return null;
+    }
+
+    @Override
+    public ApplicationResponse<Void> completeQuest(Quest quest, User user) {
+        return null;
     }
 }
