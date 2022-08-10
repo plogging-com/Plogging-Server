@@ -52,14 +52,18 @@ public class Board {
     @Enumerated(EnumType.STRING)
     private BoardCategory category;
 
-    public Board (User user, String title, String content, LocalDateTime time, String photo, PresenceStatus status, BoardCategory category){
+    public Board (User user, String title, String content, LocalDateTime time, String photo, BoardCategory category){
         this.user = user;
         this.title = title;
         this.content = content;
         this.time = time;
         this.photo = photo;
-        this.status = status;
+        this.status = PresenceStatus.valueOf("ACTIVE");
         this.category = category;
+    }
+
+    public void changeBoardDelete(){
+        this.status = PresenceStatus.valueOf("DELETE");
     }
 
 }
