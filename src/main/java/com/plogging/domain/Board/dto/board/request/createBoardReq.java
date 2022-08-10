@@ -19,11 +19,10 @@ public class createBoardReq {
     private String title;
     private String content;
     private MultipartFile photo;
-    private PresenceStatus status;
     private BoardCategory category;
     private Long user_idx;
 
     public Board toEntityWithPhoto(String photo, User user) {
-        return new Board(user, this.title, this.content, LocalDateTime.now(), photo, this.status, this.category);
+        return new Board(user, this.title, this.content, LocalDateTime.now(), photo, this.category);
     }
 }
