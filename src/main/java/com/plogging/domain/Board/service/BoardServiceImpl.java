@@ -47,4 +47,13 @@ public class BoardServiceImpl implements BoardService{
 
         return ApplicationResponse.ok(page);
     }
+
+    @Transactional
+    @Override
+    public ApplicationResponse<Void> delBoard(Long id){
+        Board board = boardRepository.findById(id).get();
+        board.changeBoardDelete();
+        return ApplicationResponse.ok();
+    }
+
 }

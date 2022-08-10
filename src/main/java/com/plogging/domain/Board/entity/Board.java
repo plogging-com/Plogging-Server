@@ -62,4 +62,8 @@ public class Board {
         this.category = category;
     }
 
+    public void changeBoardDelete(){
+        this.status = PresenceStatus.valueOf("DELETE");
+    }
+
 }

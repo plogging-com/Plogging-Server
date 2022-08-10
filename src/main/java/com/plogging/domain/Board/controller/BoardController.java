@@ -8,10 +8,7 @@ import com.plogging.global.dto.ApplicationResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -29,5 +26,10 @@ public class BoardController {
     @GetMapping("/board-list")
     public ApplicationResponse<Page<BoardListRes>> getBoardList(){
         return boardServiceImpl.getBoardList();
+    }
+
+    @PatchMapping("/board/del")
+    public ApplicationResponse<Void> delBoard(Long id){
+        return boardServiceImpl.delBoard(id);
     }
 }
