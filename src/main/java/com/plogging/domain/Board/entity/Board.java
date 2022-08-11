@@ -11,7 +11,6 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import static javax.persistence.CascadeType.ALL;
 
@@ -52,17 +51,13 @@ public class Board {
     @Enumerated(EnumType.STRING)
     private PresenceStatus status;
 
-    @Enumerated(EnumType.STRING)
-    private BoardCategory category;
-
-    public Board (User user, String title, String content, LocalDateTime time, String photo, BoardCategory category){
+    public Board (User user, String title, String content, LocalDateTime time, String photo){
         this.user = user;
         this.title = title;
         this.content = content;
         this.time = time;
         this.photo = photo;
         this.status = PresenceStatus.valueOf("ACTIVE");
-        this.category = category;
     }
 
     public void changeBoardDelete(){
