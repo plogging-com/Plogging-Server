@@ -21,7 +21,7 @@ public class BoardCategory {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="boardIdx")
-    private Board boardIdx;
+    private Board board;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="categoryIdx")
