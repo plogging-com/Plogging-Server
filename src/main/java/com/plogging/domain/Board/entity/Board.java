@@ -41,7 +41,7 @@ public class Board {
     private List<Inquiry> inquiry = new ArrayList<>();
 
     @OneToMany(mappedBy="board", cascade=ALL)
-    private List<BoardCategory> boardCategories;
+    private List<BoardCategory> boardCategories = new ArrayList<>();
 
     private String title;
     private String content;
