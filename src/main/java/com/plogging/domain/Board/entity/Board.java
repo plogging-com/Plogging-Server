@@ -41,6 +41,9 @@ public class Board {
     @OneToMany(mappedBy="board", cascade=ALL)
     private List<Inquiry> inquiry = new ArrayList<>();
 
+    @OneToMany(mappedBy="board", cascade=ALL)
+    private List<BoardCategory> boardCategories;
+
     private String title;
     private String content;
     private LocalDateTime time;
