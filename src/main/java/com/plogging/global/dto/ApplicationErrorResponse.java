@@ -20,7 +20,6 @@ public class ApplicationErrorResponse<T> {
     private LocalDateTime localDateTime;
     private HttpStatus httpStatus;
     private String message;
-//    private T data;
 
 
     public static <T> ApplicationErrorResponse<T> error(ApplicationException e){
