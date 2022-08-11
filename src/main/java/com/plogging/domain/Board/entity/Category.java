@@ -12,18 +12,11 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class BoardCategory {
+public class Category {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name="boardCategoryIdx")
+    @Column(name="categoryIdx")
     private Long id;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="boardIdx")
-    private Board boardIdx;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="categoryIdx")
-    private Category category;
+    private CategoryName name;
 }

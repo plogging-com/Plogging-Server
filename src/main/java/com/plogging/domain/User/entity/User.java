@@ -38,11 +38,13 @@ public class User {
     private LocalDateTime signUpDate;
     private int level;
 
+    private Long mainBadge; // badge_idx (pk)
+
     @OneToMany(mappedBy = "user", cascade = ALL)
     private List<Board> boardList = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", cascade = ALL)
-    private List<UserBadge> userBadges;
+    private List<UserBadge> userBadges = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", cascade = ALL)
     private List<Step> steps = new ArrayList<>();
