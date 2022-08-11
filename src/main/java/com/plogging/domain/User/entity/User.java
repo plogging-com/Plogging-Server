@@ -41,6 +41,8 @@ public class User {
 
     private int level;
 
+    private Long mainBadge; // badge_idx (pk)
+
     @OneToMany(mappedBy="user", cascade=ALL)
     private List<UserBadge> userBadges;
 
