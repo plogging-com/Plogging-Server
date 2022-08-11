@@ -34,4 +34,9 @@ public class Comment {
 
     private String content;
     private LocalDateTime time;
+
+    private Long groupNum;
+    // 댓글일 경우 : null
+    // 대댓글일 경우 : 댓글의 "commentIdx"가 들어감
+
 }
