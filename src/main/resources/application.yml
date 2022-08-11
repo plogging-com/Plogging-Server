@@ -30,3 +30,15 @@ sms:
   access-key: JUARhMRAzpFrstZqd775
   secret-key: lgiOpHwGvTW5HjcIaCKkhATBHFB3qeRuWzaBOrZZ
   phone-num: 0318488224
+
+cloud:
+  aws:
+    s3:
+      bucket: plogging
+    credentials:
+      accesskey: AKIAVMA6U3IKIL4R3R7W
+      secretkey: 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
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false
