@@ -38,16 +38,9 @@ public class GlobalExceptionHandler {
         return ApplicationErrorResponse.error(e);
     }
 
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ApiErrorResponse> methodArgumentNotValidException(MethodArgumentNotValidException e){
-        String errorCode = requireNonNull(e.getFieldError()).getDefaultMessage();
-
-        log.warn(LOG_FORMAT, e.getClass().getSimpleName(), "V0001", errorCode);
-
-        return ResponseEntity
-                .status(HttpStatus.BAD_REQUEST.value())
-                .body(new ApiErrorResponse("V0001", Arrays.asList(errorCode)));
-
+    @ExceptionHandler(FailedUploadImageS3ContainerException.class)
+    public ApplicationErrorResponse<Void> failedUploadImageS3ContainerException(FailedUploadImageS3ContainerException e){
+        log.warn(LOG_FORMAT, e.getClass().getSimpleName(), "V0001",  e.getErrorCode());
+        return ApplicationErrorResponse.error(e);
     }
-
 }
