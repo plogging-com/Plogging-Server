@@ -11,6 +11,7 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static javax.persistence.CascadeType.ALL;
 
@@ -24,7 +25,7 @@ public class Board {
     @Column(name="boardIdx")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = ALL) // createBoard 테스트를 위해 user를 임의 생성 및 영속성 추가해야 하므로 cascade = ALL 해줌, 추후 제거
     @JoinColumn(name="userIdx")
     private User user;
 
@@ -50,5 +51,22 @@ public class Board {
 
     @Enumerated(EnumType.STRING)
     private PresenceStatus status;
+
+    @Enumerated(EnumType.STRING)
+    private BoardCategory category;
+
+    public Board (User user, String title, String content, LocalDateTime time, String photo, BoardCategory category){
+        this.user = user;
+        this.title = title;
+        this.content = content;
+        this.time = time;
+        this.photo = photo;
+        this.status = PresenceStatus.valueOf("ACTIVE");
+        this.category = category;
+    }
+
+    public void changeBoardDelete(){
+        this.status = PresenceStatus.valueOf("DELETE");
+    }
 
 }

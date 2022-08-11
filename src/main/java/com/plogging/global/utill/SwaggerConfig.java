@@ -21,22 +21,25 @@ import java.util.List;
 @EnableSwagger2
 public class SwaggerConfig {
 
-    /**
-     * 지라 테스트
-     */
-
     @Bean
     public Docket restAPI() {
-//        List<Parameter> global = new ArrayList<>();
-//        global.add(new ParameterBuilder().
-//                name("X-ACCESS-TOKEN").
-//                description("X-ACCESS-TOKEN")
-//                .parameterType("header").
-//                required(false)
-//                .modelRef(new ModelRef("string")).build());
+        List<Parameter> global = new ArrayList<>();
+        global.add(new ParameterBuilder().
+                name("X-ACCESS-TOKEN").
+                description("X-ACCESS-TOKEN")
+                .parameterType("header").
+                required(false)
+                .modelRef(new ModelRef("string")).build());
+
+        global.add(new ParameterBuilder().
+                name("X-REFRESH-TOKEN").
+                description("X-REFRESH-TOKEN")
+                .parameterType("header").
+                required(false)
+                .modelRef(new ModelRef("string")).build());
 
         return new Docket(DocumentationType.SWAGGER_2)
-//                .globalOperationParameters(global)
+                .globalOperationParameters(global)
                 .apiInfo(apiInfo())
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.plogging"))
@@ -48,7 +51,7 @@ public class SwaggerConfig {
         return new ApiInfoBuilder()
                 .title("plogging api sheet")
                 .version("1.0.0")
-                .description("ㅇㅅㅇ 화이팅!")
+                .description("화이팅!")
                 .build();
     }
 

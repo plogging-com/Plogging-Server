@@ -33,7 +33,12 @@ dependencies {
 	implementation("io.swagger:swagger-annotations:1.5.21")
 	implementation("io.swagger:swagger-models:1.5.21")
 
+	implementation group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'
+	implementation 'com.google.code.gson:gson:2.8.7'
+
 	runtimeOnly 'mysql:mysql-connector-java'
+
+	implementation group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5'
 }
 
 tasks.named('test') {
