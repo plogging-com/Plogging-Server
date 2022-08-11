@@ -11,6 +11,9 @@ import net.bytebuddy.asm.Advice;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
+import static com.plogging.domain.Quest.VALUE.MAX_GAGE;
+import static com.plogging.domain.Quest.VALUE.OVER_LEVEL;
+
 @Entity
 @Getter
 @NoArgsConstructor
@@ -71,5 +74,13 @@ public class UserQuestProceeding {
             this.level++;
             this.gage = 0;
         }
+    }
+
+    public boolean isOverLevel() {
+        return this.level >= OVER_LEVEL;
+    }
+
+    public boolean isMaxGage() {
+        return this.gage >= MAX_GAGE;
     }
 }
