@@ -43,4 +43,6 @@ public class GlobalExceptionHandler {
         log.warn(LOG_FORMAT, e.getClass().getSimpleName(), "V0001",  e.getErrorCode());
         return ApplicationErrorResponse.error(e);
     }
+
+
 }

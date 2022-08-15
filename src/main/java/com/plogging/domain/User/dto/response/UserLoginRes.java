@@ -12,11 +12,13 @@ import lombok.*;
 public class UserLoginRes {
 
     private String nickname;
+    private Long userIdx;
     private String accessToken;
     private Long refreshTokenIdx;
 
     public static UserLoginRes from (User user , String accessToken , Long refreshTokenIdx) {
         return UserLoginRes.builder()
+                .userIdx(user.getId())
                 .nickname(user.getNickName())
                 .accessToken(accessToken)
                 .refreshTokenIdx(refreshTokenIdx).

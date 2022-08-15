@@ -16,4 +16,5 @@ import lombok.NoArgsConstructor;
 public class UserJoinRes {
 
     private String username;
+
 }

@@ -1,9 +1,8 @@
-package com.plogging.domain.User.service;
+package com.plogging.domain.User.service.userToken;
 
 import com.plogging.domain.User.entity.User;
 import com.plogging.domain.User.entity.UserRefreshToken;
 import com.plogging.domain.User.repository.UserRefreshTokenRepository;
-import com.plogging.domain.User.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
