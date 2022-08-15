@@ -5,6 +5,7 @@ import com.plogging.domain.Quest.entity.UserQuestComplete;
 import com.plogging.domain.Quest.entity.UserQuestDiary;
 import com.plogging.domain.Quest.entity.UserQuestProceeding;
 import com.plogging.domain.User.dto.request.UserJoinReq;
+import com.plogging.global.enumerations.PresenceStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -39,6 +40,9 @@ public class User {
     private int level;
 
     private Long mainBadge; // badge_idx (pk)
+
+    @Enumerated(EnumType.STRING)
+    private PresenceStatus status;
 
     @OneToMany(mappedBy = "user", cascade = ALL)
     private List<Board> boardList = new ArrayList<>();
@@ -81,12 +85,17 @@ public class User {
                 .phone(userJoinReq.getPhone())
                 .photo(userJoinReq.getPhoto())
                 .signUpDate(LocalDateTime.now())
+                .status(PresenceStatus.valueOf("ACTIVE"))
                 .level(1).build();
     }
 
 
     public void addProceedingQuest(UserQuestProceeding userQuestProceeding) {
         this.userQuestProceedings.add(userQuestProceeding);
+    }
+
+    public void changeUserDelete(){
+        this.status = PresenceStatus.valueOf("DELETE");
     }
 
         public void setUserRefreshToken(UserRefreshToken userRefreshToken){
