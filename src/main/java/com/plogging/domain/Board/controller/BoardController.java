@@ -8,6 +8,7 @@ import com.plogging.global.dto.ApplicationResponse;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
@@ -24,8 +25,8 @@ public class BoardController {
     }
 
     @GetMapping("/list")
-    public ApplicationResponse<Page<BoardListRes>> getBoardList(){
-        return boardServiceImpl.getBoardList();
+    public ApplicationResponse<Page<BoardListRes>> getBoardList(Pageable pageable){
+        return boardServiceImpl.getBoardList(pageable);
     }
 
     @PatchMapping("/del")

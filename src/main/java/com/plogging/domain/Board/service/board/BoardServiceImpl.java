@@ -13,6 +13,7 @@ import com.plogging.global.dto.ApplicationResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,11 +40,8 @@ public class BoardServiceImpl implements BoardService{
     }
 
     @Override
-    public ApplicationResponse<Page<BoardListRes>> getBoardList() {
-        PageRequest pageRequest = PageRequest.of(0,5, Sort.by(Sort.Direction.DESC, "time")); // TODO 페이지 사이즈 협의
-        Page<BoardListRes> page = boardRepository.findBoardDto(pageRequest);
-
-        return ApplicationResponse.ok(page);
+    public ApplicationResponse<Page<BoardListRes>> getBoardList(Pageable pageable) {
+        return ApplicationResponse.ok(boardRepository.findAll(pageable).map(BoardListRes::create));
     }
 
     @Transactional
