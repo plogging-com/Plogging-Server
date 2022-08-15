@@ -34,9 +34,6 @@ public interface QuestService {
     ApplicationResponse<Void> completeQuest(UserQuestProceeding userQuestProceeding, Quest quest, User user);
 
 
-
-
-
     /* --- server 내에서만 사용하는 메서드들 (나중에 클래스 분리 예정) --- */
 
     List<Quest> findAllOG();
