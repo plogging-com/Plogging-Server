@@ -30,22 +30,20 @@ public class QuestServiceImpl implements QuestService{
     private final QuestRepository questRepository;
     private final QuestProceedingRepository questProceedingRepository;
     private final QuestCompleteRepository questCompleteRepository;
-    private final AwsS3Service s3Service;
+    private final AwsS3Service awsS3Service;
 
     @Transactional
     @Override
     public ApplicationResponse<QuestRes> create(CreateQuestReq createQuestReq) {
-        String photoURL = "";
-        if(createQuestReq.getPhoto()!=null) photoURL = "www.s3-plogging.aws불라불라";// s3Service.makeImage(createQuestReq.getPhoto());
+        String photoURL = awsS3Service.uploadImage(createQuestReq.getPhoto());
         Quest quest = questRepository.save(createQuestReq.toEntityWithPhoto(photoURL));
         return ApplicationResponse.create("created", QuestRes.create(quest));
     }
 
     @Override
     public ApplicationResponse<QuestRes> findById(Long id){
-        return ApplicationResponse.ok(QuestRes.create(
-                questRepository.findById(id).orElseThrow(() -> new QuestIdNotFoundException(id))
-        ));
+        return ApplicationResponse.ok(
+                QuestRes.create(questRepository.findById(id).orElseThrow(() -> new QuestIdNotFoundException(id))));
     }
 
     @Override
@@ -57,8 +55,7 @@ public class QuestServiceImpl implements QuestService{
     @Override
     public ApplicationResponse<QuestRes> edit(Long id, EditQuestReq editQuestReq){
         Quest quest = questRepository.findById(id).orElseThrow(() -> new QuestIdNotFoundException(id));
-        String photoURL = "";
-        if(editQuestReq.getPhoto()!=null) photoURL = "www.s3-plogging.aws불라불라";
+        String photoURL = awsS3Service.uploadImage(editQuestReq.getPhoto());
         quest.edit(editQuestReq.getName(), photoURL);
         return ApplicationResponse.ok(QuestRes.create(quest));
     }
@@ -70,28 +67,30 @@ public class QuestServiceImpl implements QuestService{
         return ApplicationResponse.ok();
     }
 
-    @Override
+    @Transactional
+    @Override/*to server*/
     public ApplicationResponse<Void> makeAllQuestProceeding(User user){
         findAllOG().forEach((q)->questProceedingRepository.save(new UserQuestProceeding(user, q)));
         return ApplicationResponse.ok();
     }
 
     @Transactional
-    @Override
+    @Override /*to server*/
     public ApplicationResponse<Void> completeQuest(UserQuestProceeding userQuestProceeding, Quest quest, User user){
-
+        // 아직 maxGage에 도달하지 않았다면 Quest를 Complete할 수 없다는 Exception을 날린다.
         if(!userQuestProceeding.isMaxGage()) throw new CanNotCompleteQuestException();
-
-        questCompleteRepository.save(new UserQuestComplete(user, quest, userQuestProceeding.getLevel()));
-
+        // 해당 User가 해당 Quest를 완료했음을 저장
+        questCompleteRepository.save(
+                UserQuestComplete.builder().user(user).quest(quest).level(userQuestProceeding.getLevel()).build());
+        // 해당 quest의 level을 증가시킴
         userQuestProceeding.levelUp();
-
-        if(userQuestProceeding.isOverLevel()) questProceedingRepository.deleteById(userQuestProceeding.getId());
-
+        // 해당 Quest가 maxLevel을 달성했다면 진행중인 Quest에서 삭제시킨다(해당 Quest는 끝까지 달성된 것이므로)
+        if(userQuestProceeding.isOverMaxLevel()) questProceedingRepository.deleteById(userQuestProceeding.getId());
+        // 완료 응답
         return ApplicationResponse.ok();
     }
 
-    @Override
+    @Override /*to server*/
     public List<Quest> findAllOG(){
         return questRepository.findAll();
     }
