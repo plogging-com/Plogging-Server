@@ -1,7 +1,7 @@
 package com.plogging.global.Init;
 
 import com.plogging.domain.User.dto.request.UserJoinReq;
-import com.plogging.domain.User.service.UserService;
+import com.plogging.domain.User.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
-import java.time.LocalDateTime;
 
 @Component
 @RequiredArgsConstructor

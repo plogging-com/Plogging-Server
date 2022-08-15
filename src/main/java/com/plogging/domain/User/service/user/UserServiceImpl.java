@@ -1,33 +1,42 @@
-package com.plogging.domain.User.service;
+package com.plogging.domain.User.service.user;
 
 import com.plogging.domain.User.dto.request.UserDeleteReq;
+import com.plogging.domain.User.dto.request.UserFindReq;
 import com.plogging.domain.User.dto.request.UserJoinReq;
 import com.plogging.domain.User.dto.request.UserLoginReq;
+import com.plogging.domain.User.dto.response.UserFindRes;
 import com.plogging.domain.User.dto.response.UserJoinRes;
 import com.plogging.domain.User.dto.response.UserLoginRes;
 import com.plogging.domain.User.entity.User;
 import com.plogging.domain.User.exception.NotFoundUserException;
+import com.plogging.domain.User.exception.ValidUserFindPagingException;
 import com.plogging.domain.User.repository.UserRepository;
 //import com.plogging.global.jwt.service.JwtService;
+import com.plogging.domain.User.service.userToken.UserRefreshTokenService;
+import com.plogging.global.dto.ApplicationResponse;
 import com.plogging.global.jwt.service.JwtService;
 import com.plogging.global.utill.SHA256Util;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Pattern;
 
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final JwtService jwtService;
-
     private final UserRefreshTokenService userRefreshTokenService;
 
 
     @Override
+    @Transactional
     public UserJoinRes join(UserJoinReq userJoinReq) {
 
         userJoinReq.setPassword(SHA256Util.encrypt(userJoinReq.getPassword()));
@@ -38,11 +47,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User delete(UserDeleteReq userDeleteReq) {
-        return null;
-    }
+    @Transactional
+    public ApplicationResponse<Void> delete(UserDeleteReq userDeleteReq) {
+
+        User user = userRepository.findById(userDeleteReq.getUserIdx()).orElseThrow(NotFoundUserException::new);
+        user.changeUserDelete();
+        return ApplicationResponse.ok();
+
+}
 
     @Override
+    @Transactional
     public UserLoginRes login(UserLoginReq userLoginReq) {
 
         User user = userRepository.findByLoginId(userLoginReq.getLoginId()).orElseThrow(NotFoundUserException::new);
@@ -80,5 +95,21 @@ public class UserServiceImpl implements UserService {
         } else {
             return "중복된 아이디입니다.";
         }
+    }
+
+    @Override
+    public List<UserFindRes> findUser(UserFindReq userFindReq) {
+
+        if (userFindReq.getPg() <=0 || userFindReq.getPg() > 15 || userFindReq.getSz() <= 0 || userFindReq.getUserNickName() == null || userFindReq.getUserNickName().isEmpty()) throw new ValidUserFindPagingException();
+
+        List<User> users = userRepository.findUserName(userFindReq);
+
+        if (users.isEmpty()) throw new NotFoundUserException();
+
+        List<UserFindRes> result = new ArrayList<>();
+
+        for (User user : users) result.add(UserFindRes.from(user));
+
+        return result;
     }
 }
