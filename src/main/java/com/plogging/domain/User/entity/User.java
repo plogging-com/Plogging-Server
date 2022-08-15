@@ -89,7 +89,13 @@ public class User {
         this.userQuestProceedings.add(userQuestProceeding);
     }
 
-        public void setUserRefreshToken(UserRefreshToken userRefreshToken){
+    public void setUserRefreshToken(UserRefreshToken userRefreshToken){
             this.userRefreshToken = userRefreshToken;
         }
+
+    public void addHeart(Heart heart){
+        this.hearts.add(heart);
     }
+
+}
+

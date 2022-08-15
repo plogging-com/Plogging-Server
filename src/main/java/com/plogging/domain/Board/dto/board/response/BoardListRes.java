@@ -19,6 +19,6 @@ public class BoardListRes {
     private LocalDateTime time;
     private String photo;
 
-//    private long heartCnt;
-//    private long commentCnt;
+    private int heartCnt;
+    private int commentCnt;
 }
