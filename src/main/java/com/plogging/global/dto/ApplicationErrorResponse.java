@@ -21,7 +21,6 @@ public class ApplicationErrorResponse<T> {
     private HttpStatus httpStatus;
     private String message;
 
-
     public static <T> ApplicationErrorResponse<T> error(ApplicationException e){
         return (ApplicationErrorResponse<T>) ApplicationErrorResponse.builder()
                 .success(false)
