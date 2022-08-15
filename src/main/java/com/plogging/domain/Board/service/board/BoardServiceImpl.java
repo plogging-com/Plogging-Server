@@ -1,4 +1,4 @@
-package com.plogging.domain.Board.service;
+package com.plogging.domain.Board.service.board;
 
 import com.plogging.domain.Board.dto.board.request.createBoardReq;
 import com.plogging.domain.Board.dto.board.response.BoardListRes;
@@ -24,15 +24,13 @@ public class BoardServiceImpl implements BoardService{
 
     private final BoardRepository boardRepository;
     private final UserRepository userRepository;
-    private final HeartRepository heartRepository;
-    private final CommentRepository commentRepository;
 
     @Transactional
     @Override
-    public ApplicationResponse<BoardRes> boardCreate(createBoardReq createBoardReq) {
+    public ApplicationResponse<BoardRes> createBoard(createBoardReq createBoardReq) {
         String imageURL = "~~"; // s3Service.makeImage(questReq.getPhoto());
 
-        User user = userRepository.getById(createBoardReq.getUser_idx());
+        User user = userRepository.findById(createBoardReq.getUser_idx()).get();
 
         Board board = boardRepository.save(createBoardReq.toEntityWithPhoto(imageURL, user));
 
