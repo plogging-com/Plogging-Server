@@ -1,4 +1,4 @@
-package com.plogging.domain.Board.service;
+package com.plogging.domain.Board.service.board;
 
 import com.plogging.domain.Board.dto.board.request.createBoardReq;
 import com.plogging.domain.Board.dto.board.response.BoardListRes;
@@ -13,6 +13,7 @@ import com.plogging.global.dto.ApplicationResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,15 +25,13 @@ public class BoardServiceImpl implements BoardService{
 
     private final BoardRepository boardRepository;
     private final UserRepository userRepository;
-    private final HeartRepository heartRepository;
-    private final CommentRepository commentRepository;
 
     @Transactional
     @Override
-    public ApplicationResponse<BoardRes> boardCreate(createBoardReq createBoardReq) {
+    public ApplicationResponse<BoardRes> createBoard(createBoardReq createBoardReq) {
         String imageURL = "~~"; // s3Service.makeImage(questReq.getPhoto());
 
-        User user = userRepository.getById(createBoardReq.getUser_idx());
+        User user = userRepository.findById(createBoardReq.getUser_idx()).get();
 
         Board board = boardRepository.save(createBoardReq.toEntityWithPhoto(imageURL, user));
 
@@ -41,11 +40,8 @@ public class BoardServiceImpl implements BoardService{
     }
 
     @Override
-    public ApplicationResponse<Page<BoardListRes>> getBoardList() {
-        PageRequest pageRequest = PageRequest.of(0,5, Sort.by(Sort.Direction.DESC, "time")); // TODO 페이지 사이즈 협의
-        Page<BoardListRes> page = boardRepository.findBoardDto(pageRequest);
-
-        return ApplicationResponse.ok(page);
+    public ApplicationResponse<Page<BoardListRes>> getBoardList(Pageable pageable) {
+        return ApplicationResponse.ok(boardRepository.findAll(pageable).map(BoardListRes::create));
     }
 
     @Transactional

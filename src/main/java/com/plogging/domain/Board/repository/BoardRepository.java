@@ -6,14 +6,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 
 
 public interface BoardRepository extends JpaRepository<Board, Long> {
 
     Page<Board> findAll(Pageable pageable);
 
-    @Query(value = "select new com.plogging.domain.Board.dto.board.response.BoardListRes(u.nickName, u.photo, b.title, b.content, b.time, b.photo)"
+    @Query(value = "select new com.plogging.domain.Board.dto.board.response.BoardListRes(u.nickName, u.photo, b.title, b.content, b.time, b.photo, b.heartCnt, b.commentCnt)"
             + "from Board b join b.user u where b.status = 'ACTIVE'",
             countQuery = "select count(b) from Board b")
     Page<BoardListRes> findBoardDto(Pageable pageable);

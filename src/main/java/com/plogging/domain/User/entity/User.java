@@ -98,7 +98,12 @@ public class User {
         this.status = PresenceStatus.valueOf("DELETE");
     }
 
-        public void setUserRefreshToken(UserRefreshToken userRefreshToken){
-            this.userRefreshToken = userRefreshToken;
-        }
+    public void setUserRefreshToken(UserRefreshToken userRefreshToken){
+        this.userRefreshToken = userRefreshToken;
     }
+
+    public void addHeart(Heart heart){
+        this.hearts.add(heart);
+    }
+}
+
