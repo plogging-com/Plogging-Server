@@ -13,7 +13,6 @@ import java.time.LocalDateTime;
 public class BoardListRes {
     private String nickName;
     private String userPhoto;
-    // private String userBadgePhoto;
 
     private String title;
     private String content;

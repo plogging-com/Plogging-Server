@@ -1,6 +1,7 @@
 package com.plogging.domain.Board.controller;
 
 import com.plogging.domain.Board.dto.board.request.createHeartReq;
+import com.plogging.domain.Board.dto.board.request.delHeartReq;
 import com.plogging.domain.Board.service.board.BoardServiceImpl;
 import com.plogging.domain.Board.service.heart.HeartServiceImpl;
 import com.plogging.global.dto.ApplicationResponse;
@@ -20,9 +21,9 @@ public class HeartController {
         return heartServiceImpl.createHeart(createHeartReq);
     }
 
-//    @DeleteMapping("/del")
-//    public ApplicationResponse<Void> delHeart(@PathVariable Long heart_id){
-//        return heartServiceImpl.delHeart();
-//    }
+    @DeleteMapping("/del")
+    public ApplicationResponse<Void> delHeart(@ModelAttribute delHeartReq delHeartReq){
+        return heartServiceImpl.delHeart(delHeartReq);
+    }
 
 }

@@ -1,4 +1,4 @@
-package com.plogging.domain.Board.exception;
+package com.plogging.domain.Board.exception.Board;
 
 import com.plogging.global.exception.ApplicationException;
 import org.springframework.http.HttpStatus;

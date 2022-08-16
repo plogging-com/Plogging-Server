@@ -12,7 +12,8 @@ import lombok.NoArgsConstructor;
 @Data
 public class createHeartReq {
 
-    private Long board_idx;
+    private Long boardId;
+    private Long userId;
 
     public Heart toEntity(User user, Board board){
         return Heart.builder()
