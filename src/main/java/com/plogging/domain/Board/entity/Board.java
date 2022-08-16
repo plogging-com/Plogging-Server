@@ -51,6 +51,9 @@ public class Board {
     @Enumerated(EnumType.STRING)
     private PresenceStatus status;
 
+    private int heartCnt;
+    private int commentCnt;
+
     public Board (User user, String title, String content, LocalDateTime time, String photo){
         this.user = user;
         this.title = title;
@@ -58,10 +61,24 @@ public class Board {
         this.time = time;
         this.photo = photo;
         this.status = PresenceStatus.valueOf("ACTIVE");
+        this.heartCnt = 0;
+        this.commentCnt = 0;
+    }
+
+    public void addHeart(Heart heart){
+        this.hearts.add(heart);
     }
 
     public void changeBoardDelete(){
         this.status = PresenceStatus.valueOf("DELETE");
+    }
+
+    public void plusCommentCnt(){
+        this.commentCnt++;
+    }
+
+    public void plusHeartCnt(){
+        this.heartCnt++;
     }
 
 }
