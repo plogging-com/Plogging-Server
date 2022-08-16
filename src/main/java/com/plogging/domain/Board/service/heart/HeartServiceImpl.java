@@ -37,6 +37,8 @@ public class HeartServiceImpl implements HeartService{
         // 이미 좋아요 되어 있는 경우 에러
         if(heartRepository.findByUserAndBoard(user, board).isPresent()) throw new AlreadyHearted();
 
+        board.plusHeartCnt();
+
         Heart heart = Heart.builder()
                 .user(user)
                 .board(board)
