@@ -2,17 +2,15 @@ package com.plogging.domain.Quest.entity;
 
 
 import com.plogging.domain.User.entity.User;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import net.bytebuddy.asm.Advice;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 import static com.plogging.domain.Quest.VALUE.MAX_GAGE;
-import static com.plogging.domain.Quest.VALUE.OVER_LEVEL;
+import static com.plogging.domain.Quest.VALUE.MAX_LEVEL;
 
 @Entity
 @Getter
@@ -76,11 +74,15 @@ public class UserQuestProceeding {
         }
     }
 
-    public boolean isOverLevel() {
-        return this.level >= OVER_LEVEL;
+    public boolean isOverMaxLevel() {
+        return this.level > MAX_LEVEL;
     }
 
     public boolean isMaxGage() {
         return this.gage >= MAX_GAGE;
+    }
+
+    public void gageUp(int value) {
+        this.gage += value;
     }
 }
