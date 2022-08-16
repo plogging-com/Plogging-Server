@@ -2,6 +2,7 @@ package com.plogging.domain.Quest.dto.userQuestProceeding.response;
 
 import com.plogging.domain.Quest.dto.quest.response.QuestRes;
 import com.plogging.domain.Quest.entity.Quest;
+import com.plogging.domain.Quest.entity.UserQuestProceeding;
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -20,8 +21,14 @@ public class QuestProceedingRes {
         return result;
     }
 
-    private static QuestProceedingRes create(Quest quest) {
-
-        return null;
+    public static QuestProceedingRes create(UserQuestProceeding userQuestProceeding) {
+        QuestProceedingRes questProceedingRes = new QuestProceedingRes();
+        questProceedingRes.questRes = new QuestRes(
+                userQuestProceeding.getQuest().getName(),
+                userQuestProceeding.getQuest().getPhoto());
+        questProceedingRes.level = userQuestProceeding.getLevel();
+        questProceedingRes.gage = userQuestProceeding.getGage();
+        questProceedingRes.startTime = userQuestProceeding.getStartTime().toString();
+        return questProceedingRes;
     }
 }

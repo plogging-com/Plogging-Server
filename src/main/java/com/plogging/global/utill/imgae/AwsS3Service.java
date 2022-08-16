@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class AwsS3Service {
+public class AwsS3Service{
 
     @Value("${cloud.aws.s3.bucket}")
     private static String bucket;
@@ -31,7 +31,7 @@ public class AwsS3Service {
 
     private final AmazonS3 amazonS3;
 
-    public String uploadImage(MultipartFile file) {
+    public String uploadImage(MultipartFile file){
         return getFilenameAndPutS3(file);
     }
 
@@ -42,8 +42,7 @@ public class AwsS3Service {
                 .collect(Collectors.toList());
     }
 
-
-    private String getFilenameAndPutS3(MultipartFile file) {
+    private String getFilenameAndPutS3(MultipartFile file){
         String filename = createFileName(file.getOriginalFilename());
         ObjectMetadata objectMetadata = new ObjectMetadata();
         objectMetadata.setContentLength(file.getSize());
@@ -79,7 +78,7 @@ public class AwsS3Service {
         return imageUrls;
     }
 
-    public static List<String> makeUrlsOfCommaSplitFilenames(String filenamesStr) {
+    public static List<String> makeUrlsOfCommaSplitFilenames(String filenamesStr){
         String[] filenames = filenamesStr.split(",");
         ArrayList<String> imageUrls = new ArrayList<>();
         for (String filename : filenames) imageUrls.add(makeUrlOfFilename(filename));

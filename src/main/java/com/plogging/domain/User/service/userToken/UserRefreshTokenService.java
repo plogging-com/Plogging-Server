@@ -1,4 +1,4 @@
-package com.plogging.domain.User.service;
+package com.plogging.domain.User.service.userToken;
 
 import com.plogging.domain.User.entity.User;
 

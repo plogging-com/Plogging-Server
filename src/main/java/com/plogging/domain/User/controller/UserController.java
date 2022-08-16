@@ -1,10 +1,13 @@
 package com.plogging.domain.User.controller;
 
+import com.plogging.domain.User.dto.request.UserDeleteReq;
+import com.plogging.domain.User.dto.request.UserFindReq;
 import com.plogging.domain.User.dto.request.UserJoinReq;
+import com.plogging.domain.User.dto.response.UserFindRes;
 import com.plogging.domain.User.dto.response.UserJoinRes;
 import com.plogging.domain.User.dto.request.UserLoginReq;
 import com.plogging.domain.User.dto.response.UserLoginRes;
-import com.plogging.domain.User.service.UserService;
+import com.plogging.domain.User.service.user.UserService;
 import com.plogging.global.dto.ApiErrorResponse;
 import com.plogging.global.dto.ApplicationResponse;
 import io.swagger.annotations.Api;
@@ -15,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -51,6 +55,22 @@ public class UserController {
                 userService.login(userLoginReq)
         );
     }
+
+    @PostMapping("/delete")
+    @ApiOperation(value = "사용자 탈퇴", notes = "탈퇴를 진행합니다.")
+    public ApplicationResponse<Void> login(@Valid @RequestBody UserDeleteReq userDeleteReq){
+        return userService.delete(userDeleteReq);
+    }
+
+
+    @ApiOperation(value = "사용자 찾기" , notes = "사용자 페이지를 검색합니다.")
+    @PostMapping("/findUserContaining")
+    public ApplicationResponse<List<UserFindRes>> findUserContaining(@Valid @RequestBody UserFindReq userFindReq){
+        return ApplicationResponse.create("검색한 사용자에 대한 정보입니다." , userService.findUser(userFindReq));
+    }
+
+
+
 
     @PostMapping("/check-nickname")
     @ApiOperation(value = "사용자 닉네임 중복 체크", notes = "회원가입에서 닉네임에서 다른 쪽으로 넘어갈 때 호출합니다.")
