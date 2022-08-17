@@ -69,6 +69,10 @@ public class Board {
         this.hearts.add(heart);
     }
 
+    public void addBoardCategory(BoardCategory boardCategory) {
+        this.boardCategories.add(boardCategory);
+    }
+
     public void changeBoardDelete(){
         this.status = PresenceStatus.valueOf("DELETE");
     }
@@ -77,7 +81,7 @@ public class Board {
         this.commentCnt++;
     }
 
-    public void plusHeartCnt(){
+    public void plusHeartCnt() {
         this.heartCnt++;
     }
 
