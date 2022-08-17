@@ -30,6 +30,8 @@ public class createBoardReq {
     }
 
     public Category toEntityCategory(CategoryName categoryName){
-        return new Category(categoryName);
+        return Category.builder()
+                .categoryName(categoryName)
+                .build();
     }
 }
