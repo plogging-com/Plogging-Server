@@ -6,8 +6,10 @@ import com.plogging.domain.Board.dto.board.response.BoardRes;
 import com.plogging.domain.Board.entity.Board;
 import com.plogging.domain.Board.entity.BoardCategory;
 import com.plogging.domain.Board.entity.Category;
+import com.plogging.domain.Board.exception.Board.NotEnoughCategory;
 import com.plogging.domain.Board.repository.*;
 import com.plogging.domain.User.entity.User;
+import com.plogging.domain.User.exception.NotFoundUserException;
 import com.plogging.domain.User.repository.UserRepository;
 import com.plogging.global.dto.ApplicationResponse;
 import lombok.RequiredArgsConstructor;
@@ -33,36 +35,40 @@ public class BoardServiceImpl implements BoardService{
     @Transactional
     @Override
     public ApplicationResponse<BoardRes> createBoard(createBoardReq createBoardReq) {
+        // 카테고리 하나도 없을 경우 에러 (최소 1개 ~ 최대 3개)
+        if(createBoardReq.getCategoryName1() == null) throw new NotEnoughCategory();
+
         String imageURL = "~~"; // s3Service.makeImage(questReq.getPhoto());
 
-        User user = userRepository.findById(createBoardReq.getUser_idx()).get();
+        User user = userRepository.findById(createBoardReq.getUserId()).orElseThrow(() -> new NotFoundUserException());
         Board board = boardRepository.save(createBoardReq.toEntityBoardWithPhoto(imageURL, user));
 
         BoardRes boardRes = BoardRes.create(board);
 
-        if(createBoardReq.getCategoryName1() != null) {
-            BoardCategory boardCategory = BoardCategory.builder()
+        BoardCategory boardCategory1 = BoardCategory.builder()
                     .board(board)
-                    .category(categoryRepository.save(createBoardReq.toEntityCategory(createBoardReq.getCategoryName1())))
+                    .category(categoryRepository.findByName(createBoardReq.getCategoryName1()).get())
                     .build();
+        boardCategoryRepository.save(boardCategory1);
 
-            boardRes.addCategory(createBoardReq.getCategoryName1());
-        }
+        boardRes.addCategory(createBoardReq.getCategoryName1());
 
         if(createBoardReq.getCategoryName2() != null) {
-            BoardCategory boardCategory = BoardCategory.builder()
+            BoardCategory boardCategory2 = BoardCategory.builder()
                     .board(board)
-                    .category(categoryRepository.save(createBoardReq.toEntityCategory(createBoardReq.getCategoryName2())))
+                    .category(categoryRepository.findByName(createBoardReq.getCategoryName2()).get())
                     .build();
+            boardCategoryRepository.save(boardCategory2);
 
             boardRes.addCategory(createBoardReq.getCategoryName2());
         }
 
         if(createBoardReq.getCategoryName3() != null) {
-            BoardCategory boardCategory = BoardCategory.builder()
+            BoardCategory boardCategory3 = BoardCategory.builder()
                     .board(board)
-                    .category(categoryRepository.save(createBoardReq.toEntityCategory(createBoardReq.getCategoryName3())))
+                    .category(categoryRepository.findByName(createBoardReq.getCategoryName3()).get())
                     .build();
+            boardCategoryRepository.save(boardCategory3);
 
             boardRes.addCategory(createBoardReq.getCategoryName3());
         }

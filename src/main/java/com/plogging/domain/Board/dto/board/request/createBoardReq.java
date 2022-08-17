@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -20,7 +19,7 @@ public class createBoardReq {
     private String title;
     private String content;
     private MultipartFile photo;
-    private Long user_idx;
+    private Long userId;
     private CategoryName categoryName1;
     private CategoryName categoryName2;
     private CategoryName categoryName3;

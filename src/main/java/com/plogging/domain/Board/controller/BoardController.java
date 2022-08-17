@@ -20,7 +20,7 @@ public class BoardController {
 
     private final BoardServiceImpl boardServiceImpl;
 
-    @ApiOperation(value = "게시글 등록")
+    @ApiOperation(value = "게시글 등록", notes = "카테고리는 최소 1개 이상이어야 합니다. categoryName1 부터 카테고리를 등록해 주세요.")
     @PostMapping("")
     public ApplicationResponse<BoardRes> boardCreate(@ModelAttribute createBoardReq createBoardReq){
         return boardServiceImpl.createBoard(createBoardReq);
