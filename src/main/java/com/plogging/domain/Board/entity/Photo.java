@@ -23,4 +23,9 @@ public class Photo {
     private Board board;
 
     private String name;
+
+    public Photo(Board board, String name) {
+        this.board = board;
+        this.name = name;
+    }
 }
