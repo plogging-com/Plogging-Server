@@ -105,5 +105,9 @@ public class User {
     public void addHeart(Heart heart){
         this.hearts.add(heart);
     }
+
+    public void addReport(Report report) {
+        this.reports.add(report);
+    }
 }
 
