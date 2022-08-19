@@ -13,4 +13,6 @@ public interface ReportService {
     ApplicationResponse<Page<ReportRes>> findAllReports(Pageable pageable);
 
     ApplicationResponse<ReportRes> editReportStatus(editReportReq editReportReq);
+
+    ApplicationResponse<Void> deleteReport(Long reportId);
 }

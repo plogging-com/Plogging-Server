@@ -50,4 +50,14 @@ public class ReportController {
     public ApplicationResponse<ReportRes> editReportStatus(@ModelAttribute editReportReq editReportReq){
         return reportService.editReportStatus(editReportReq);
     }
+
+    /**
+     * 게시글 신고 취소
+     * @author 강신현
+     */
+    @ApiOperation(value = "게시글 신고 취소", notes = "게시글 신고를 취소 합니다. (db에서 삭제)")
+    @DeleteMapping ("/{reportId}")
+    public ApplicationResponse<Void> deleteReport(@PathVariable Long reportId){
+        return reportService.deleteReport(reportId);
+    }
 }

@@ -56,4 +56,12 @@ public class ReportServiceImpl implements ReportService{
 
         return ApplicationResponse.ok(ReportRes.create(report.editStatus(editReportReq.getStatus())));
     }
+
+    @Transactional
+    @Override
+    public ApplicationResponse<Void> deleteReport(Long reportId){
+        if(!reportRepository.existsById(reportId)) throw new NotFoundReportException();
+        reportRepository.deleteById(reportId);
+        return ApplicationResponse.ok();
+    }
 }
