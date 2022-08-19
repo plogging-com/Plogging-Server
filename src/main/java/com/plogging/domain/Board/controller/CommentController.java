@@ -1,6 +1,7 @@
 package com.plogging.domain.Board.controller;
 
 import com.plogging.domain.Board.dto.board.request.createCommentReq;
+import com.plogging.domain.Board.dto.board.request.modifyCommentReq;
 import com.plogging.domain.Board.dto.board.response.CommentRes;
 import com.plogging.domain.Board.service.comment.CommentSercice;
 import com.plogging.global.dto.ApplicationResponse;
@@ -35,5 +36,15 @@ public class CommentController {
     @PatchMapping("/del/{commentId}")
     public ApplicationResponse<CommentRes> delComment(@PathVariable Long commentId) {
         return commentSercice.delComment(commentId);
+    }
+
+    /**
+     * 댓글 수정
+     * @author 강신현
+     */
+    @ApiOperation(value = "댓글 수정", notes = "댓글 내용(content)을 수정합니다.")
+    @PatchMapping("/modify/{commentId}")
+    public ApplicationResponse<CommentRes> modifyComment(@ModelAttribute modifyCommentReq modifyCommentReq) {
+        return commentSercice.modifyComment(modifyCommentReq);
     }
 }

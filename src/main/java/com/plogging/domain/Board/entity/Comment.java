@@ -39,6 +39,10 @@ public class Comment {
     public void changeCommentDelete() {
         this.status = PresenceStatus.DELETE;
     }
+
+    public void changeContent(String newContent) {
+        this.content = newContent;
+    }
     // 댓글일 경우 : null
     // 대댓글일 경우 : 댓글의 "commentIdx"가 들어감
 }

@@ -1,6 +1,7 @@
 package com.plogging.domain.Board.service.comment;
 
 import com.plogging.domain.Board.dto.board.request.createCommentReq;
+import com.plogging.domain.Board.dto.board.request.modifyCommentReq;
 import com.plogging.domain.Board.dto.board.response.CommentRes;
 import com.plogging.domain.Board.entity.Board;
 import com.plogging.domain.Board.entity.Comment;
@@ -53,6 +54,16 @@ public class CommentSerciceImpl implements CommentSercice{
 
         Comment comment = commentRepository.findById(commentId).get();
         comment.changeCommentDelete();
+        return ApplicationResponse.ok(CommentRes.create(comment));
+    }
+
+    @Transactional
+    @Override
+    public ApplicationResponse<CommentRes> modifyComment(modifyCommentReq modifyCommentReq){
+        if(!commentRepository.existsById(modifyCommentReq.getCommentId())) throw new NotFoundCommentException();
+
+        Comment comment = commentRepository.findById(modifyCommentReq.getCommentId()).get();
+        comment.changeContent(modifyCommentReq.getNewContent());
         return ApplicationResponse.ok(CommentRes.create(comment));
     }
 }
