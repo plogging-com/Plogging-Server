@@ -39,10 +39,10 @@ public class BoardServiceImpl implements BoardService{
         User user = userRepository.findById(createBoardReq.getUserId()).orElseThrow(() -> new NotFoundUserException());
         Board board = boardRepository.save(createBoardReq.toEntityBoard(user));
 
-        for(MultipartFile i : createBoardReq.getPhotos()) {
-            String photoURL = awsS3Service.uploadImage(i);
-            photoRepository.save(new Photo(board,photoURL));
-        }
+//        for(MultipartFile i : createBoardReq.getPhotos()) {
+//            String photoURL = awsS3Service.uploadImage(i);
+//            photoRepository.save(new Photo(board,photoURL));
+//        }
 
         BoardRes boardRes = BoardRes.create(board);
         return ApplicationResponse.create("created", boardRes);

@@ -70,6 +70,10 @@ public class Board {
         this.hearts.add(heart);
     }
 
+    public void addReport(Report report) {
+        this.reports.add(report);
+    }
+
     public void changeBoardDelete(){
         this.status = PresenceStatus.valueOf("DELETE");
     }
@@ -81,5 +85,6 @@ public class Board {
     public void plusHeartCnt(){
         this.heartCnt++;
     }
+
 
 }
