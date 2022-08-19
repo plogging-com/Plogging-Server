@@ -23,11 +23,11 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class AwsS3Service{
 
-    @Value("${cloud.aws.s3.bucket}")
-    private static String bucket;
+//    @Value("${cloud.aws.s3.bucket}")
+    private static String bucket = "plogging";
 
-    @Value("${cloud.aws.region.static}")
-    private static String region;
+//    @Value("${cloud.aws.region.static}")
+    private static String region = "ap-northeast-2";
 
     private final AmazonS3 amazonS3;
 
