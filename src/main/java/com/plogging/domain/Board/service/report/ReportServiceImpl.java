@@ -13,6 +13,8 @@ import com.plogging.domain.User.exception.NotFoundUserException;
 import com.plogging.domain.User.repository.UserRepository;
 import com.plogging.global.dto.ApplicationResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,5 +38,10 @@ public class ReportServiceImpl implements ReportService{
         ReportRes reportRes = ReportRes.create(report);
 
         return ApplicationResponse.create("create", reportRes);
+    }
+
+    @Override
+    public ApplicationResponse<Page<ReportRes>> findAllReports(Pageable pageable){
+        return ApplicationResponse.ok(reportRepository.findAll(pageable).map(ReportRes::create));
     }
 }
