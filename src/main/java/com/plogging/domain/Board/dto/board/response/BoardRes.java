@@ -15,7 +15,6 @@ public class BoardRes {
     private String title;
     private String content;
     private LocalDateTime time;
-    private String photo;
     private PresenceStatus status;
 
     public static BoardRes create(Board board) {
@@ -23,7 +22,6 @@ public class BoardRes {
         boardRes.title = board.getTitle();
         boardRes.content = board.getContent();
         boardRes.time = board.getTime();
-        boardRes.photo = board.getPhoto();
         boardRes.status = board.getStatus();
 
         return boardRes;

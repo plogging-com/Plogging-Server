@@ -22,6 +22,6 @@ public class createBoardReq {
     private Long userId;
 
     public Board toEntityWithPhoto(String photo, User user) {
-        return new Board(user, this.title, this.content, LocalDateTime.now(), photo);
+        return new Board(user, this.title, this.content, LocalDateTime.now());
     }
 }
