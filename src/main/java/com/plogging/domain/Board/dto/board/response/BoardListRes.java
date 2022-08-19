@@ -31,7 +31,6 @@ public class BoardListRes {
         boardListRes.title = board.getTitle();
         boardListRes.content = board.getContent();
         boardListRes.time = board.getTime();
-        boardListRes.photo = board.getPhoto();
 
         boardListRes.heartCnt = board.getHeartCnt();
         boardListRes.commentCnt = board.getCommentCnt();
