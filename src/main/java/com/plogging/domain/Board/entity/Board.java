@@ -43,7 +43,7 @@ public class Board {
     @OneToMany(mappedBy="board", cascade=ALL)
     private List<BoardCategory> boardCategories = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user", cascade = ALL)
+    @OneToMany(mappedBy = "board", cascade=ALL)
     private List<Photo> photos = new ArrayList<>();
 
     private String title;
