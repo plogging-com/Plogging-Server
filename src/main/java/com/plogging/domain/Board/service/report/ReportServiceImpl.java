@@ -1,11 +1,14 @@
 package com.plogging.domain.Board.service.report;
 
 import com.plogging.domain.Board.dto.board.request.createReportReq;
+import com.plogging.domain.Board.dto.board.request.editReportReq;
 import com.plogging.domain.Board.dto.board.response.ReportRes;
 import com.plogging.domain.Board.entity.Board;
 import com.plogging.domain.Board.entity.Report;
-import com.plogging.domain.Board.entity.ReportStatus;
 import com.plogging.domain.Board.exception.Board.NotFoundBoardException;
+import com.plogging.domain.Board.exception.Report.AlreadyStatusException;
+import com.plogging.domain.Board.exception.Report.NotFoundReportException;
+import com.plogging.domain.Board.exception.Report.ReportException;
 import com.plogging.domain.Board.repository.BoardRepository;
 import com.plogging.domain.Board.repository.ReportRepository;
 import com.plogging.domain.User.entity.User;
@@ -43,5 +46,14 @@ public class ReportServiceImpl implements ReportService{
     @Override
     public ApplicationResponse<Page<ReportRes>> findAllReports(Pageable pageable){
         return ApplicationResponse.ok(reportRepository.findAll(pageable).map(ReportRes::create));
+    }
+
+    @Override
+    public ApplicationResponse<ReportRes> editReportStatus(editReportReq editReportReq){
+        Report report = reportRepository.findById(editReportReq.getReportId()).orElseThrow(() -> new NotFoundReportException());
+
+        if(report.getStatus() == editReportReq.getStatus()) throw new AlreadyStatusException();
+
+        return ApplicationResponse.ok(ReportRes.create(report.editStatus(editReportReq.getStatus())));
     }
 }

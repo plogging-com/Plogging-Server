@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Data
 public class ReportRes {
+    private Long reportId;
     private Long userId;
     private Long boardId;
     private String content;
@@ -20,6 +21,7 @@ public class ReportRes {
 
     public static ReportRes create(Report report){
         ReportRes reportRes = new ReportRes();
+        reportRes.reportId = report.getId();
         reportRes.userId = report.getUser().getId();
         reportRes.boardId = report.getBoard().getId();
         reportRes.content = report.getContent();
