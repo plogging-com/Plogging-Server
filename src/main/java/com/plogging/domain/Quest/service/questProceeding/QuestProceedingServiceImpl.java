@@ -34,20 +34,20 @@ public class QuestProceedingServiceImpl implements QuestProceedingService{
     }
 
     @Override
-    public ApplicationResponse<QuestProceedingRes> findById(Long id) {
+    public ApplicationResponse<QuestProceedingRes> findById(Long id){
         UserQuestProceeding userQuestProceeding =
                 questProceedingRepository.findById(id).orElseThrow(() -> new QuestProceedingIdNotFoundException(id));
         return ApplicationResponse.ok(QuestProceedingRes.create(userQuestProceeding));
     }
 
     @Override
-    public ApplicationResponse<Page<QuestProceedingRes>> findAll(Pageable pageable) {
+    public ApplicationResponse<Page<QuestProceedingRes>> findAll(Pageable pageable){
         return ApplicationResponse.ok(questProceedingRepository.findAll(pageable).map(QuestProceedingRes::create));
     }
 
     @Transactional
     @Override
-    public ApplicationResponse<Void> gageUp(Long id, int value) {
+    public ApplicationResponse<Void> gageUp(Long id, int value){
         UserQuestProceeding userQuestProceeding =
                 questProceedingRepository.findById(id).orElseThrow(() -> new QuestProceedingIdNotFoundException(id));
 
@@ -61,7 +61,7 @@ public class QuestProceedingServiceImpl implements QuestProceedingService{
 
     @Transactional
     @Override
-    public ApplicationResponse<Void> deleteById(Long id) {
+    public ApplicationResponse<Void> deleteById(Long id){
         UserQuestProceeding userQuestProceeding =
                 questProceedingRepository.findById(id).orElseThrow(() -> new QuestProceedingIdNotFoundException(id));
         questProceedingRepository.deleteById(id);
