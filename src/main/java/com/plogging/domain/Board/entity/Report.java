@@ -48,4 +48,9 @@ public class Report {
         this.user = user;
         user.addReport(this);
     }
+
+    public Report editStatus(ReportStatus status) {
+        this.status = status;
+        return this;
+    }
 }
