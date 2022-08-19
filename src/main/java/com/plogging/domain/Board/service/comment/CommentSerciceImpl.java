@@ -45,4 +45,14 @@ public class CommentSerciceImpl implements CommentSercice{
 
         return ApplicationResponse.create("create",commentRes);
     }
+
+    @Transactional
+    @Override
+    public ApplicationResponse<CommentRes> delComment(Long commentId){
+        if(!commentRepository.existsById(commentId)) throw new NotFoundCommentException();
+
+        Comment comment = commentRepository.findById(commentId).get();
+        comment.changeCommentDelete();
+        return ApplicationResponse.ok(CommentRes.create(comment));
+    }
 }

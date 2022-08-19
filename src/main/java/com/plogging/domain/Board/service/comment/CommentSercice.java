@@ -6,4 +6,6 @@ import com.plogging.global.dto.ApplicationResponse;
 
 public interface CommentSercice {
     ApplicationResponse<CommentRes> createComment(createCommentReq createCommentReq);
+
+    ApplicationResponse<CommentRes> delComment(Long commentId);
 }
