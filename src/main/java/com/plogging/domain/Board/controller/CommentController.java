@@ -7,10 +7,7 @@ import com.plogging.global.dto.ApplicationResponse;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RestController
@@ -28,5 +25,15 @@ public class CommentController {
     @PostMapping("")
     public ApplicationResponse<CommentRes> createComment(@ModelAttribute createCommentReq createCommentReq){
         return commentSercice.createComment(createCommentReq);
+    }
+
+    /**
+     * 댓글 삭제
+     * @author 강신현
+     */
+    @ApiOperation(value = "댓글 삭제", notes = "삭제시, 댓글의 status 가 DELETE로 변경됩니다.")
+    @PatchMapping("/del/{commentId}")
+    public ApplicationResponse<CommentRes> delComment(@PathVariable Long commentId) {
+        return commentSercice.delComment(commentId);
     }
 }
