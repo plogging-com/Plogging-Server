@@ -7,10 +7,9 @@ import com.plogging.global.dto.ApplicationResponse;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RestController
@@ -28,5 +27,15 @@ public class ReportController {
     @PostMapping("")
     public ApplicationResponse<ReportRes> createReport(@ModelAttribute createReportReq createReportReq){
         return reportServiceImpl.createReport(createReportReq);
+    }
+
+    /**
+     * 전체 게시글 신고 현황 전체 조회
+     * @author 강신현
+     */
+    @ApiOperation(value = "전체 게시글 신고 현황 조회", notes = "게시글 신고 상태는 처리중, 처리완료 둘 중 하나로 표시됩니다")
+    @GetMapping("")
+    public ApplicationResponse<Page<ReportRes>> findAllReports(Pageable pageable){
+        return reportServiceImpl.findAllReports(pageable);
     }
 }

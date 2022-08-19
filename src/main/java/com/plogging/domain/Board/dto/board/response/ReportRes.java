@@ -12,12 +12,16 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Data
 public class ReportRes {
+    private Long userId;
+    private Long boardId;
     private String content;
     private LocalDateTime time;
     private ReportStatus status;
 
     public static ReportRes create(Report report){
         ReportRes reportRes = new ReportRes();
+        reportRes.userId = report.getUser().getId();
+        reportRes.boardId = report.getBoard().getId();
         reportRes.content = report.getContent();
         reportRes.time = report.getTime();
         reportRes.status = report.getStatus();
