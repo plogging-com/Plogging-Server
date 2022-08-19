@@ -53,4 +53,8 @@ public class Report {
         this.status = status;
         return this;
     }
+
+    public void changeContent(String newContent) {
+        this.content = newContent;
+    }
 }

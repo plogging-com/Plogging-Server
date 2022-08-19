@@ -2,6 +2,7 @@ package com.plogging.domain.Board.service.report;
 
 import com.plogging.domain.Board.dto.board.request.createReportReq;
 import com.plogging.domain.Board.dto.board.request.editReportReq;
+import com.plogging.domain.Board.dto.board.request.modifyReportReq;
 import com.plogging.domain.Board.dto.board.response.ReportRes;
 import com.plogging.domain.Board.entity.Board;
 import com.plogging.domain.Board.entity.Report;
@@ -64,4 +65,15 @@ public class ReportServiceImpl implements ReportService{
         reportRepository.deleteById(reportId);
         return ApplicationResponse.ok();
     }
+
+    @Transactional
+    @Override
+    public ApplicationResponse<ReportRes> modifyReport(modifyReportReq modifyReportReq){
+        if(!reportRepository.existsById(modifyReportReq.getReportId())) throw new NotFoundReportException();
+
+        Report report = reportRepository.findById(modifyReportReq.getReportId()).get();
+        report.changeContent(modifyReportReq.getNewContent());
+        return ApplicationResponse.ok(ReportRes.create(report));
+    }
+
 }

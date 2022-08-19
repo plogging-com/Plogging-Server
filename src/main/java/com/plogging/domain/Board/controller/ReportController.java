@@ -2,6 +2,7 @@ package com.plogging.domain.Board.controller;
 
 import com.plogging.domain.Board.dto.board.request.createReportReq;
 import com.plogging.domain.Board.dto.board.request.editReportReq;
+import com.plogging.domain.Board.dto.board.request.modifyReportReq;
 import com.plogging.domain.Board.dto.board.response.ReportRes;
 import com.plogging.domain.Board.service.report.ReportService;
 import com.plogging.domain.Board.service.report.ReportServiceImpl;
@@ -59,5 +60,15 @@ public class ReportController {
     @DeleteMapping ("/{reportId}")
     public ApplicationResponse<Void> deleteReport(@PathVariable Long reportId){
         return reportService.deleteReport(reportId);
+    }
+
+    /**
+     * 게시글 신고 내용 수정
+     * @author 강신현
+     */
+    @ApiOperation(value = "게시글 신고 내용 수정", notes = "게시글 신고 내용(content)을 수정합니다.")
+    @PatchMapping("/modify/{reportId}")
+    public ApplicationResponse<ReportRes> modifyComment(@ModelAttribute modifyReportReq modifyReportReq) {
+        return reportService.modifyReport(modifyReportReq);
     }
 }
