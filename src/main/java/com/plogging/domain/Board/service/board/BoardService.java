@@ -14,4 +14,6 @@ public interface BoardService {
     ApplicationResponse<Page<BoardListRes>> getBoardList(Pageable pageable);
 
     ApplicationResponse<Void> delBoard(Long id);
+
+    ApplicationResponse<BoardRes> getBoard(Long boardId);
 }
