@@ -1,12 +1,10 @@
 package com.plogging.domain.User.service.user;
 
-import com.plogging.domain.User.dto.request.UserDeleteReq;
-import com.plogging.domain.User.dto.request.UserFindReq;
-import com.plogging.domain.User.dto.request.UserJoinReq;
-import com.plogging.domain.User.dto.request.UserLoginReq;
+import com.plogging.domain.User.dto.request.*;
 import com.plogging.domain.User.dto.response.UserFindRes;
 import com.plogging.domain.User.dto.response.UserJoinRes;
 import com.plogging.domain.User.dto.response.UserLoginRes;
+import com.plogging.domain.User.dto.response.UserUpdateFormRes;
 import com.plogging.domain.User.entity.User;
 import com.plogging.domain.User.exception.NotFoundUserException;
 import com.plogging.domain.User.exception.ValidUserFindPagingException;
@@ -111,5 +109,25 @@ public class UserServiceImpl implements UserService {
         for (User user : users) result.add(UserFindRes.from(user));
 
         return result;
+    }
+
+    @Override
+    @Transactional
+    public UserUpdateFormRes getUpdateForm(UserUpdateFormReq userUpdateFormReq) {
+
+        return UserUpdateFormRes.create(userRepository.findById(userUpdateFormReq.getUserIdx()).orElseThrow(NotFoundUserException::new));
+
+    }
+
+    @Override
+    @Transactional
+    public ApplicationResponse<Void> update(UserUpdateReq userUpdateReq) {
+
+        User user = userRepository.findById(userUpdateReq.getUserIdx()).orElseThrow(NotFoundUserException::new);
+
+        user.updateUser(userUpdateReq);
+
+        return ApplicationResponse.ok();
+
     }
 }
