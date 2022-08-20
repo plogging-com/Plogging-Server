@@ -110,6 +110,10 @@ public class User {
         this.reports.add(report);
     }
 
+    public void addInquiry(Inquiry inquiry) {
+        this.inquiry.add(inquiry);
+    }
+
     public void addQuestDiary(UserQuestDiary userQuestDiary) {
         this.userQuestDiaries.add(userQuestDiary);
     }
