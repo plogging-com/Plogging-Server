@@ -1,6 +1,7 @@
 package com.plogging.domain.Board.service.comment;
 
 import com.plogging.domain.Board.dto.board.request.createCommentReq;
+import com.plogging.domain.Board.dto.board.request.getReCommentReq;
 import com.plogging.domain.Board.dto.board.request.modifyCommentReq;
 import com.plogging.domain.Board.dto.board.response.CommentRes;
 import com.plogging.domain.Board.entity.Board;
@@ -15,6 +16,9 @@ import com.plogging.domain.User.exception.NotFoundUserException;
 import com.plogging.domain.User.repository.UserRepository;
 import com.plogging.global.dto.ApplicationResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -39,8 +43,8 @@ public class CommentSerciceImpl implements CommentSercice{
         User user = userRepository.findById(createCommentReq.getUserId()).orElseThrow(() -> new NotFoundUserException());
         Board board = boardRepository.findById(createCommentReq.getBoardId()).orElseThrow(() -> new NotFoundBoardException());
 
-        // 댓글일 경우 groupNum : null
-        Comment comment = commentRepository.save(createCommentReq.toEntityComment(user, board, null));
+        // 댓글일 경우 groupNum : null, 대댓글일 경우 gropNum : 댓글 id
+        Comment comment = commentRepository.save(createCommentReq.toEntityComment(user, board, createCommentReq.getGroupNum()));
 
         CommentRes commentRes = CommentRes.create(comment);
 
@@ -65,5 +69,18 @@ public class CommentSerciceImpl implements CommentSercice{
         Comment comment = commentRepository.findById(modifyCommentReq.getCommentId()).get();
         comment.changeContent(modifyCommentReq.getNewContent());
         return ApplicationResponse.ok(CommentRes.create(comment));
+    }
+
+    @Override
+    public ApplicationResponse<Slice<CommentRes>> getCommentList(Pageable pageable, Long boardId){
+        if(!boardRepository.existsById(boardId)) throw new NotFoundBoardException();
+        return ApplicationResponse.ok(commentRepository.findAllByBoardIdAndGroupNum(pageable, boardId, null).map(CommentRes::create));
+    }
+
+    @Override
+    public ApplicationResponse<Slice<CommentRes>> getReCommentList(Pageable pageable, getReCommentReq getReCommentReq){
+        if(!boardRepository.existsById(getReCommentReq.getBoardId())) throw new NotFoundBoardException();
+        if(!commentRepository.existsById(getReCommentReq.getCommentId())) throw new NotFoundCommentException();
+        return ApplicationResponse.ok(commentRepository.findAllByBoardIdAndGroupNum(pageable, getReCommentReq.getBoardId(), getReCommentReq.getCommentId()).map(CommentRes::create));
     }
 }
