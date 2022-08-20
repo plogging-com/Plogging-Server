@@ -5,6 +5,7 @@ import com.plogging.domain.Quest.entity.UserQuestComplete;
 import com.plogging.domain.Quest.entity.UserQuestDiary;
 import com.plogging.domain.Quest.entity.UserQuestProceeding;
 import com.plogging.domain.User.dto.request.UserJoinReq;
+import com.plogging.domain.User.dto.request.UserUpdateReq;
 import com.plogging.global.enumerations.PresenceStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -29,7 +30,6 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "user_idx")
     private Long id;
-
     private String loginId;
     private String password;
     private String nickName;
@@ -87,6 +87,13 @@ public class User {
                 .signUpDate(LocalDateTime.now())
                 .status(PresenceStatus.valueOf("ACTIVE"))
                 .level(1).build();
+    }
+
+    public void updateUser(UserUpdateReq userUpdateReq) {
+
+        this.nickName = userUpdateReq.getNickname();
+        this.photo = userUpdateReq.getPhoto();
+
     }
 
 
