@@ -48,6 +48,10 @@ public class Quest {
     public void addProceedingQuest(UserQuestProceeding userQuestProceeding) {
         this.userQuestProceedings.add(userQuestProceeding);
     }
+
+    public void addQuestDiary(UserQuestDiary userQuestDiary) {
+        this.userQuestDiaries.add(userQuestDiary);
+    }
 }
 // 1. 1km 마다 쓰레기 10개 줍기
 // 2. 10일 동안 쓰레기 40개 줍기
