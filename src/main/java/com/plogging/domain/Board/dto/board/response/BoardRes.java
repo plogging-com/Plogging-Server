@@ -16,6 +16,8 @@ public class BoardRes {
     private String content;
     private LocalDateTime time;
     private PresenceStatus status;
+    private int heartCnt;
+    private int commentCnt;
 
     public static BoardRes create(Board board) {
         BoardRes boardRes = new BoardRes();
@@ -23,6 +25,8 @@ public class BoardRes {
         boardRes.content = board.getContent();
         boardRes.time = board.getTime();
         boardRes.status = board.getStatus();
+        boardRes.heartCnt = board.getHeartCnt();
+        boardRes.commentCnt = board.getCommentCnt();
 
         return boardRes;
     }

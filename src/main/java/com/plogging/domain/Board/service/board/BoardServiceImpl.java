@@ -5,6 +5,7 @@ import com.plogging.domain.Board.dto.board.response.BoardListRes;
 import com.plogging.domain.Board.dto.board.response.BoardRes;
 import com.plogging.domain.Board.entity.Board;
 import com.plogging.domain.Board.entity.Photo;
+import com.plogging.domain.Board.exception.Board.NotFoundBoardException;
 import com.plogging.domain.Board.exception.Board.OverMaxContentLength;
 import com.plogging.domain.Board.repository.BoardRepository;
 import com.plogging.domain.Board.repository.PhotoRepository;
@@ -51,6 +52,13 @@ public class BoardServiceImpl implements BoardService{
     @Override
     public ApplicationResponse<Page<BoardListRes>> getBoardList(Pageable pageable) {
         return ApplicationResponse.ok(boardRepository.findAll(pageable).map(BoardListRes::create));
+    }
+
+    @Override
+    public ApplicationResponse<BoardRes> getBoard(Long boardId){
+        if(!boardRepository.existsById(boardId)) throw new NotFoundBoardException();
+        // TODO 조회 엔티티 생성
+        return ApplicationResponse.ok(BoardRes.create(boardRepository.findById(boardId).get()));
     }
 
     @Transactional
