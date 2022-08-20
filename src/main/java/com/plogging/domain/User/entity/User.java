@@ -109,5 +109,9 @@ public class User {
     public void addReport(Report report) {
         this.reports.add(report);
     }
+
+    public void addQuestDiary(UserQuestDiary userQuestDiary) {
+        this.userQuestDiaries.add(userQuestDiary);
+    }
 }
 

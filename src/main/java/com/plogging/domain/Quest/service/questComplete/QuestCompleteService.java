@@ -21,7 +21,4 @@ public interface QuestCompleteService {
 
     // D
     ApplicationResponse<Void> deleteById(Long id);
-
-
-
 }
