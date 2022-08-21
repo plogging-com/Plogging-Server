@@ -25,9 +25,9 @@ public class QuestProceedingController {
     private final QuestProceedingService questProceedingService;
 
     @ApiOperation(value = "진행중인 quest 전체 조회", notes = "진행중 quest 전체 조회.")
-    @GetMapping("/")
-    public ApplicationResponse<Page<QuestProceedingRes>> findAll(Pageable pageable) {
-        return questProceedingService.findAll(pageable);
+    @GetMapping("/users/{user_idx}")
+    public ApplicationResponse<Page<QuestProceedingRes>> findAll(@PathVariable Long user_idx, Pageable pageable) {
+        return questProceedingService.findAll(pageable, user_idx);
     }
 
     @ApiOperation(value = "진행중인 quest 한 개 id로 조회", notes = "진행중 quest 조회.")
@@ -36,7 +36,7 @@ public class QuestProceedingController {
         return questProceedingService.findById(id);
     }
 
-    @ApiOperation(value = "진행중인 quest 한 개 id로 조회", notes = "진행중 quest 조회.")
+    @ApiOperation(value = "진행중인 quest 한 개 gage 상승시키기", notes = "quest 한 개 gage 상승.")
     @PutMapping("/gageup/{id}")
     public ApplicationResponse<Void> gageUp(@PathVariable Long id, int value) {
         return questProceedingService.gageUp(id, value);
