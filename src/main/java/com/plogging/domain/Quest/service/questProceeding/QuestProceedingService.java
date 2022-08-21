@@ -15,7 +15,7 @@ public interface QuestProceedingService {
 
     // R
     ApplicationResponse<QuestProceedingRes> findById(Long id);
-    ApplicationResponse<Page<QuestProceedingRes>> findAll(Pageable pageable);
+    ApplicationResponse<Page<QuestProceedingRes>> findAll(Pageable pageable, Long userIdx);
 
     // U
     ApplicationResponse<Void> gageUp(Long id, int value);// value 만큼의 gage를 상승시킴
