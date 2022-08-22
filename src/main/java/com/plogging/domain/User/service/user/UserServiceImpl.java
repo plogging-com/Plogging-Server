@@ -16,6 +16,7 @@ import com.plogging.domain.User.service.userToken.UserRefreshTokenService;
 import com.plogging.global.dto.ApplicationResponse;
 import com.plogging.global.jwt.service.JwtService;
 import com.plogging.global.utill.SHA256Util;
+import com.plogging.global.utill.imgae.AwsS3Service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,12 +35,15 @@ public class UserServiceImpl implements UserService {
     private final JwtService jwtService;
     private final UserRefreshTokenService userRefreshTokenService;
     private final QuestProceedingService questProceedingService;
+    private final AwsS3Service awsS3Service;
 
     @Override
     @Transactional
     public UserJoinRes join(UserJoinReq userJoinReq) {
 
         userJoinReq.setPassword(SHA256Util.encrypt(userJoinReq.getPassword()));
+
+        if(userJoinReq.getPhoto() != null) userJoinReq.setPhotoURL(awsS3Service.uploadImage(userJoinReq.getPhoto()));
 
         User user = userRepository.save(UserJoinReq.toEntity(userJoinReq));
 
