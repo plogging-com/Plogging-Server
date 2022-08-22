@@ -33,7 +33,7 @@ public class QuestProceedingServiceImpl implements QuestProceedingService{
     @Override /* to server */
     public ApplicationResponse<List<QuestProceedingRes>> initAllQuest(CreateQuestProceedingReq createQuestReq) {
         List<Quest> quests = questService.findAllOG();//모든 Quest들을 가져온다.
-        quests.forEach((q) -> questProceedingRepository.save(createQuestReq.toEntityWith(q)));
+         quests.forEach((q) -> questProceedingRepository.save(createQuestReq.toEntityWith(q)));
         return ApplicationResponse.ok(QuestProceedingRes.createInitialListRes(quests));
     }
 

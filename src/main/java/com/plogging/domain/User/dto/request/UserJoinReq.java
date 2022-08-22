@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 import org.springframework.lang.NonNull;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
@@ -34,7 +35,9 @@ public class UserJoinReq {
     @ApiModelProperty(notes = "닉네임을 입력해 주세요.")
     private String nickname;
 
-    private String photo;
+    private MultipartFile photo;
+
+    private String photoURL;
 
 
     public static User toEntity(UserJoinReq userJoinReq) {
@@ -43,9 +46,11 @@ public class UserJoinReq {
                 .password(userJoinReq.getPassword())
                 .nickName(userJoinReq.getNickname())
                 .phone(userJoinReq.getPhone())
-                .photo(userJoinReq.getPhoto())
+                .photo(userJoinReq.getPhotoURL())
                 .signUpDate(LocalDateTime.now())
                 .growth(1)
                 .level(1).build();
     }
+
+
 }
