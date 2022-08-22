@@ -29,6 +29,7 @@ public class QuestController {
     public ApplicationResponse<QuestRes> create(@ModelAttribute CreateQuestReq createQuestReq) {
         return questService.create(createQuestReq);
     }
+
     @ApiOperation(value = "모든 quest 목록 조회", notes = "quest 전체 조회.")
     @GetMapping("/")
     public ApplicationResponse<Page<QuestRes>> findAll(Pageable pageable) {
@@ -43,7 +44,7 @@ public class QuestController {
 
     @ApiOperation(value = "quest 정보(photo, name) 수정", notes = "quest 정보 수정.")
     @PutMapping("/{quest_id}")
-    public ApplicationResponse<QuestRes> edit(@PathVariable Long quest_id, @ModelAttribute EditQuestReq editQuestReq) {
+    public ApplicationResponse<QuestRes> edit(@PathVariable Long quest_id, @ModelAttribute EditQuestReq editQuestReq){
         return questService.edit(quest_id, editQuestReq);
     }
 
