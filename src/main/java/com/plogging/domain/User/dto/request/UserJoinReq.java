@@ -1,5 +1,6 @@
 package com.plogging.domain.User.dto.request;
 
+import com.plogging.domain.User.entity.User;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
@@ -22,8 +23,6 @@ public class UserJoinReq {
     private String id;
 
     @NotBlank(message = "회원의 비밀번호를 입력해주세요.")
-    @Pattern(regexp = "^.*(?=^.{8,20}$)(?=.*\\d)(?=.*[a-zA-Z])(?=.*[!@#$%^&+=]).*$",
-            message = "비밀번호는 특수문자를 포함한 8~20글자의 영대/소문자, 숫자만 가능합니다.")
     @ApiModelProperty(notes = "회원의 비밀번호를 입력해 주세요.")
     private String password;
 
@@ -32,10 +31,21 @@ public class UserJoinReq {
     private String phone;
 
     @NotBlank(message = "회원의 닉네임을 입력해주세요.")
-//    @Pattern(regexp = "^[a-z0-9가-힣]{2,5}$", message = "닉네임은 2~5글자의 영소문자, 숫자, 한글만 가능합니다.")
     @ApiModelProperty(notes = "닉네임을 입력해 주세요.")
     private String nickname;
 
     private String photo;
 
+
+    public static User toEntity(UserJoinReq userJoinReq) {
+        return User.builder()
+                .loginId(userJoinReq.getId())
+                .password(userJoinReq.getPassword())
+                .nickName(userJoinReq.getNickname())
+                .phone(userJoinReq.getPhone())
+                .photo(userJoinReq.getPhoto())
+                .signUpDate(LocalDateTime.now())
+                .growth(1)
+                .level(1).build();
+    }
 }
