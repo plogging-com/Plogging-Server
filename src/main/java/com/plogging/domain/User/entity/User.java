@@ -35,11 +35,10 @@ public class User {
     private String nickName;
     private String phone;
     private String photo;
-    private String growth;
+    private int growth;
     private LocalDateTime signUpDate;
     private int level;
 
-    private Long mainBadge; // badge_idx (pk)
 
     @Enumerated(EnumType.STRING)
     private PresenceStatus status;
@@ -77,17 +76,6 @@ public class User {
     @OneToOne(mappedBy = "user", cascade = ALL, fetch = FetchType.LAZY)
     private UserRefreshToken userRefreshToken;
 
-    public static User toEntity(UserJoinReq userJoinReq) {
-        return User.builder()
-                .loginId(userJoinReq.getId())
-                .password(userJoinReq.getPassword())
-                .nickName(userJoinReq.getNickname())
-                .phone(userJoinReq.getPhone())
-                .photo(userJoinReq.getPhoto())
-                .signUpDate(LocalDateTime.now())
-                .status(PresenceStatus.valueOf("ACTIVE"))
-                .level(1).build();
-    }
 
     public void updateUser(UserUpdateReq userUpdateReq) {
 

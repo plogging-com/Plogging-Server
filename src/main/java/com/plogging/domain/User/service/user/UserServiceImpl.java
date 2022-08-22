@@ -6,8 +6,7 @@ import com.plogging.domain.User.dto.response.UserJoinRes;
 import com.plogging.domain.User.dto.response.UserLoginRes;
 import com.plogging.domain.User.dto.response.UserUpdateFormRes;
 import com.plogging.domain.User.entity.User;
-import com.plogging.domain.User.exception.NotFoundUserException;
-import com.plogging.domain.User.exception.ValidUserFindPagingException;
+import com.plogging.domain.User.exception.*;
 import com.plogging.domain.User.repository.UserRepository;
 //import com.plogging.global.jwt.service.JwtService;
 import com.plogging.domain.User.service.userToken.UserRefreshTokenService;
@@ -39,7 +38,7 @@ public class UserServiceImpl implements UserService {
 
         userJoinReq.setPassword(SHA256Util.encrypt(userJoinReq.getPassword()));
 
-        String name = userRepository.save(User.toEntity(userJoinReq)).getNickName();
+        String name = userRepository.save(UserJoinReq.toEntity(userJoinReq)).getNickName();
 
         return UserJoinRes.builder().username(name).build();
     }
@@ -70,28 +69,28 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String checNickname(String nickName) {
+    public String checkNickname(String nickName) {
         if (userRepository.findByNickName(nickName).isEmpty()) {
             if (Pattern.matches("^[a-z0-9가-힣]{2,5}$", nickName)) {
                 return null;
             }else {
-                return "닉네임은 2~5글자의 영소문자, 숫자, 한글만 가능합니다.";
+                throw new UserNickNameValidException();
             }
         } else {
-            return "중복된 닉네임입니다.";
+            throw new UserNickNameDuplicationException();
         }
     }
 
     @Override
     public String checkLoginId(String loginId) {
         if (userRepository.findByLoginId(loginId).isEmpty()) {
-            if (Pattern.matches("^.*(?=^.{8,20}$)(?=.*\\d)(?=.*[a-zA-Z])(?=.*[!@#$%^&+=]).*$", loginId)) {
+            if (Pattern.matches("^[a-zA-Z]{1}[a-zA-Z0-9_]{4,11}$", loginId)) {
                 return null;
             } else {
-                return "로그인 Id는 6~18글자의 영소문자, 숫자만 가능합니다.";
+                throw new UserIDValidException();
             }
         } else {
-            return "중복된 아이디입니다.";
+            throw new UserIdDuplicationException();
         }
     }
 

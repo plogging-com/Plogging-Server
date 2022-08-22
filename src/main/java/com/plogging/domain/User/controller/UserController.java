@@ -28,8 +28,6 @@ public class UserController {
 
     /**
      * 회원가입
-     * @param userJoinReq
-     * @return UserJoinRes
      * @author 한규범
      */
     @PostMapping("/join")
@@ -105,7 +103,7 @@ public class UserController {
     @PostMapping("/check-nickname")
     @ApiOperation(value = "사용자 닉네임 중복 체크", notes = "회원가입에서 닉네임에서 다른 쪽으로 넘어갈 때 호출합니다.")
     public ApplicationResponse<String> checkNickename(String name){
-        return ApplicationResponse.ok(userService.checNickname(name));
+        return ApplicationResponse.ok(userService.checkNickname(name));
     }
 
     @PostMapping("/check-id")
