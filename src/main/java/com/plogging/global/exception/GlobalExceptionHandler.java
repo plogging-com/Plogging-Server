@@ -44,5 +44,15 @@ public class GlobalExceptionHandler {
         return ApplicationErrorResponse.error(e);
     }
 
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ApiErrorResponse> methodArgumentNotValidException(MethodArgumentNotValidException e){
+        String errorCode = requireNonNull(e.getFieldError()).getDefaultMessage();
 
+        log.warn(LOG_FORMAT, e.getClass().getSimpleName(), "V0001", errorCode);
+
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST.value())
+                .body(new ApiErrorResponse("V0001", Arrays.asList(errorCode)));
+
+    }
 }
