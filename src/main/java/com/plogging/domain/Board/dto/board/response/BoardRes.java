@@ -20,7 +20,7 @@ public class BoardRes {
     private String title;
     private String content;
     private LocalDateTime time;
-    private String photo;
+    // private String photo;
     private PresenceStatus status;
 
     private List<CategoryName> categories = new ArrayList<>();
@@ -30,7 +30,7 @@ public class BoardRes {
         boardRes.title = board.getTitle();
         boardRes.content = board.getContent();
         boardRes.time = board.getTime();
-        boardRes.photo = board.getPhoto();
+        // boardRes.photo = board.getPhoto();
         boardRes.status = board.getStatus();
 
         return boardRes;

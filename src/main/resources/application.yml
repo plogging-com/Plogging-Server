@@ -18,6 +18,7 @@ spring:
       hibernate:
         show_sql: false
         format_sql: false
+        default_batch_fetch_size: 100
     database-platform: org.hibernate.dialect.MySQL8Dialect
     defer-datasource-initialization: true
 

@@ -41,7 +41,7 @@ public class BoardServiceImpl implements BoardService{
         String imageURL = "~~"; // s3Service.makeImage(questReq.getPhoto());
 
         User user = userRepository.findById(createBoardReq.getUserId()).orElseThrow(() -> new NotFoundUserException());
-        Board board = boardRepository.save(createBoardReq.toEntityBoardWithPhoto(imageURL, user));
+        Board board = boardRepository.save(createBoardReq.toEntityBoardWithPhoto(user));
 
         BoardRes boardRes = BoardRes.create(board);
 
@@ -78,7 +78,11 @@ public class BoardServiceImpl implements BoardService{
 
     @Override
     public ApplicationResponse<Page<BoardListRes>> getBoardList(Pageable pageable) {
-        return ApplicationResponse.ok(boardRepository.findAll(pageable).map(BoardListRes::create));
+//        Page<Board> boards = boardRepository.findAll(pageable);
+//        Page<BoardListRes> result = boards.stream()
+//                .map(b -> new BoardListRes(b))
+//                .collect(toList());
+        return ApplicationResponse.ok(boardRepository.findAll(pageable).map(BoardListRes::new));
     }
 
     @Transactional
