@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("api/quests-complete")
 @Api(tags = "Quest API")
-public class QuestCompleteController {
+public class QuestCompleteController{
 
     private final QuestCompleteService questCompleteService;
 

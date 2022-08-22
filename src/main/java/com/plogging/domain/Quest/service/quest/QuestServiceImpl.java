@@ -35,8 +35,8 @@ public class QuestServiceImpl implements QuestService{
     @Transactional
     @Override
     public ApplicationResponse<QuestRes> create(CreateQuestReq createQuestReq) {
-        String photoURL = awsS3Service.uploadImage(createQuestReq.getPhoto());
-        Quest quest = questRepository.save(createQuestReq.toEntityWithPhoto(photoURL));
+        String filename = awsS3Service.uploadImage(createQuestReq.getPhoto());
+        Quest quest = questRepository.save(createQuestReq.toEntityWithPhoto(AwsS3Service.makeUrlOfFilename(filename)));
         return ApplicationResponse.create("created", QuestRes.create(quest));
     }
 
