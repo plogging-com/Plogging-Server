@@ -1,10 +1,10 @@
 package com.plogging.domain.Board.controller;
 
 import com.plogging.domain.Board.dto.board.request.createBoardReq;
-import com.plogging.domain.Board.dto.board.response.BoardListRes;
+import com.plogging.domain.Board.dto.board.request.getAllBoardsByCategoryReq;
+import com.plogging.domain.Board.dto.board.response.BoardAllRes;
 import com.plogging.domain.Board.dto.board.response.BoardRes;
 import com.plogging.domain.Board.service.board.BoardService;
-import com.plogging.domain.Board.service.board.BoardServiceImpl;
 import com.plogging.global.dto.ApplicationResponse;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -28,9 +28,31 @@ public class BoardController {
     }
 
     @ApiOperation(value = "전체 게시글 조회")
-    @GetMapping("/list")
-    public ApplicationResponse<Page<BoardListRes>> getBoardList(Pageable pageable){
-        return boardService.getBoardList(pageable);
+    @GetMapping("/all")
+    public ApplicationResponse<Page<BoardAllRes>> getAllBoards(Pageable pageable){
+        return boardService.getAllBoards(pageable);
+    }
+
+    @ApiOperation(value = "카테고리에 따른 전체 게시글 조회")
+    @GetMapping("/all/byCategory")
+    public ApplicationResponse<Page<BoardAllRes>> getAllBoardsByCategory(Pageable pageable, getAllBoardsByCategoryReq getAllBoardsByCategoryReq){
+        if(getAllBoardsByCategoryReq.getCategoryName3()==null){
+            if(getAllBoardsByCategoryReq.getCategoryName2()==null){
+                if(getAllBoardsByCategoryReq.getCategoryName1()==null){
+                    return boardService.getAllBoards(pageable);
+                }
+                else{
+                    return boardService.getAllBoardsBy1Category(pageable, getAllBoardsByCategoryReq);
+                }
+            }
+            else{
+                return boardService.getAllBoardsBy2Category(pageable, getAllBoardsByCategoryReq);
+            }
+        }
+        else{
+            return boardService.getAllBoardsBy3Category(pageable, getAllBoardsByCategoryReq);
+        }
+
     }
 
     @ApiOperation(value = "게시글 삭제")

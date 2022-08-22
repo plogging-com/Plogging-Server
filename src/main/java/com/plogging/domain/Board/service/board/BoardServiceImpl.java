@@ -1,7 +1,8 @@
 package com.plogging.domain.Board.service.board;
 
 import com.plogging.domain.Board.dto.board.request.createBoardReq;
-import com.plogging.domain.Board.dto.board.response.BoardListRes;
+import com.plogging.domain.Board.dto.board.request.getAllBoardsByCategoryReq;
+import com.plogging.domain.Board.dto.board.response.BoardAllRes;
 import com.plogging.domain.Board.dto.board.response.BoardRes;
 import com.plogging.domain.Board.entity.Board;
 import com.plogging.domain.Board.entity.BoardCategory;
@@ -14,13 +15,12 @@ import com.plogging.domain.User.repository.UserRepository;
 import com.plogging.global.dto.ApplicationResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
+import java.util.ArrayList;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -77,12 +77,38 @@ public class BoardServiceImpl implements BoardService{
     }
 
     @Override
-    public ApplicationResponse<Page<BoardListRes>> getBoardList(Pageable pageable) {
-//        Page<Board> boards = boardRepository.findAll(pageable);
-//        Page<BoardListRes> result = boards.stream()
-//                .map(b -> new BoardListRes(b))
-//                .collect(toList());
-        return ApplicationResponse.ok(boardRepository.findAll(pageable).map(BoardListRes::new));
+    public ApplicationResponse<Page<BoardAllRes>> getAllBoards(Pageable pageable) {
+        return ApplicationResponse.ok(boardRepository.findAll(pageable).map(BoardAllRes::create));
+    }
+
+    @Override
+    public ApplicationResponse<Page<BoardAllRes>> getAllBoardsBy1Category(Pageable pageable, getAllBoardsByCategoryReq getAllBoardsByCategoryReq){
+        Category category = categoryRepository.findByName(getAllBoardsByCategoryReq.getCategoryName1()).get();
+        return ApplicationResponse.ok(boardCategoryRepository.findByCategory(pageable, category).map(BoardAllRes::create2));
+    }
+
+    @Override
+    public ApplicationResponse<Page<BoardAllRes>> getAllBoardsBy2Category(Pageable pageable, getAllBoardsByCategoryReq getAllBoardsByCategoryReq){
+        Category category1 = categoryRepository.findByName(getAllBoardsByCategoryReq.getCategoryName1()).get();
+        Category category2 = categoryRepository.findByName(getAllBoardsByCategoryReq.getCategoryName2()).get();
+        List<Category> categories = new ArrayList<>();
+        categories.add(category1);
+        categories.add(category2);
+
+        return ApplicationResponse.ok(boardCategoryRepository.findAllByCategoryIn(pageable, categories).map(BoardAllRes::create2));
+    }
+
+    @Override
+    public ApplicationResponse<Page<BoardAllRes>> getAllBoardsBy3Category(Pageable pageable, getAllBoardsByCategoryReq getAllBoardsByCategoryReq){
+        Category category1 = categoryRepository.findByName(getAllBoardsByCategoryReq.getCategoryName1()).get();
+        Category category2 = categoryRepository.findByName(getAllBoardsByCategoryReq.getCategoryName2()).get();
+        Category category3 = categoryRepository.findByName(getAllBoardsByCategoryReq.getCategoryName3()).get();
+        List<Category> categories = new ArrayList<>();
+        categories.add(category1);
+        categories.add(category2);
+        categories.add(category3);
+
+        return ApplicationResponse.ok(boardCategoryRepository.findAllByCategoryIn(pageable, categories).map(BoardAllRes::create2));
     }
 
     @Transactional
@@ -90,6 +116,7 @@ public class BoardServiceImpl implements BoardService{
     public ApplicationResponse<Void> delBoard(Long id){
         Board board = boardRepository.findById(id).get();
         board.changeBoardDelete();
+
         return ApplicationResponse.ok();
     }
 
