@@ -1,6 +1,7 @@
 package com.plogging.domain.Quest.dto.quest.response;
 
 import com.plogging.domain.Quest.entity.Quest;
+import com.plogging.global.utill.imgae.AwsS3Service;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,12 +12,12 @@ import lombok.NoArgsConstructor;
 public class QuestRes {
 
     private String name;
-    private String imageUrl;
+    private String photo;
 
     public static QuestRes create(Quest quest) {
         QuestRes questRes = new QuestRes();
         questRes.name = quest.getName();
-        questRes.imageUrl = quest.getPhoto(); //TODO
+        questRes.photo = AwsS3Service.makeUrlOfFilename(quest.getPhoto());
         return questRes;
     }
 }
