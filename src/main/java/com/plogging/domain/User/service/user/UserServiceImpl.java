@@ -1,5 +1,8 @@
 package com.plogging.domain.User.service.user;
 
+import com.plogging.domain.Quest.dto.userQuestProceeding.request.CreateQuestProceedingReq;
+import com.plogging.domain.Quest.service.quest.QuestService;
+import com.plogging.domain.Quest.service.questProceeding.QuestProceedingService;
 import com.plogging.domain.User.dto.request.*;
 import com.plogging.domain.User.dto.response.UserFindRes;
 import com.plogging.domain.User.dto.response.UserJoinRes;
@@ -30,7 +33,7 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final JwtService jwtService;
     private final UserRefreshTokenService userRefreshTokenService;
-
+    private final QuestProceedingService questProceedingService;
 
     @Override
     @Transactional
@@ -38,9 +41,10 @@ public class UserServiceImpl implements UserService {
 
         userJoinReq.setPassword(SHA256Util.encrypt(userJoinReq.getPassword()));
 
-        String name = userRepository.save(UserJoinReq.toEntity(userJoinReq)).getNickName();
+        User user = userRepository.save(UserJoinReq.toEntity(userJoinReq));
 
-        return UserJoinRes.builder().username(name).build();
+        questProceedingService.initAllQuest(CreateQuestProceedingReq.create(user));
+        return UserJoinRes.builder().username(user.getNickName()).build();
     }
 
     @Override
