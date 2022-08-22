@@ -107,7 +107,7 @@ public class UserController {
     }
 
     @PostMapping("/check-id")
-    @ApiOperation(value = "사용자 닉네임 중복 체크", notes = "회원가입에서 닉네임에서 다른 쪽으로 넘어갈 때 호출합니다.")
+    @ApiOperation(value = "사용자 아이디 중복 체크", notes = "회원가입에서 닉네임에서 다른 쪽으로 넘어갈 때 호출합니다.")
     public ApplicationResponse<String> checkLoginId(String loginId){
         return ApplicationResponse.ok(userService.checkLoginId(loginId));
     }
