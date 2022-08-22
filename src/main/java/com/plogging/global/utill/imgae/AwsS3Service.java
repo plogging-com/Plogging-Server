@@ -53,7 +53,7 @@ public class AwsS3Service{
         } catch (IOException e) {
             throw new FailedUploadImageS3ContainerException();
         }
-        return makeUrlOfFilename(filename);
+        return filename;
     }
 
     private String createFileName(String fileName){
