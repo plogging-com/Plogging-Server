@@ -34,9 +34,16 @@ public class QuestDiaryServiceImpl implements QuestDiaryService {
         Quest quest = userQuestComplete.getQuest();
         User user = userQuestComplete.getUser();
 
-        String photoURL = awsS3Service.uploadImage(questDiaryReq.getPhoto());
-        UserQuestDiary userQuestDiary = UserQuestDiary.create(questDiaryReq, photoURL, quest, user);
+        String filename = awsS3Service.uploadImage(questDiaryReq.getPhoto());
+        UserQuestDiary userQuestDiary = UserQuestDiary.create(questDiaryReq, filename, quest, user);
         questDiaryRepository.save(userQuestDiary);
-        return ApplicationResponse.create("created", QuestDiaryResp.create(quest, user,questDiaryReq.getComment(), photoURL));
+
+        QuestDiaryResp questDiaryResp = QuestDiaryResp.builder()
+                .quest(quest)
+                .user(user)
+                .comment(questDiaryReq.getComment())
+                .photo(AwsS3Service.makeUrlOfFilename(filename)).build();
+
+        return ApplicationResponse.create("created", questDiaryResp);
     }
 }

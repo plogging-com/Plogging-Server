@@ -6,12 +6,10 @@ import com.plogging.global.dto.ApplicationResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import java.util.List;
-
 public interface QuestProceedingService {
 
     // C
-    ApplicationResponse<List<QuestProceedingRes>> initAllQuest(CreateQuestProceedingReq createQuestReq);
+    void initAllQuest(CreateQuestProceedingReq createQuestReq);
 
     // R
     ApplicationResponse<QuestProceedingRes> findById(Long id);
