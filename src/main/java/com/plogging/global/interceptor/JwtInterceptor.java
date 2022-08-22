@@ -6,6 +6,8 @@ import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 @RequiredArgsConstructor
 public class JwtInterceptor implements HandlerInterceptor {
@@ -14,6 +16,14 @@ public class JwtInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        ArrayList<String> exceptApi = new ArrayList<>();
+        exceptApi.add("/api/v1/users/check-nickname");
+        exceptApi.add("/api/v1/users/check-id");
+        exceptApi.add("api/v1/user/join");
+
+        for (String s : exceptApi) {
+            if(request.getRequestURI().equals(s)) return true;
+        }
         jwtService.getLoginId();
         return true;
     }

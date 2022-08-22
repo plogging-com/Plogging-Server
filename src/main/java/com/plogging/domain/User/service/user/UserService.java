@@ -16,7 +16,7 @@ public interface UserService {
 
     UserLoginRes login(UserLoginReq userLoginReq);
 
-    String checNickname(String name);
+    String checkNickname(String name);
 
     String checkLoginId(String loginId);
 
