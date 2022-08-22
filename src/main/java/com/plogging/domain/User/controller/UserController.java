@@ -90,27 +90,24 @@ public class UserController {
         return userService.update(userUpdateReq);
     }
 
-
-
-
-
-
-
-
-
-
-
+    /**
+     * 사용자 닉네임 중복 체크
+     * @author 한규범
+     */
     @PostMapping("/check-nickname")
     @ApiOperation(value = "사용자 닉네임 중복 체크", notes = "회원가입에서 닉네임에서 다른 쪽으로 넘어갈 때 호출합니다.")
     public ApplicationResponse<String> checkNickename(String name){
         return ApplicationResponse.ok(userService.checkNickname(name));
     }
 
+    /**
+     * 사용자 아이디 중복 체크
+     * @author 한규범
+     */
     @PostMapping("/check-id")
     @ApiOperation(value = "사용자 아이디 중복 체크", notes = "회원가입에서 닉네임에서 다른 쪽으로 넘어갈 때 호출합니다.")
     public ApplicationResponse<String> checkLoginId(String loginId){
         return ApplicationResponse.ok(userService.checkLoginId(loginId));
     }
-
 
 }
