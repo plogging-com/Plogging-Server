@@ -4,10 +4,7 @@ import com.plogging.domain.Quest.dto.userQuestProceeding.request.CreateQuestProc
 import com.plogging.domain.Quest.service.quest.QuestService;
 import com.plogging.domain.Quest.service.questProceeding.QuestProceedingService;
 import com.plogging.domain.User.dto.request.*;
-import com.plogging.domain.User.dto.response.UserFindRes;
-import com.plogging.domain.User.dto.response.UserJoinRes;
-import com.plogging.domain.User.dto.response.UserLoginRes;
-import com.plogging.domain.User.dto.response.UserUpdateFormRes;
+import com.plogging.domain.User.dto.response.*;
 import com.plogging.domain.User.entity.User;
 import com.plogging.domain.User.exception.*;
 import com.plogging.domain.User.repository.UserRepository;
@@ -21,6 +18,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.Period;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -136,5 +137,25 @@ public class UserServiceImpl implements UserService {
 
         return ApplicationResponse.ok();
 
+    }
+
+    @Override
+    public UserHomeRes home() {
+        User user = userRepository.findByLoginId(jwtService.getLoginId()).get();
+
+        //발자국 이야기 해봐야함.
+        //플로깅 시간도.
+        //고정 이미지들도 서버를 통해서 가져갈지?
+        //오늘의 퀘스트 뭐로할지?
+
+        return UserHomeRes.builder()
+                .today(ChronoUnit.DAYS.between(user.getSignUpDate(), LocalDateTime.now()))
+                .level(user.getLevel())
+                .gage(user.getGrowth())
+                .step(0)
+                .time(0)
+                .QuestPhoto(null)
+                .todayQuest(null)
+                .build();
     }
 }

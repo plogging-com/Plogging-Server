@@ -1,10 +1,7 @@
 package com.plogging.domain.User.controller;
 
 import com.plogging.domain.User.dto.request.*;
-import com.plogging.domain.User.dto.response.UserFindRes;
-import com.plogging.domain.User.dto.response.UserJoinRes;
-import com.plogging.domain.User.dto.response.UserLoginRes;
-import com.plogging.domain.User.dto.response.UserUpdateFormRes;
+import com.plogging.domain.User.dto.response.*;
 import com.plogging.domain.User.service.user.UserService;
 import com.plogging.global.dto.ApiErrorResponse;
 import com.plogging.global.dto.ApplicationResponse;
@@ -108,6 +105,21 @@ public class UserController {
     @ApiOperation(value = "사용자 아이디 중복 체크", notes = "회원가입에서 닉네임에서 다른 쪽으로 넘어갈 때 호출합니다.")
     public ApplicationResponse<String> checkLoginId(String loginId){
         return ApplicationResponse.ok(userService.checkLoginId(loginId));
+    }
+
+    /**
+     * 사용자 홈 화면
+     * @author 한규범
+     */
+    @GetMapping("/home")
+    @ApiOperation(value = "사용자 홈 화면", notes = "사용자의 홈 화면을 조회합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(code = 404, message = "토큰 미입력 경우: 토큰을 찾을수 없습니다.", response = ApiErrorResponse.class),
+            @ApiResponse(code = 404, message = "토큰 만료 경우: 토큰이 만료 되었습니다.", response = ApiErrorResponse.class)
+
+    })
+    public ApplicationResponse<UserHomeRes> home(){
+        return ApplicationResponse.ok(userService.home());
     }
 
 }

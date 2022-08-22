@@ -1,6 +1,7 @@
 package com.plogging.domain.User.dto.request;
 
 import com.plogging.domain.User.entity.User;
+import com.plogging.global.enumerations.PresenceStatus;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
@@ -49,6 +50,7 @@ public class UserJoinReq {
                 .photo(userJoinReq.getPhotoURL())
                 .signUpDate(LocalDateTime.now())
                 .growth(1)
+                .status(PresenceStatus.ACTIVE)
                 .level(1).build();
     }
 
