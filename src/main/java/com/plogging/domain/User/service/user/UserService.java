@@ -24,4 +24,6 @@ public interface UserService {
     ApplicationResponse<Void> update(UserUpdateReq userUpdateReq);
 
     UserHomeRes home();
+
+    void growthPlus();
 }
