@@ -4,6 +4,7 @@ import com.plogging.domain.User.dto.request.*;
 import com.plogging.domain.User.dto.response.*;
 import com.plogging.domain.User.service.user.UserService;
 import com.plogging.global.dto.ApiErrorResponse;
+import com.plogging.global.dto.ApplicationErrorResponse;
 import com.plogging.global.dto.ApplicationResponse;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -92,6 +93,11 @@ public class UserController {
      * @author 한규범
      */
     @PostMapping("/check-nickname")
+    @ApiResponses(value = {
+            @ApiResponse(code = 409, message = "(U0002) \n 이미 존재하는 닉네임 입니다.", response = ApplicationErrorResponse.class),
+            @ApiResponse(code = 409, message = "(U0004) \n 닉네임은 2~5글자의 영소문자, 숫자, 한글만 가능합니다.", response = ApplicationErrorResponse.class)
+
+    })
     @ApiOperation(value = "사용자 닉네임 중복 체크", notes = "회원가입에서 닉네임에서 다른 쪽으로 넘어갈 때 호출합니다.")
     public ApplicationResponse<String> checkNickename(String name){
         return ApplicationResponse.ok(userService.checkNickname(name));
@@ -103,6 +109,11 @@ public class UserController {
      */
     @PostMapping("/check-id")
     @ApiOperation(value = "사용자 아이디 중복 체크", notes = "회원가입에서 닉네임에서 다른 쪽으로 넘어갈 때 호출합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(code = 409, message = "(U0001) \n 이미 존재하는 아이디입니다.", response = ApplicationErrorResponse.class),
+            @ApiResponse(code = 409, message = "(U0003) \n 로그인 Id는 5~12글자의 영소문자, 숫자만 가능합니다.", response = ApplicationErrorResponse.class)
+
+    })
     public ApplicationResponse<String> checkLoginId(String loginId){
         return ApplicationResponse.ok(userService.checkLoginId(loginId));
     }
