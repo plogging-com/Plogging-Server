@@ -142,7 +142,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserHomeRes home() {
         User user = userRepository.findByLoginId(jwtService.getLoginId()).get();
-
+        this.growthPlus();
         //발자국 이야기 해봐야함.
         //플로깅 시간도.
         //고정 이미지들도 서버를 통해서 가져갈지?
@@ -151,7 +151,7 @@ public class UserServiceImpl implements UserService {
         return UserHomeRes.builder()
                 .today(ChronoUnit.DAYS.between(user.getSignUpDate(), LocalDateTime.now()))
                 .level(user.getLevel())
-                .gage(user.getGrowth())
+                .growth(user.getGrowth())
                 .nickName(user.getNickName())
                 .step(0)
                 .time(0)
@@ -159,4 +159,17 @@ public class UserServiceImpl implements UserService {
                 .todayQuest(null)
                 .build();
     }
+
+    @Override
+    @Transactional
+    public void growthPlus() {
+        User user = userRepository.findByLoginId(jwtService.getLoginId()).get();
+
+        if(user.getGrowth() >= 100){
+            user.levelUp(user.getLevel());
+        }else {
+            user.growthUp(user.getGrowth());
+        }
+    }
+
 }
