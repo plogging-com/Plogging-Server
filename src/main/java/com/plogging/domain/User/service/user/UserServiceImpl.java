@@ -152,6 +152,7 @@ public class UserServiceImpl implements UserService {
                 .today(ChronoUnit.DAYS.between(user.getSignUpDate(), LocalDateTime.now()))
                 .level(user.getLevel())
                 .gage(user.getGrowth())
+                .nickName(user.getNickName())
                 .step(0)
                 .time(0)
                 .QuestPhoto(null)
