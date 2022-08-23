@@ -16,7 +16,7 @@ public class UserHomeRes {
 
     private Long today;
     private int level;
-    private int gage;
+    private int growth;
     private String nickName;
     private int step;
     private int time;
