@@ -112,5 +112,13 @@ public class User {
     public void addQuestDiary(UserQuestDiary userQuestDiary) {
         this.userQuestDiaries.add(userQuestDiary);
     }
+
+    public void levelUp(int level) {
+        this.level = level + 1;
+    }
+
+    public void growthUp(int growth) {
+        this.growth = growth +5;
+    }
 }
 
