@@ -4,26 +4,23 @@ import com.plogging.domain.Board.dto.board.request.createBoardReq;
 import com.plogging.domain.Board.dto.board.response.BoardListRes;
 import com.plogging.domain.Board.dto.board.response.BoardRes;
 import com.plogging.domain.Board.entity.Board;
-import com.plogging.domain.Board.entity.Inquiry;
-import com.plogging.domain.Board.entity.Photo;
 import com.plogging.domain.Board.exception.Board.NotFoundBoardException;
 import com.plogging.domain.Board.exception.Board.OverMaxContentLength;
 import com.plogging.domain.Board.repository.BoardRepository;
-import com.plogging.domain.Board.repository.InquiryRepository;
 import com.plogging.domain.Board.repository.PhotoRepository;
 import com.plogging.domain.Board.service.inquiry.InquiryService;
+import com.plogging.domain.User.BadgeList;
 import com.plogging.domain.User.entity.User;
 import com.plogging.domain.User.exception.NotFoundUserException;
 import com.plogging.domain.User.repository.UserRepository;
+import com.plogging.domain.User.service.userBadge.UserBadgeService;
 import com.plogging.global.dto.ApplicationResponse;
 import com.plogging.global.utill.imgae.AwsS3Service;
-import io.swagger.models.auth.In;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -36,6 +33,8 @@ public class BoardServiceImpl implements BoardService{
     private final InquiryService inquiryService;
     private final AwsS3Service awsS3Service;
 
+    private final UserBadgeService userBadgeService;
+
     @Transactional
     @Override
     public ApplicationResponse<BoardRes> createBoard(createBoardReq createBoardReq) {
@@ -43,6 +42,10 @@ public class BoardServiceImpl implements BoardService{
         if(createBoardReq.getContent().length() > 700) throw new OverMaxContentLength();
 
         User user = userRepository.findById(createBoardReq.getUserId()).orElseThrow(() -> new NotFoundUserException());
+
+        boolean isFirstBoard = boardRepository.findByUser(user).get().isEmpty();
+        if(isFirstBoard) userBadgeService.giveBadgeToUser(BadgeList.NewBiePhotoGrapher, user);
+
         Board board = boardRepository.save(createBoardReq.toEntityBoard(user));
 
 //        for(MultipartFile i : createBoardReq.getPhotos()) {
@@ -50,9 +53,9 @@ public class BoardServiceImpl implements BoardService{
 //            photoRepository.save(new Photo(board,photoURL));
 //        }
 
-        BoardRes boardRes = BoardRes.create(board);
+        BoardRes boardRes = BoardRes.create(board , isFirstBoard);
         return ApplicationResponse.create("created", boardRes);
-    }
+}
 
     @Override
     public ApplicationResponse<Page<BoardListRes>> getBoardList(Pageable pageable) {
@@ -66,10 +69,10 @@ public class BoardServiceImpl implements BoardService{
         Board board = boardRepository.findById(boardId).get();
 
         // 조회 엔티티(inquiry) 생성
-        inquiryService.createInquiry(boardId);
+            inquiryService.createInquiry(boardId);
 
-        return ApplicationResponse.ok(BoardRes.create(board));
-    }
+        return ApplicationResponse.ok(BoardRes.create(board , true));
+}
 
     @Transactional
     @Override

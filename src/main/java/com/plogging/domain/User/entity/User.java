@@ -122,5 +122,9 @@ public class User {
         }
     }
 
+
+    public void addBadge(UserBadge userBadge) {
+        this.userBadges.add(userBadge);
+    }
 }
 
