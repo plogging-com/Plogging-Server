@@ -1,8 +1,7 @@
 package com.plogging.domain.Quest.service.questProceeding;
 
-import com.plogging.domain.Quest.dto.quest.response.QuestRes;
 import com.plogging.domain.Quest.dto.userQuestProceeding.request.CreateQuestProceedingReq;
-import com.plogging.domain.Quest.dto.userQuestProceeding.response.QuestProceedingRes;
+import com.plogging.domain.Quest.dto.userQuestProceeding.response.QuestProceedingDetailRes;
 import com.plogging.domain.Quest.entity.Quest;
 import com.plogging.domain.Quest.entity.UserQuestProceeding;
 import com.plogging.domain.Quest.exception.QuestProceedingIdNotFoundException;
@@ -18,9 +17,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -32,22 +29,22 @@ public class QuestProceedingServiceImpl implements QuestProceedingService{
 
     @Transactional
     @Override /* to server */
-    public void initAllQuest(CreateQuestProceedingReq createQuestReq) {//TODO
+    public void initAllQuest(CreateQuestProceedingReq createQuestReq) {
         List<Quest> quests = questService.findAllOG();//모든 Quest들을 가져온다.
         quests.forEach((q) -> questProceedingRepository.save(createQuestReq.toEntityWith(q)));
     }
 
     @Override
-    public ApplicationResponse<QuestProceedingRes> findById(Long id){
+    public ApplicationResponse<QuestProceedingDetailRes> findById(Long id){
         UserQuestProceeding userQuestProceeding =
                 questProceedingRepository.findById(id).orElseThrow(() -> new QuestProceedingIdNotFoundException(id));
-        return ApplicationResponse.ok(QuestProceedingRes.create(userQuestProceeding));
+        return ApplicationResponse.ok(QuestProceedingDetailRes.create(userQuestProceeding));
     }
 
     @Override
-    public ApplicationResponse<Page<QuestProceedingRes>> findAll(Pageable pageable, Long userIdx){
+    public ApplicationResponse<Page<QuestProceedingDetailRes>> findAll(Pageable pageable, Long userIdx){
         User user = userRepository.findById(userIdx).orElseThrow(NotFoundUserException::new);
-        return ApplicationResponse.ok(questProceedingRepository.findAllByUser(pageable, user).map(QuestProceedingRes::create));
+        return ApplicationResponse.ok(questProceedingRepository.findAllByUser(pageable, user).map(QuestProceedingDetailRes::create));
     }
 
     @Transactional
