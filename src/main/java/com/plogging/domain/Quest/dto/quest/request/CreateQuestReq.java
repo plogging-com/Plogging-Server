@@ -19,7 +19,12 @@ public class CreateQuestReq{
     @NotNull
     private MultipartFile photo;
 
+    @NotNull
+    private int maxLevel;
+
+
+
     public Quest toEntityWithPhoto(String photo){
-        return new Quest(this.name, photo);
+        return new Quest(this.name, this.maxLevel, photo);
     }
 }

@@ -10,7 +10,6 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 import static com.plogging.domain.Quest.VALUE.MAX_GAGE;
-import static com.plogging.domain.Quest.VALUE.MAX_LEVEL;
 
 @Entity
 @Getter
@@ -21,7 +20,7 @@ public class UserQuestProceeding {
     @Column(name="userQuestProceedingIdx")
     private Long id;
 
-    private int level;
+    private Integer level;
     private int gage;
     private LocalDateTime startTime;
 
@@ -83,8 +82,8 @@ public class UserQuestProceeding {
         }
     }
 
-    public boolean isOverMaxLevel() {
-        return this.level > MAX_LEVEL;
+    public boolean isOverMaxLevel(Integer maxLevel) {
+        return this.level > maxLevel;
     }
 
     public boolean isMaxGage() {
