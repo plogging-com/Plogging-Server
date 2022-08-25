@@ -113,12 +113,13 @@ public class User {
         this.userQuestDiaries.add(userQuestDiary);
     }
 
-    public void levelUp(int level) {
-        this.level = level + 1;
+    public void levelUp() {
+        if(this.growth >= 100){
+            this.level += 1;
+        }else {
+            this.growth += 5;
+        }
     }
 
-    public void growthUp(int growth) {
-        this.growth = growth +5;
-    }
 }
 
