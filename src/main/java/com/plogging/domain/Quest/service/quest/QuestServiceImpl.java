@@ -48,7 +48,8 @@ public class QuestServiceImpl implements QuestService{
     @Override
     public ApplicationResponse<QuestRes> findById(Long id){
         return ApplicationResponse.ok(
-                QuestRes.create(questRepository.findById(id).orElseThrow(() -> new QuestIdNotFoundException(id))));
+                QuestRes.create(questRepository.findById(id).orElseThrow(() -> new QuestIdNotFoundException(id)))
+        );
     }
 
     @Override
