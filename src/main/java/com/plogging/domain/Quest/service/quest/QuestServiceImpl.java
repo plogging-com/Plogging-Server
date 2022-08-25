@@ -12,6 +12,7 @@ import com.plogging.domain.Quest.repository.QuestCompleteRepository;
 import com.plogging.domain.Quest.repository.QuestProceedingRepository;
 import com.plogging.domain.Quest.repository.QuestRepository;
 import com.plogging.domain.User.entity.User;
+import com.plogging.domain.User.service.user.UserService;
 import com.plogging.global.dto.ApplicationResponse;
 import com.plogging.global.utill.imgae.AwsS3Service;
 import lombok.RequiredArgsConstructor;
@@ -30,11 +31,12 @@ public class QuestServiceImpl implements QuestService{
     private final QuestRepository questRepository;
     private final QuestProceedingRepository questProceedingRepository;
     private final QuestCompleteRepository questCompleteRepository;
+//    private final UserService userService;
     private final AwsS3Service awsS3Service;
 
     @Transactional
     @Override
-    public ApplicationResponse<QuestRes> create(CreateQuestReq createQuestReq) {
+    public ApplicationResponse<QuestRes> create(CreateQuestReq createQuestReq){
         String filename = awsS3Service.uploadImage(createQuestReq.getPhoto());
         Quest quest = questRepository.save(createQuestReq.toEntityWithPhoto(AwsS3Service.makeUrlOfFilename(filename)));
         return ApplicationResponse.create("created", QuestRes.create(quest));
@@ -84,6 +86,8 @@ public class QuestServiceImpl implements QuestService{
                 UserQuestComplete.builder().user(user).quest(quest).level(userQuestProceeding.getLevel()).build());
         // 해당 quest의 level을 증가시킴
         userQuestProceeding.levelUp();
+        // quest가 완료되면 user의 growth를 up시킨다. //TODO
+//        userService.growthPlus();
         // 해당 Quest가 maxLevel을 달성했다면 진행중인 Quest에서 삭제시킨다(해당 Quest는 끝까지 달성된 것이므로)
         if(userQuestProceeding.isOverMaxLevel()) questProceedingRepository.deleteById(userQuestProceeding.getId());
         // 완료 응답
