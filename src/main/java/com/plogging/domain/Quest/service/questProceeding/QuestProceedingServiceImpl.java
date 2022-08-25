@@ -1,8 +1,7 @@
 package com.plogging.domain.Quest.service.questProceeding;
 
-import com.plogging.domain.Quest.dto.quest.response.QuestRes;
 import com.plogging.domain.Quest.dto.userQuestProceeding.request.CreateQuestProceedingReq;
-import com.plogging.domain.Quest.dto.userQuestProceeding.response.QuestProceedingRes;
+import com.plogging.domain.Quest.dto.userQuestProceeding.response.QuestProceedingDetailRes;
 import com.plogging.domain.Quest.entity.Quest;
 import com.plogging.domain.Quest.entity.UserQuestProceeding;
 import com.plogging.domain.Quest.exception.QuestProceedingIdNotFoundException;
@@ -19,7 +18,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -37,16 +35,16 @@ public class QuestProceedingServiceImpl implements QuestProceedingService{
     }
 
     @Override
-    public ApplicationResponse<QuestProceedingRes> findById(Long id){
+    public ApplicationResponse<QuestProceedingDetailRes> findById(Long id){
         UserQuestProceeding userQuestProceeding =
                 questProceedingRepository.findById(id).orElseThrow(() -> new QuestProceedingIdNotFoundException(id));
-        return ApplicationResponse.ok(QuestProceedingRes.create(userQuestProceeding));
+        return ApplicationResponse.ok(QuestProceedingDetailRes.create(userQuestProceeding));
     }
 
     @Override
-    public ApplicationResponse<Page<QuestProceedingRes>> findAll(Pageable pageable, Long userIdx){
+    public ApplicationResponse<Page<QuestProceedingDetailRes>> findAll(Pageable pageable, Long userIdx){
         User user = userRepository.findById(userIdx).orElseThrow(NotFoundUserException::new);
-        return ApplicationResponse.ok(questProceedingRepository.findAllByUser(pageable, user).map(QuestProceedingRes::create));
+        return ApplicationResponse.ok(questProceedingRepository.findAllByUser(pageable, user).map(QuestProceedingDetailRes::create));
     }
 
     @Transactional

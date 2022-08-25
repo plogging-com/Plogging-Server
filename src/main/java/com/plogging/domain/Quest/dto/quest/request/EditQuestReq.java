@@ -12,4 +12,5 @@ import org.springframework.web.multipart.MultipartFile;
 public class EditQuestReq {
     private String name;
     private MultipartFile photo;
+    private Integer maxLevel;
 }
