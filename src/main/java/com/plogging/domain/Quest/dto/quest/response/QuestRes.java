@@ -9,14 +9,16 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class QuestRes {
+public class QuestRes{
 
     private String name;
+    private int maxLevel;
     private String photo;
 
-    public static QuestRes create(Quest quest) {
+    public static QuestRes create(Quest quest){
         QuestRes questRes = new QuestRes();
         questRes.name = quest.getName();
+        questRes.maxLevel = quest.getMaxLevel();
         questRes.photo = AwsS3Service.makeUrlOfFilename(quest.getPhoto());
         return questRes;
     }

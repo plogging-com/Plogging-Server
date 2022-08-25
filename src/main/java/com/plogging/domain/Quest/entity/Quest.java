@@ -25,6 +25,7 @@ public class Quest {
     private Long id;
     private String name;
     private String photo;
+    private Integer maxLevel;
 
     @OneToMany(mappedBy="quest", cascade=ALL)
     private List<UserQuestDiary> userQuestDiaries = new ArrayList<>();
@@ -35,13 +36,15 @@ public class Quest {
     @OneToMany(mappedBy="quest", cascade=ALL)
     private List<UserQuestComplete> userQuestCompletes = new ArrayList<>();
 
-    public Quest(String name, String photo) {
+    public Quest(String name, int maxLevel, String photo) {
         this.name = name;
+        this.maxLevel = maxLevel;
         this.photo = photo;
     }
 
-    public void edit(String name, String photoURL) {
+    public void edit(String name, Integer maxLevel, String photoURL){
         if(name != null && !name.isEmpty()) this.name = name;
+        if(maxLevel != null) this.maxLevel = maxLevel;
         if(photoURL != null && !photoURL.isEmpty()) this.photo = photoURL;
     }
 
