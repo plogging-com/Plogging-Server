@@ -15,7 +15,6 @@ import static com.plogging.domain.Quest.VALUE.MAX_LEVEL;
 @Entity
 @Getter
 @NoArgsConstructor
-@Builder
 public class UserQuestProceeding {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -27,20 +26,30 @@ public class UserQuestProceeding {
     private LocalDateTime startTime;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="userIdx")
+    @JoinColumn(name="user_idx")
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="questIdx")
     private Quest quest;
 
-    @Builder
-    public UserQuestProceeding(Long id, int level, int gage, LocalDateTime startTime, User user, Quest quest) {
-        this.level = level;
-        this.gage = gage;
-        this.startTime = startTime;
-        this.addUser(user);
-        this.addQuest(quest);
+//    @Builder
+//    public UserQuestProceeding(int level, int gage, LocalDateTime startTime, User user, Quest quest) {
+//        this.level = level;
+//        this.gage = gage;
+//        this.startTime = startTime;
+//        this.addUser(user);
+//        this.addQuest(quest);
+//    }
+
+    public static UserQuestProceeding create(int level, int gage, User user, Quest quest) {
+        UserQuestProceeding userQuestProceeding = new UserQuestProceeding();
+        userQuestProceeding.level = level;
+        userQuestProceeding.gage = gage;
+        userQuestProceeding.startTime = LocalDateTime.now();
+        userQuestProceeding.addUser(user);
+        userQuestProceeding.addQuest(quest);
+        return userQuestProceeding;
     }
 
     @Builder

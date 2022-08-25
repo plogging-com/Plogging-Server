@@ -86,6 +86,7 @@ public class User {
 
 
     public void addProceedingQuest(UserQuestProceeding userQuestProceeding) {
+        if(this.getUserQuestProceedings() == null) this.userQuestProceedings = new ArrayList<>();
         this.userQuestProceedings.add(userQuestProceeding);
     }
 
