@@ -25,6 +25,7 @@ public class QuestProceedingRes {
         QuestProceedingRes questProceedingRes = new QuestProceedingRes();
         questProceedingRes.questRes = new QuestRes(
                 userQuestProceeding.getQuest().getName(),
+                userQuestProceeding.getLevel(),
                 userQuestProceeding.getQuest().getPhoto());
         questProceedingRes.level = userQuestProceeding.getLevel();
         questProceedingRes.gage = userQuestProceeding.getGage();

@@ -37,8 +37,8 @@ public class QuestProceedingController {
     }
 
     @ApiOperation(value = "진행중인 quest 한 개 gage 상승시키기", notes = "quest 한 개 gage 상승.")
-    @PutMapping("/{quest_procedding_id}/gageup")
-    public ApplicationResponse<Void> gageUp(@PathVariable Long quest_procedding_id, int value) {
+    @PutMapping("/{quest_procedding_id}/gageup/{value}")
+    public ApplicationResponse<Void> gageUp(@PathVariable Long quest_procedding_id, @PathVariable Integer value) {
         return questProceedingService.gageUp(quest_procedding_id, value);
     }
 }
