@@ -19,7 +19,9 @@ public class BoardRes {
     private int heartCnt;
     private int commentCnt;
 
-    public static BoardRes create(Board board) {
+    private boolean isFirstBoard;
+
+    public static BoardRes create(Board board , boolean isFirstBoard) {
         BoardRes boardRes = new BoardRes();
         boardRes.title = board.getTitle();
         boardRes.content = board.getContent();
@@ -27,7 +29,7 @@ public class BoardRes {
         boardRes.status = board.getStatus();
         boardRes.heartCnt = board.getHeartCnt();
         boardRes.commentCnt = board.getCommentCnt();
-
+        boardRes.isFirstBoard = isFirstBoard;
         return boardRes;
     }
 }
