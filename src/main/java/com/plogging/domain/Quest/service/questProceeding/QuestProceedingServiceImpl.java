@@ -18,6 +18,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,7 +32,7 @@ public class QuestProceedingServiceImpl implements QuestProceedingService{
 
     @Transactional
     @Override /* to server */
-    public void initAllQuest(CreateQuestProceedingReq createQuestReq) {
+    public void initAllQuest(CreateQuestProceedingReq createQuestReq) {//TODO
         List<Quest> quests = questService.findAllOG();//모든 Quest들을 가져온다.
         quests.forEach((q) -> questProceedingRepository.save(createQuestReq.toEntityWith(q)));
     }

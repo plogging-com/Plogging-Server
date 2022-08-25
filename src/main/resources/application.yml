@@ -16,8 +16,8 @@ spring:
 
     properties:
       hibernate:
-        show_sql: false
-        format_sql: false
+        show_sql: true
+        format_sql: true
     database-platform: org.hibernate.dialect.MySQL8Dialect
     defer-datasource-initialization: true
 
