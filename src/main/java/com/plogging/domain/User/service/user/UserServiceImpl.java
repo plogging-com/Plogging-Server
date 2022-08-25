@@ -172,4 +172,25 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    @Override
+    public UserInfoRes info() {
+        User user = userRepository.findByLoginId(jwtService.getLoginId()).get();
+        String grade;
+        if (user.getLevel() < 10) {
+            grade = "프린이";
+        }else if (user.getLevel() < 20){
+            grade = "프린이2";
+        }else if (user.getLevel()<30){
+            grade="프린이3";
+        }else{
+            grade="프린이4";
+        }
+        return UserInfoRes.builder()
+                .nickname(user.getNickName())
+                .grade(grade)
+                .level(user.getLevel())
+                .step(null)
+                .build();
+    }
+
 }
