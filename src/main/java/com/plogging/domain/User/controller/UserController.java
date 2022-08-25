@@ -123,10 +123,20 @@ public class UserController {
     @ApiResponses(value = {
             @ApiResponse(code = 404, message = "토큰 미입력 경우: 토큰을 찾을수 없습니다.", response = ApiErrorResponse.class),
             @ApiResponse(code = 404, message = "토큰 만료 경우: 토큰이 만료 되었습니다.", response = ApiErrorResponse.class)
-
     })
     public ApplicationResponse<UserHomeRes> home(){
         return ApplicationResponse.ok(userService.home());
+    }
+
+
+    @GetMapping("/info")
+    @ApiOperation(value = "사용자 정보 화면", notes = "사용자의 정보를 조회합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(code = 404, message = "토큰 미입력 경우: 토큰을 찾을수 없습니다.", response = ApiErrorResponse.class),
+            @ApiResponse(code = 404, message = "토큰 만료 경우: 토큰이 만료 되었습니다.", response = ApiErrorResponse.class)
+    })
+    public ApplicationResponse<UserInfoRes> info(){
+        return ApplicationResponse.ok(userService.info());
     }
 
 }

@@ -26,4 +26,6 @@ public interface UserService {
     UserHomeRes home();
 
     void growthPlus();
+
+    UserInfoRes info();
 }
