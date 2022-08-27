@@ -77,10 +77,10 @@ public class User {
     private UserRefreshToken userRefreshToken;
 
 
-    public void updateUser(UserUpdateReq userUpdateReq) {
+    public void updateUser(UserUpdateReq userUpdateReq , String photoUrl) {
 
         this.nickName = userUpdateReq.getNickname();
-        this.photo = userUpdateReq.getPhoto();
+        this.photo = photoUrl;
 
     }
 
