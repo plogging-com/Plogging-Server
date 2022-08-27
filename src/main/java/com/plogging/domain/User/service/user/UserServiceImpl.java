@@ -130,9 +130,13 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public ApplicationResponse<Void> update(UserUpdateReq userUpdateReq) {
 
-        User user = userRepository.findById(userUpdateReq.getUserIdx()).orElseThrow(NotFoundUserException::new);
+        User user = userRepository.findByLoginId(jwtService.getLoginId()).orElseThrow(NotFoundUserException::new);
 
-        user.updateUser(userUpdateReq);
+        String photoUrl ="";
+
+        if(userUpdateReq.getPhoto() != null) photoUrl = awsS3Service.uploadImage(userUpdateReq.getPhoto());
+
+        user.updateUser(userUpdateReq , photoUrl);
 
         return ApplicationResponse.ok();
 
