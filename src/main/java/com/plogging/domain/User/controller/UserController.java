@@ -84,7 +84,7 @@ public class UserController {
 
     @ApiOperation(value = "사용자 정보 수정하기" , notes = "사용자의 정보를 수정합니다.")
     @PostMapping("/update")
-    public ApplicationResponse<Void> updateUser(@Valid @RequestBody UserUpdateReq userUpdateReq){
+    public ApplicationResponse<Void> updateUser(@Valid UserUpdateReq userUpdateReq){
         return userService.update(userUpdateReq);
     }
 
