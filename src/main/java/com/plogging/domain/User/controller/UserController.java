@@ -34,7 +34,7 @@ public class UserController {
             @ApiResponse(code = 400, message = "(V0001) \n 로그인 Id는 6~18글자의 영소문자, 숫자만 가능합니다. \n 비밀번호는 특수문자를 포함한 8~20글자의 영대/소문자, 숫자만 가능합니다. \n 닉네임은 2~5글자의 영소문자, 숫자, 한글만 가능합니다.", response = ApiErrorResponse.class)
 
     })
-    public ApplicationResponse<UserJoinRes> join(@Valid UserJoinReq userJoinReq){
+    public ApplicationResponse<UserJoinRes> join(@Valid @RequestBody UserJoinReq userJoinReq){
         return ApplicationResponse.create(
                 "가입완료",
                 userService.join(userJoinReq)
