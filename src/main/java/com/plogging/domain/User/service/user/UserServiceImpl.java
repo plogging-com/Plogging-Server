@@ -56,7 +56,12 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public ApplicationResponse<Void> delete(UserDeleteReq userDeleteReq) {
 
-        User user = userRepository.findById(userDeleteReq.getUserIdx()).orElseThrow(NotFoundUserException::new);
+//        User user = userRepository.findById(userDeleteReq.getUserIdx()).orElseThrow(NotFoundUserException::new);
+
+
+        User user = userRepository.findByLoginId(jwtService.getLoginId()).orElseThrow(NotFoundUserException::new);
+        if(!user.getPassword().equals(SHA256Util.encrypt(userDeleteReq.getPassword()))) throw new UserPasswordWrongException();
+
         user.changeUserDelete();
         return ApplicationResponse.ok();
 
