@@ -78,7 +78,6 @@ public class User {
 
 
     public void updateUser(UserUpdateReq userUpdateReq , String photoUrl) {
-
         this.nickName = userUpdateReq.getNickname();
         this.photo = photoUrl;
 
