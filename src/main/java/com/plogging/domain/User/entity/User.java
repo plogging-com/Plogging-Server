@@ -91,7 +91,7 @@ public class User {
     }
 
     public void changeUserDelete(){
-        this.status = PresenceStatus.valueOf("DELETE");
+        this.status = PresenceStatus.DELETE;
     }
 
     public void setUserRefreshToken(UserRefreshToken userRefreshToken){
