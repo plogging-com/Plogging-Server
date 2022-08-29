@@ -26,7 +26,7 @@ public class BoardController {
      * @author 강신현
      */
     @ApiOperation(value = "게시글 등록", notes = "")
-    @PostMapping("")
+    @PostMapping("/")
     public ApplicationResponse<BoardRes> boardCreate(@ModelAttribute createBoardReq createBoardReq){
         return boardService.createBoard(createBoardReq);
     }

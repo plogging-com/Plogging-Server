@@ -90,4 +90,8 @@ public class Board {
     public void addInquiry(Inquiry inquiry) {
         this.inquiry.add(inquiry);
     }
+
+    public void addPhoto(Photo photo){
+        this.photos.add(photo);
+    }
 }
