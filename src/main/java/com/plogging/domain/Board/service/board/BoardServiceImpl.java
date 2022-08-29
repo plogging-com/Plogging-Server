@@ -64,7 +64,9 @@ public class BoardServiceImpl implements BoardService{
             photoRepository.save(photo);
         }
 
-        BoardRes boardRes = BoardRes.create(board , isFirstBoard);
+        List<Photo> photos = photoRepository.findAllByBoardId(board.getId());
+        if(photos != null) board.addMainPhotoUrl(photos.get(0).getUrl());
+        BoardRes boardRes = BoardRes.create(board , isFirstBoard, photos);
         return ApplicationResponse.create("created", boardRes);
 }
 
@@ -80,9 +82,10 @@ public class BoardServiceImpl implements BoardService{
         Board board = boardRepository.findById(boardId).get();
 
         // 조회 엔티티(inquiry) 생성
-            inquiryService.createInquiry(boardId);
+        inquiryService.createInquiry(boardId);
 
-        return ApplicationResponse.ok(BoardRes.create(board , true));
+        List<Photo> photos = photoRepository.findAllByBoardId(board.getId());
+        return ApplicationResponse.ok(BoardRes.create(board , true, photos));
 }
 
     @Transactional
