@@ -1,17 +1,13 @@
 package com.plogging.domain.Board.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Entity
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-@Builder
 public class Photo {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -22,10 +18,13 @@ public class Photo {
     @JoinColumn(name="boardIdx")
     private Board board;
 
-    private String name;
+    private String url;
 
-    public Photo(Board board, String name) {
+    @Builder
+    public Photo(Board board, String url) {
+        this.url = url;
+
         this.board = board;
-        this.name = name;
+        board.addPhoto(this);
     }
 }

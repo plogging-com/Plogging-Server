@@ -1,11 +1,14 @@
 package com.plogging.domain.Board.dto.board.response;
 
 import com.plogging.domain.Board.entity.Board;
+import com.plogging.domain.Board.entity.Photo;
+import com.plogging.domain.Board.repository.PhotoRepository;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -17,7 +20,7 @@ public class BoardListRes {
     private String title;
     private String content;
     private LocalDateTime time;
-    private String photo;
+    private String boardPhoto;
 
     private int heartCnt;
     private int commentCnt;
@@ -34,6 +37,8 @@ public class BoardListRes {
 
         boardListRes.heartCnt = board.getHeartCnt();
         boardListRes.commentCnt = board.getCommentCnt();
+
+        boardListRes.boardPhoto = board.getMainPhotoUrl();
 
         return boardListRes;
     }
