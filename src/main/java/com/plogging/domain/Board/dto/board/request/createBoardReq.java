@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -18,6 +19,7 @@ public class createBoardReq {
     private String title;
     private String content;
     private List<MultipartFile> photos;
+    //private MultipartFile photos;
     private Long userId;
 
     public Board toEntityBoard(User user) {
