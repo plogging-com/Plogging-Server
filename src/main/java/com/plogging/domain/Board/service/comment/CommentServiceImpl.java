@@ -16,7 +16,6 @@ import com.plogging.domain.User.exception.NotFoundUserException;
 import com.plogging.domain.User.repository.UserRepository;
 import com.plogging.global.dto.ApplicationResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
@@ -25,7 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 @Service
-public class CommentSerciceImpl implements CommentSercice{
+public class CommentServiceImpl implements CommentService {
 
     private final CommentRepository commentRepository;
     private final UserRepository userRepository;
@@ -42,6 +41,7 @@ public class CommentSerciceImpl implements CommentSercice{
 
         User user = userRepository.findById(createCommentReq.getUserId()).orElseThrow(() -> new NotFoundUserException());
         Board board = boardRepository.findById(createCommentReq.getBoardId()).orElseThrow(() -> new NotFoundBoardException());
+        board.plusCommentCnt();
 
         // 댓글일 경우 groupNum : null, 대댓글일 경우 gropNum : 댓글 id
         Comment comment = commentRepository.save(createCommentReq.toEntityComment(user, board, createCommentReq.getGroupNum()));
