@@ -3,6 +3,7 @@ package com.plogging.domain.Board.service.Category;
 import com.plogging.domain.Board.entity.Category;
 import com.plogging.domain.Board.entity.CategoryName;
 import com.plogging.domain.Board.repository.CategoryRepository;
+import com.plogging.global.dto.ApplicationResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,11 +17,12 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Transactional
     @Override
-    public void createCategory(CategoryName categoryName){
+    public ApplicationResponse<Void> createCategory(CategoryName categoryName){
         Category category = Category.builder()
                 .categoryName(categoryName)
                 .build();
 
         categoryRepository.save(category);
+        return null;
     }
 }

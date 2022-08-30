@@ -10,6 +10,7 @@ import com.plogging.domain.Board.exception.Board.NotFoundBoardException;
 import com.plogging.domain.Board.exception.Board.OverMaxContentLength;
 import com.plogging.domain.Board.repository.BoardRepository;
 import com.plogging.domain.Board.repository.PhotoRepository;
+import com.plogging.domain.Board.service.Category.CategoryService;
 import com.plogging.domain.Board.service.inquiry.InquiryService;
 import com.plogging.domain.User.BadgeList;
 import com.plogging.domain.Board.entity.BoardCategory;
@@ -27,13 +28,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Arrays;
 import java.util.List;
-
 import java.util.ArrayList;
-import java.util.List;
 
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -44,6 +41,7 @@ public class BoardServiceImpl implements BoardService{
     private final UserRepository userRepository;
     private final PhotoRepository photoRepository;
     private final InquiryService inquiryService;
+    private final CategoryService categoryService;
     private final AwsS3Service awsS3Service;
 
     private final UserBadgeService userBadgeService;
@@ -58,15 +56,13 @@ public class BoardServiceImpl implements BoardService{
         // 카테고리 하나도 없을 경우 에러 (최소 1개 ~ 최대 3개)
         if(createBoardReq.getCategoryName1() == null) throw new NotEnoughCategory();
 
-        String imageURL = "~~"; // s3Service.makeImage(questReq.getPhoto());
         User user = userRepository.findById(createBoardReq.getUserId()).orElseThrow(() -> new NotFoundUserException());
+        Board board = boardRepository.save(createBoardReq.toEntityBoard(user));
 
         boolean isFirstBoard = boardRepository.findByUser(user).get().isEmpty();
         if(isFirstBoard) userBadgeService.giveBadgeToUser(BadgeList.NewBiePhotoGrapher, user);
 
-        Board board = boardRepository.save(createBoardReq.toEntityBoard(user));
-
-        // photo 여러개
+        // photo 생성
         List<String> filenames = awsS3Service.uploadImages(createBoardReq.getPhotos());
         for(String i : filenames){
             Photo photo = Photo.builder()
@@ -79,8 +75,10 @@ public class BoardServiceImpl implements BoardService{
 
         List<Photo> photos = photoRepository.findAllByBoardId(board.getId());
         if(photos != null) board.addMainPhotoUrl(photos.get(0).getUrl());
+
         BoardRes boardRes = BoardRes.create(board , isFirstBoard, photos);
 
+        // 카테고리 연관관계 및 생성
         BoardCategory boardCategory1 = BoardCategory.builder()
                     .board(board)
                     .category(categoryRepository.findByName(createBoardReq.getCategoryName1()).get())
@@ -89,7 +87,7 @@ public class BoardServiceImpl implements BoardService{
 
         boardRes.addCategory(createBoardReq.getCategoryName1());
 
-        if(createBoardReq.getCategoryName2() != null) {
+        if(createBoardReq.getCategoryName2() != null && categoryRepository.findByName(createBoardReq.getCategoryName2()).isPresent()) {
             BoardCategory boardCategory2 = BoardCategory.builder()
                     .board(board)
                     .category(categoryRepository.findByName(createBoardReq.getCategoryName2()).get())
@@ -99,7 +97,7 @@ public class BoardServiceImpl implements BoardService{
             boardRes.addCategory(createBoardReq.getCategoryName2());
         }
 
-        if(createBoardReq.getCategoryName3() != null) {
+        if(createBoardReq.getCategoryName3() != null && categoryRepository.findByName(createBoardReq.getCategoryName3()).isPresent()) {
             BoardCategory boardCategory3 = BoardCategory.builder()
                     .board(board)
                     .category(categoryRepository.findByName(createBoardReq.getCategoryName3()).get())

@@ -52,6 +52,10 @@ public class BoardController {
         return boardService.getBoard(boardId);
     }
 
+    /**
+     * 카테고리에 따른 전체 게시글 조회
+     * @author 강신현
+     */
     @ApiOperation(value = "카테고리에 따른 전체 게시글 조회")
     @GetMapping("/all/byCategory")
     public ApplicationResponse<Page<BoardAllRes>> getAllBoardsByCategory(Pageable pageable, getAllBoardsByCategoryReq getAllBoardsByCategoryReq){
