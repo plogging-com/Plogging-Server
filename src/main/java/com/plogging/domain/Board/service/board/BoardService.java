@@ -19,4 +19,6 @@ public interface BoardService {
     ApplicationResponse<Page<BoardAllRes>> getAllBoardsBy3Category(Pageable pageable, getAllBoardsByCategoryReq getAllBoardsByCategoryReq);
 
     ApplicationResponse<Void> delBoard(Long id);
+
+    ApplicationResponse<BoardRes> getBoard(Long boardId);
 }

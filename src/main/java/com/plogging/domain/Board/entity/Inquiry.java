@@ -1,18 +1,14 @@
 package com.plogging.domain.Board.entity;
 
 import com.plogging.domain.User.entity.User;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Entity
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-@Builder
 public class Inquiry {
 
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
@@ -26,4 +22,22 @@ public class Inquiry {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="boardIdx")
     private Board board;
+
+    @Builder
+    public Inquiry(User user, Board board) {
+        this.addUser(user);
+        this.addBoard(board);
+    }
+
+    private void addBoard(Board board) {
+        this.board = board;
+        board.addInquiry(this);
+    }
+
+    private void addUser(User user) {
+        this.user = user;
+        user.addInquiry(this);
+    }
+
+
 }

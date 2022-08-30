@@ -1,19 +1,15 @@
 package com.plogging.domain.Board.entity;
 
 import com.plogging.domain.User.entity.User;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-@Builder
 public class Report {
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name="reportIdx")
@@ -29,5 +25,36 @@ public class Report {
 
     private String content;
     private LocalDateTime time;
-    private String status;
+
+    @Enumerated(EnumType.STRING)
+    private ReportStatus status;
+
+    @Builder
+    public Report(User user, Board board, String content, LocalDateTime time, ReportStatus status) {
+        this.addBoard(board);
+        this.addUser(user);
+
+        this.content = content;
+        this.time = time;
+        this.status = status;
+    }
+
+    private void addBoard(Board board){
+        this.board = board;
+        board.addReport(this);
+    }
+
+    private void addUser(User user){
+        this.user = user;
+        user.addReport(this);
+    }
+
+    public Report editStatus(ReportStatus status) {
+        this.status = status;
+        return this;
+    }
+
+    public void changeContent(String newContent) {
+        this.content = newContent;
+    }
 }

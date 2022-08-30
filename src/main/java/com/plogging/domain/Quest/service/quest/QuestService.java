@@ -38,4 +38,5 @@ public interface QuestService {
 
     List<Quest> findAllOG();
 
+    ApplicationResponse<QuestRes> findTodayQuest();
 }
