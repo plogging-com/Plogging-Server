@@ -126,15 +126,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public UserUpdateFormRes getUpdateForm(UserUpdateFormReq userUpdateFormReq) {
+    public UserUpdateFormRes getUpdateForm() {
 
-        return UserUpdateFormRes.create(userRepository.findById(userUpdateFormReq.getUserIdx()).orElseThrow(NotFoundUserException::new));
+        return UserUpdateFormRes.create(userRepository.findByLoginId(jwtService.getLoginId()).orElseThrow(NotFoundUserException::new));
     }
 
     @Override
     @Transactional
     public ApplicationResponse<Void> update(UserUpdateReq userUpdateReq) {
-
         User user = userRepository.findByLoginId(jwtService.getLoginId()).orElseThrow(NotFoundUserException::new);
 
         String photoUrl ="";
@@ -184,6 +183,7 @@ public class UserServiceImpl implements UserService {
                 .nickname(user.getNickName())
                 .grade(grade)
                 .level(user.getLevel())
+                .photo(user.getPhoto())
                 .step(0L)
                 .build();
     }

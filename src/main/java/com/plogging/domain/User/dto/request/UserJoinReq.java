@@ -51,7 +51,7 @@ public class UserJoinReq {
                 .signUpDate(LocalDateTime.now())
                 .growth(1)
                 .status(PresenceStatus.ACTIVE)
-                .level(1).build();
+                .level(1L).build();
     }
 
 
