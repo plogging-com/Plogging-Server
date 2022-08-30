@@ -31,18 +31,10 @@ public class InitDB {
 
             UserJoinReq userJoinReq2 = new UserJoinReq("plog456" , "plog456!!" , "01067823459" , "plogging_2" , null,"photo2");
 
+
             userService.join(userJoinReq1);
             userService.join(userJoinReq2);
 
-            categoryService.createCategory(CategoryName.비건);
-            categoryService.createCategory(CategoryName.식물);
-            categoryService.createCategory(CategoryName.제로웨이스트);
-            categoryService.createCategory(CategoryName.플렙업);
-            categoryService.createCategory(CategoryName.재활용);
-            categoryService.createCategory(CategoryName.홍보);
-            categoryService.createCategory(CategoryName.기타);
         }
     }
-
-
 }

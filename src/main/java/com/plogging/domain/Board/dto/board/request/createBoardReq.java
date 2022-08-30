@@ -20,13 +20,13 @@ public class createBoardReq {
 
     private String title;
     private String content;
-    //private MultipartFile photo;
+    private List<MultipartFile> photos;
     private Long userId;
     private CategoryName categoryName1;
     private CategoryName categoryName2;
     private CategoryName categoryName3;
 
-    public Board toEntityBoardWithPhoto(User user) {
+    public Board toEntityBoard(User user) {
         return new Board(user, this.title, this.content, LocalDateTime.now());
     }
 
