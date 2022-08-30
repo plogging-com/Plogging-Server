@@ -17,7 +17,7 @@ import javax.validation.constraints.NotNull;
 @ApiModel("회원탈퇴 요청을 위한 객체")
 public class UserDeleteReq {
 
-    @NotNull(message = "유저 idx를 입력해주세요.")
-    private Long userIdx;
+    @NotNull(message = "비밀번호를 입력해주세요.")
+    private String password;
 
 }

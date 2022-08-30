@@ -43,10 +43,13 @@ public class Board {
     @OneToMany(mappedBy="board", cascade=ALL)
     private List<BoardCategory> boardCategories = new ArrayList<>();
 
+    @OneToMany(mappedBy = "board", cascade=ALL)
+    private List<Photo> photos = new ArrayList<>();
+
     private String title;
     private String content;
     private LocalDateTime time;
-    // private String photo;
+    private String mainPhotoUrl;
 
     @Enumerated(EnumType.STRING)
     private PresenceStatus status;
@@ -59,7 +62,6 @@ public class Board {
         this.title = title;
         this.content = content;
         this.time = time;
-        // this.photo = photo;
         this.status = PresenceStatus.valueOf("ACTIVE");
         this.heartCnt = 0;
         this.commentCnt = 0;
@@ -67,6 +69,10 @@ public class Board {
 
     public void addHeart(Heart heart){
         this.hearts.add(heart);
+    }
+
+    public void addReport(Report report) {
+        this.reports.add(report);
     }
 
     public void addBoardCategory(BoardCategory boardCategory) {
@@ -85,4 +91,16 @@ public class Board {
         this.heartCnt++;
     }
 
+
+    public void addInquiry(Inquiry inquiry) {
+        this.inquiry.add(inquiry);
+    }
+
+    public void addPhoto(Photo photo){
+        this.photos.add(photo);
+    }
+
+    public void addMainPhotoUrl(String url){
+        this.mainPhotoUrl = url;
+    }
 }

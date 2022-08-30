@@ -5,6 +5,7 @@ import com.plogging.domain.Quest.entity.UserQuestComplete;
 import com.plogging.domain.Quest.entity.UserQuestDiary;
 import com.plogging.domain.Quest.entity.UserQuestProceeding;
 import com.plogging.domain.User.dto.request.UserJoinReq;
+import com.plogging.domain.User.dto.request.UserUpdateReq;
 import com.plogging.global.enumerations.PresenceStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -29,17 +30,15 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "user_idx")
     private Long id;
-
     private String loginId;
     private String password;
     private String nickName;
     private String phone;
     private String photo;
-    private String growth;
+    private int growth;
     private LocalDateTime signUpDate;
-    private int level;
+    private Long level;
 
-    private Long mainBadge; // badge_idx (pk)
 
     @Enumerated(EnumType.STRING)
     private PresenceStatus status;
@@ -77,25 +76,21 @@ public class User {
     @OneToOne(mappedBy = "user", cascade = ALL, fetch = FetchType.LAZY)
     private UserRefreshToken userRefreshToken;
 
-    public static User toEntity(UserJoinReq userJoinReq) {
-        return User.builder()
-                .loginId(userJoinReq.getId())
-                .password(userJoinReq.getPassword())
-                .nickName(userJoinReq.getNickname())
-                .phone(userJoinReq.getPhone())
-                .photo(userJoinReq.getPhoto())
-                .signUpDate(LocalDateTime.now())
-                .status(PresenceStatus.valueOf("ACTIVE"))
-                .level(1).build();
+
+    public void updateUser(UserUpdateReq userUpdateReq , String photoUrl) {
+        this.nickName = userUpdateReq.getNickname();
+        this.photo = photoUrl;
+
     }
 
 
     public void addProceedingQuest(UserQuestProceeding userQuestProceeding) {
+        if(this.getUserQuestProceedings() == null) this.userQuestProceedings = new ArrayList<>();
         this.userQuestProceedings.add(userQuestProceeding);
     }
 
     public void changeUserDelete(){
-        this.status = PresenceStatus.valueOf("DELETE");
+        this.status = PresenceStatus.DELETE;
     }
 
     public void setUserRefreshToken(UserRefreshToken userRefreshToken){
@@ -104,6 +99,31 @@ public class User {
 
     public void addHeart(Heart heart){
         this.hearts.add(heart);
+    }
+
+    public void addReport(Report report) {
+        this.reports.add(report);
+    }
+
+    public void addInquiry(Inquiry inquiry) {
+        this.inquiry.add(inquiry);
+    }
+
+    public void addQuestDiary(UserQuestDiary userQuestDiary) {
+        this.userQuestDiaries.add(userQuestDiary);
+    }
+
+    public void levelUp() {
+        if(this.growth >= 100){
+            this.level += 1;
+        }else {
+            this.growth += 5;
+        }
+    }
+
+
+    public void addBadge(UserBadge userBadge) {
+        this.userBadges.add(userBadge);
     }
 }
 

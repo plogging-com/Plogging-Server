@@ -53,7 +53,7 @@ public class SmsService {
         List<MessageDTO> messages = new ArrayList<>();
         messages.add(new MessageDTO(smsSendReq.getPhoneNum(), "플랩업 \n 인증번호: "+certification));
 
-        SmsNaverReq smsNaverRequest = new SmsNaverReq("SMS", this.phoneNum, (String)certification, messages);
+        SmsNaverReq smsNaverRequest = new SmsNaverReq("SMS", this.phoneNum, certification, messages);
 
 
         ObjectMapper objectMapper = new ObjectMapper();
@@ -70,8 +70,8 @@ public class SmsService {
 
         RestTemplate restTemplate = new RestTemplate();
         restTemplate.setRequestFactory(new HttpComponentsClientHttpRequestFactory());
-//        SmsSendRes smsSendResponse = restTemplate.postForObject(
-//                new URI("https://sens.apigw.ntruss.com/sms/v2/services/"+this.serviceId+"/messages"), body, SmsSendRes.class);
+        SmsSendRes smsSendResponse = restTemplate.postForObject(
+                new URI("https://sens.apigw.ntruss.com/sms/v2/services/"+this.serviceId+"/messages"), body, SmsSendRes.class);
 
         return certification;
     }

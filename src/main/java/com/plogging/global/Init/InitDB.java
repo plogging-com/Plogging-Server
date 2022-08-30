@@ -27,8 +27,9 @@ public class InitDB {
     public void initDB() throws IOException {
         if(ddlAutoConfig.equals("create")){
 
-            UserJoinReq userJoinReq1 = new UserJoinReq("plog123" , "plog123!!" , "01012345678" , "plogging_1" , "photo1");
-            UserJoinReq userJoinReq2 = new UserJoinReq("plog456" , "plog456!!" , "01067823459" , "plogging_2" , "photo2");
+            UserJoinReq userJoinReq1 = new UserJoinReq("plog123" , "plog123!!" , "01012345678" , "plogging_1" , null,"photo1");
+
+            UserJoinReq userJoinReq2 = new UserJoinReq("plog456" , "plog456!!" , "01067823459" , "plogging_2" , null,"photo2");
 
             userService.join(userJoinReq1);
             userService.join(userJoinReq2);

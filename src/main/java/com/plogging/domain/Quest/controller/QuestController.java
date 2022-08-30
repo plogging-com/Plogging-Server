@@ -3,7 +3,6 @@ package com.plogging.domain.Quest.controller;
 import com.plogging.domain.Quest.dto.quest.request.CreateQuestReq;
 import com.plogging.domain.Quest.dto.quest.request.EditQuestReq;
 import com.plogging.domain.Quest.dto.quest.response.QuestRes;
-import com.plogging.domain.Quest.dto.userQuestProceeding.response.QuestProceedingRes;
 import com.plogging.domain.Quest.service.quest.QuestService;
 import com.plogging.global.dto.ApplicationResponse;
 import io.swagger.annotations.Api;
@@ -11,7 +10,6 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,6 +27,7 @@ public class QuestController {
     public ApplicationResponse<QuestRes> create(@ModelAttribute CreateQuestReq createQuestReq) {
         return questService.create(createQuestReq);
     }
+
     @ApiOperation(value = "모든 quest 목록 조회", notes = "quest 전체 조회.")
     @GetMapping("/")
     public ApplicationResponse<Page<QuestRes>> findAll(Pageable pageable) {
@@ -43,7 +42,7 @@ public class QuestController {
 
     @ApiOperation(value = "quest 정보(photo, name) 수정", notes = "quest 정보 수정.")
     @PutMapping("/{quest_id}")
-    public ApplicationResponse<QuestRes> edit(@PathVariable Long quest_id, @ModelAttribute EditQuestReq editQuestReq) {
+    public ApplicationResponse<QuestRes> edit(@PathVariable Long quest_id, @ModelAttribute EditQuestReq editQuestReq){
         return questService.edit(quest_id, editQuestReq);
     }
 
@@ -51,5 +50,11 @@ public class QuestController {
     @DeleteMapping("/{quest_id}")
     public ApplicationResponse<Void> deleteById(@PathVariable Long quest_id) {
         return questService.deleteById(quest_id);
+    }
+
+    @ApiOperation(value = "오늘의 quest 조회", notes = "오늘의 quest 조회.")
+    @DeleteMapping("/today")
+    public ApplicationResponse<QuestRes> findTodayQuest() {
+        return questService.findTodayQuest();
     }
 }

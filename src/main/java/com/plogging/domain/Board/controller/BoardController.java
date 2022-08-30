@@ -5,6 +5,7 @@ import com.plogging.domain.Board.dto.board.request.getAllBoardsByCategoryReq;
 import com.plogging.domain.Board.dto.board.response.BoardAllRes;
 import com.plogging.domain.Board.dto.board.response.BoardRes;
 import com.plogging.domain.Board.service.board.BoardService;
+import com.plogging.domain.Board.service.board.BoardServiceImpl;
 import com.plogging.global.dto.ApplicationResponse;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -21,16 +22,34 @@ public class BoardController {
 
     private final BoardService boardService;
 
+    /**
+     * 게시글 등록
+     * @author 강신현
+     */
     @ApiOperation(value = "게시글 등록", notes = "카테고리는 최소 1개 이상이어야 합니다. categoryName1 부터 카테고리를 등록해 주세요.")
     @PostMapping("")
     public ApplicationResponse<BoardRes> boardCreate(@ModelAttribute createBoardReq createBoardReq){
         return boardService.createBoard(createBoardReq);
     }
 
+    /**
+     * 전체 게시글 조회
+     * @author 강신현
+     */
     @ApiOperation(value = "전체 게시글 조회")
     @GetMapping("/all")
     public ApplicationResponse<Page<BoardAllRes>> getAllBoards(Pageable pageable){
         return boardService.getAllBoards(pageable);
+    }
+
+    /**
+     * 게시글 하나 조회
+     * @author 강신현
+     */
+    @ApiOperation(value = "게시글 하나 조회", notes = "")
+    @GetMapping("{boardId}")
+    public ApplicationResponse<BoardRes> getBoardList(@PathVariable Long boardId){
+        return boardService.getBoard(boardId);
     }
 
     @ApiOperation(value = "카테고리에 따른 전체 게시글 조회")
@@ -55,7 +74,11 @@ public class BoardController {
 
     }
 
-    @ApiOperation(value = "게시글 삭제")
+    /**
+     * 게시글 삭제
+     * @author 강신현
+     */
+    @ApiOperation(value = "게시글 삭제", notes = "")
     @PatchMapping("/del")
     public ApplicationResponse<Void> delBoard(Long id){
         return boardService.delBoard(id);

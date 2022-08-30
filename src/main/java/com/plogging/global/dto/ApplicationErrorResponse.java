@@ -17,6 +17,7 @@ public class ApplicationErrorResponse<T> {
 
     private boolean success;
     private int httpCode;
+    private String errorCode;
     private LocalDateTime localDateTime;
     private HttpStatus httpStatus;
     private String message;
@@ -25,6 +26,7 @@ public class ApplicationErrorResponse<T> {
         return (ApplicationErrorResponse<T>) ApplicationErrorResponse.builder()
                 .success(false)
                 .httpCode(e.getHttpStatus().value())
+                .errorCode(e.getErrorCode())
                 .localDateTime(LocalDateTime.now())
                 .httpStatus(e.getHttpStatus())
                 .message(e.getMessage())

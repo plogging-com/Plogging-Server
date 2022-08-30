@@ -1,5 +1,6 @@
 package com.plogging.domain.User.entity;
 
+import com.plogging.domain.Board.entity.Board;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -26,6 +27,25 @@ public class UserBadge {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="badgeIdx")
     private Badge badge;
+
+    private void addBadge(Badge badge){
+        this.badge = badge;
+        badge.addBadge(this);
+    }
+
+    private void addUser(User user){
+        this.user = user;
+        user.addBadge(this);
+    }
+
+    public static UserBadge toEntity(Badge badge , User user){
+        UserBadge userBadge = UserBadge.builder().build();
+        userBadge.addUser(user);
+        userBadge.addBadge(badge);
+        return userBadge;
+    }
+
+
 
 
 
