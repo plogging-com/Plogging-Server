@@ -183,6 +183,7 @@ public class UserServiceImpl implements UserService {
                 .nickname(user.getNickName())
                 .grade(grade)
                 .level(user.getLevel())
+                .photo(user.getPhoto())
                 .step(0L)
                 .build();
     }

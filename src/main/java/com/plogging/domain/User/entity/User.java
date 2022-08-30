@@ -37,7 +37,7 @@ public class User {
     private String photo;
     private int growth;
     private LocalDateTime signUpDate;
-    private int level;
+    private Long level;
 
 
     @Enumerated(EnumType.STRING)
