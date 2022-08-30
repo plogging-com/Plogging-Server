@@ -26,4 +26,6 @@ public interface UserService {
     UserHomeRes home();
 
     UserInfoRes info();
+
+    void image(UserUpdateReq userUpdateReq);
 }

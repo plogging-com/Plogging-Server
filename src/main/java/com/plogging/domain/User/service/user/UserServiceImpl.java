@@ -188,4 +188,13 @@ public class UserServiceImpl implements UserService {
                 .build();
     }
 
+    @Override
+    public void image(UserUpdateReq userUpdateReq) {
+        String image = awsS3Service.uploadImage(userUpdateReq.getPhoto());
+        System.out.println("image = " + image);
+        String urlOfFilename = awsS3Service.makeUrlOfFilename(image);
+        System.out.println("urlOfFilename = " + urlOfFilename);
+
+    }
+
 }
