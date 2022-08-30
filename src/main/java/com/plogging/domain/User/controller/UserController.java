@@ -139,4 +139,8 @@ public class UserController {
         return ApplicationResponse.ok(userService.info());
     }
 
+    @PostMapping("/image")
+    public void image(UserUpdateReq userUpdateReq){
+        userService.image(userUpdateReq);
+    }
 }
