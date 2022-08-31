@@ -27,5 +27,4 @@ public interface UserService {
 
     UserInfoRes info();
 
-    void image(UserUpdateReq userUpdateReq);
 }
