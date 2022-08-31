@@ -33,16 +33,6 @@ public class BoardController {
     }
 
     /**
-     * 전체 게시글 조회
-     * @author 강신현
-     */
-    @ApiOperation(value = "전체 게시글 조회")
-    @GetMapping("/all")
-    public ApplicationResponse<Page<BoardAllRes>> getAllBoards(Pageable pageable){
-        return boardService.getAllBoards(pageable);
-    }
-
-    /**
      * 게시글 하나 조회
      * @author 강신현
      */
@@ -53,29 +43,13 @@ public class BoardController {
     }
 
     /**
-     * 카테고리에 따른 전체 게시글 조회
+     * 카테고리에 따른 전체 게시글 조회결
      * @author 강신현
      */
-    @ApiOperation(value = "카테고리에 따른 전체 게시글 조회")
+    @ApiOperation(value = "카테고리에 따른 게시글 조회", notes =  "카테고리를 입력하지 않으면 전체 게시글이 조회 됩니다.")
     @GetMapping("/all/byCategory")
-    public ApplicationResponse<Page<BoardAllRes>> getAllBoardsByCategory(Pageable pageable, getAllBoardsByCategoryReq getAllBoardsByCategoryReq){
-        if(getAllBoardsByCategoryReq.getCategoryName3()==null){
-            if(getAllBoardsByCategoryReq.getCategoryName2()==null){
-                if(getAllBoardsByCategoryReq.getCategoryName1()==null){
-                    return boardService.getAllBoards(pageable);
-                }
-                else{
-                    return boardService.getAllBoardsBy1Category(pageable, getAllBoardsByCategoryReq);
-                }
-            }
-            else{
-                return boardService.getAllBoardsBy2Category(pageable, getAllBoardsByCategoryReq);
-            }
-        }
-        else{
-            return boardService.getAllBoardsBy3Category(pageable, getAllBoardsByCategoryReq);
-        }
-
+    public ApplicationResponse<Page<BoardAllRes>> getAllBoardsByCategory(Pageable pageable, @ModelAttribute getAllBoardsByCategoryReq getAllBoardsByCategoryReq){
+        return boardService.getAllBoardsByCategory(pageable, getAllBoardsByCategoryReq);
     }
 
     /**

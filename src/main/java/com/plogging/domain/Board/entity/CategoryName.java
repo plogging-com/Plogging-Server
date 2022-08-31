@@ -1,5 +1,7 @@
 package com.plogging.domain.Board.entity;
 
+import io.swagger.annotations.ApiModel;
+
 public enum CategoryName {
     비건,
     식물,

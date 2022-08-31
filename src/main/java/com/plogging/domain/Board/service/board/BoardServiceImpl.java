@@ -4,8 +4,7 @@ import com.plogging.domain.Board.dto.board.request.createBoardReq;
 import com.plogging.domain.Board.dto.board.request.getAllBoardsByCategoryReq;
 import com.plogging.domain.Board.dto.board.response.BoardAllRes;
 import com.plogging.domain.Board.dto.board.response.BoardRes;
-import com.plogging.domain.Board.entity.Board;
-import com.plogging.domain.Board.entity.Photo;
+import com.plogging.domain.Board.entity.*;
 import com.plogging.domain.Board.exception.Board.NotFoundBoardException;
 import com.plogging.domain.Board.exception.Board.OverMaxContentLength;
 import com.plogging.domain.Board.repository.BoardRepository;
@@ -13,8 +12,6 @@ import com.plogging.domain.Board.repository.PhotoRepository;
 import com.plogging.domain.Board.service.Category.CategoryService;
 import com.plogging.domain.Board.service.inquiry.InquiryService;
 import com.plogging.domain.User.BadgeList;
-import com.plogging.domain.Board.entity.BoardCategory;
-import com.plogging.domain.Board.entity.Category;
 import com.plogging.domain.Board.exception.Board.NotEnoughCategory;
 import com.plogging.domain.Board.repository.*;
 import com.plogging.domain.User.entity.User;
@@ -111,38 +108,9 @@ public class BoardServiceImpl implements BoardService{
 }
 
     @Override
-    public ApplicationResponse<Page<BoardAllRes>> getAllBoards(Pageable pageable) {
-        return ApplicationResponse.ok(boardRepository.findAll(pageable).map(BoardAllRes::create));
-    }
-
-    @Override
-    public ApplicationResponse<Page<BoardAllRes>> getAllBoardsBy1Category(Pageable pageable, getAllBoardsByCategoryReq getAllBoardsByCategoryReq){
-        Category category = categoryRepository.findByName(getAllBoardsByCategoryReq.getCategoryName1()).get();
-        return ApplicationResponse.ok(boardCategoryRepository.findByCategory(pageable, category).map(BoardAllRes::create2));
-    }
-
-    @Override
-    public ApplicationResponse<Page<BoardAllRes>> getAllBoardsBy2Category(Pageable pageable, getAllBoardsByCategoryReq getAllBoardsByCategoryReq){
-        Category category1 = categoryRepository.findByName(getAllBoardsByCategoryReq.getCategoryName1()).get();
-        Category category2 = categoryRepository.findByName(getAllBoardsByCategoryReq.getCategoryName2()).get();
-        List<Category> categories = new ArrayList<>();
-        categories.add(category1);
-        categories.add(category2);
-
-        return ApplicationResponse.ok(boardCategoryRepository.findAllByCategoryIn(pageable, categories).map(BoardAllRes::create2));
-    }
-
-    @Override
-    public ApplicationResponse<Page<BoardAllRes>> getAllBoardsBy3Category(Pageable pageable, getAllBoardsByCategoryReq getAllBoardsByCategoryReq){
-        Category category1 = categoryRepository.findByName(getAllBoardsByCategoryReq.getCategoryName1()).get();
-        Category category2 = categoryRepository.findByName(getAllBoardsByCategoryReq.getCategoryName2()).get();
-        Category category3 = categoryRepository.findByName(getAllBoardsByCategoryReq.getCategoryName3()).get();
-        List<Category> categories = new ArrayList<>();
-        categories.add(category1);
-        categories.add(category2);
-        categories.add(category3);
-
-        return ApplicationResponse.ok(boardCategoryRepository.findAllByCategoryIn(pageable, categories).map(BoardAllRes::create2));
+    public ApplicationResponse<Page<BoardAllRes>> getAllBoardsByCategory(Pageable pageable, getAllBoardsByCategoryReq getAllBoardsByCategoryReq){
+        if(getAllBoardsByCategoryReq.getCategoryName() == null) return ApplicationResponse.ok(boardRepository.findAll(pageable).map(BoardAllRes::create));
+        else return ApplicationResponse.ok(boardRepository.findAllByCategoryIn(pageable, getAllBoardsByCategoryReq.getCategoryName()).map(BoardAllRes::create));
     }
 
     @Transactional // 조회용이긴 하지만, 조회 기록을 남기기 위해 조회 엔티티(inquiry)룰 생성해야 하므로 붙여줘야 함
