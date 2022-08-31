@@ -23,7 +23,7 @@ public class QuestProceedingDetailRes {
         QuestProceedingDetailRes questProceedingDetailRes = new QuestProceedingDetailRes();
         questProceedingDetailRes.questProceedingId = userQuestProceeding.getId();
         questProceedingDetailRes.name = userQuestProceeding.getQuest().getName();
-        questProceedingDetailRes.name = AwsS3Service.makeUrlOfFilename(userQuestProceeding.getQuest().getPhoto());
+        questProceedingDetailRes.photo = AwsS3Service.makeUrlOfFilename(userQuestProceeding.getQuest().getPhoto());
         questProceedingDetailRes.level = userQuestProceeding.getLevel();
         questProceedingDetailRes.gage = userQuestProceeding.getGage();
         questProceedingDetailRes.startTime = userQuestProceeding.getStartTime().toString();
