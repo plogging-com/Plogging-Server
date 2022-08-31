@@ -4,6 +4,7 @@ import com.plogging.domain.Quest.dto.quest.response.QuestRes;
 import com.plogging.domain.Quest.entity.Quest;
 import com.plogging.domain.User.dto.response.UserFindRes;
 import com.plogging.domain.User.entity.User;
+import com.plogging.global.utill.imgae.AwsS3Service;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,7 +22,7 @@ public class QuestDiaryResp {
         questDiaryResp.questRes = QuestRes.create(quest);
         questDiaryResp.userFindRes = UserFindRes.from(user);
         questDiaryResp.comment = comment;
-        questDiaryResp.photo = photo;
+        questDiaryResp.photo = AwsS3Service.makeUrlOfFilename(photo);
         return questDiaryResp;
     }
 
@@ -30,6 +31,6 @@ public class QuestDiaryResp {
         this.questRes = QuestRes.create(quest);
         this.userFindRes = UserFindRes.from(user);
         this.comment = comment;
-        this.photo = photo;
+        this.photo = AwsS3Service.makeUrlOfFilename(photo);
     }
 }
