@@ -5,6 +5,7 @@ import com.plogging.domain.User.entity.UserRefreshToken;
 import com.plogging.domain.User.repository.UserRefreshTokenRepository;
 import com.plogging.domain.User.repository.UserRepository;
 import com.plogging.global.jwt.exception.ExpireAccessException;
+import com.plogging.global.jwt.exception.ExpireRefreshException;
 import com.plogging.global.jwt.exception.NotFoundJwtException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
@@ -40,8 +41,8 @@ public class JwtServiceImpl implements JwtService{
     @Value("${spring.jwt.access-key}")
     private String JWT_ACCESS_SECRET_KEY;
 
-//    @Value("${spring.jwt.refresh-key}")
-    private String JWT_REFRESH_SECRET_KEY = "test";
+    @Value("${spring.jwt.refresh-key}")
+    private String JWT_REFRESH_SECRET_KEY;
 
     private Long userId;
 
@@ -116,7 +117,7 @@ public class JwtServiceImpl implements JwtService{
 
 
         }catch (Exception e2){
-            throw new ExpireAccessException();
+            throw new ExpireRefreshException();
         }
         return claims.getBody().get("loginId",String.class);
     }
