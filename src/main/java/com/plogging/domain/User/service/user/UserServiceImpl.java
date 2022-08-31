@@ -149,10 +149,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserHomeRes home() {
         User user = userRepository.findByLoginId(jwtService.getLoginId()).get();
-        //발자국 이야기 해봐야함.
-        //플로깅 시간도.
-        //고정 이미지들도 서버를 통해서 가져갈지?
-        //오늘의 퀘스트 뭐로할지?
 
         return UserHomeRes.builder()
                 .today(ChronoUnit.DAYS.between(user.getSignUpDate(), LocalDateTime.now()))
@@ -187,5 +183,7 @@ public class UserServiceImpl implements UserService {
                 .step(0L)
                 .build();
     }
+
+
 
 }
