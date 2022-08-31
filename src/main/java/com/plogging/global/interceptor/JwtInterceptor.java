@@ -25,7 +25,7 @@ public class JwtInterceptor implements HandlerInterceptor {
         for (String s : exceptApi) {
             if(request.getRequestURI().equals(s)) return true;
         }
-//        jwtService.getLoginId();
+        jwtService.getLoginId();
         return true;
     }
 }
