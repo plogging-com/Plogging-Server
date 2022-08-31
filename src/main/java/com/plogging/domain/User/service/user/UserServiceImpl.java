@@ -126,15 +126,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public UserUpdateFormRes getUpdateForm(UserUpdateFormReq userUpdateFormReq) {
+    public UserUpdateFormRes getUpdateForm() {
 
-        return UserUpdateFormRes.create(userRepository.findById(userUpdateFormReq.getUserIdx()).orElseThrow(NotFoundUserException::new));
+        return UserUpdateFormRes.create(userRepository.findByLoginId(jwtService.getLoginId()).orElseThrow(NotFoundUserException::new));
     }
 
     @Override
     @Transactional
     public ApplicationResponse<Void> update(UserUpdateReq userUpdateReq) {
-
         User user = userRepository.findByLoginId(jwtService.getLoginId()).orElseThrow(NotFoundUserException::new);
 
         String photoUrl ="";
@@ -150,10 +149,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserHomeRes home() {
         User user = userRepository.findByLoginId(jwtService.getLoginId()).get();
-        //발자국 이야기 해봐야함.
-        //플로깅 시간도.
-        //고정 이미지들도 서버를 통해서 가져갈지?
-        //오늘의 퀘스트 뭐로할지?
 
         return UserHomeRes.builder()
                 .today(ChronoUnit.DAYS.between(user.getSignUpDate(), LocalDateTime.now()))
@@ -184,8 +179,11 @@ public class UserServiceImpl implements UserService {
                 .nickname(user.getNickName())
                 .grade(grade)
                 .level(user.getLevel())
+                .photo(user.getPhoto())
                 .step(0L)
                 .build();
     }
+
+
 
 }

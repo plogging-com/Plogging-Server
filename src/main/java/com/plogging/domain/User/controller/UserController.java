@@ -76,9 +76,9 @@ public class UserController {
     }
 
     @ApiOperation(value = "사용자 정보 수정폼 불러오기" , notes = "사용자의 정보를 수정하기 위한 폼을 불러옵니다.")
-    @PostMapping("/updateForm")
-    public ApplicationResponse<UserUpdateFormRes> getUserUpdateForm(@Valid @RequestBody UserUpdateFormReq userUpdateFormReq){
-        return ApplicationResponse.create("검색한 사용자에 대한 정보입니다." , userService.getUpdateForm(userUpdateFormReq));
+    @GetMapping("/updateForm")
+    public ApplicationResponse<UserUpdateFormRes> getUserUpdateForm(){
+        return ApplicationResponse.create("검색한 사용자에 대한 정보입니다." , userService.getUpdateForm());
     }
 
 

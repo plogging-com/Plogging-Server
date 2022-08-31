@@ -1,5 +1,7 @@
 package com.plogging.global.Init;
 
+import com.plogging.domain.Board.entity.CategoryName;
+import com.plogging.domain.Board.service.Category.CategoryService;
 import com.plogging.domain.User.dto.request.UserJoinReq;
 import com.plogging.domain.User.service.user.UserService;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +21,7 @@ public class InitDB {
     private String ddlAutoConfig;
 
     private final UserService userService;
+    private final CategoryService categoryService;
 
     @PostConstruct
     public void initDB() throws IOException {

@@ -47,11 +47,11 @@ public class UserJoinReq {
                 .password(userJoinReq.getPassword())
                 .nickName(userJoinReq.getNickname())
                 .phone(userJoinReq.getPhone())
-                .photo(userJoinReq.getPhotoURL())
+                .photo("https://plogging.s3.ap-northeast-2.amazonaws.com/feee43c9-86c1-4fdd-a208-dcd110564381.png")
                 .signUpDate(LocalDateTime.now())
                 .growth(1)
                 .status(PresenceStatus.ACTIVE)
-                .level(1).build();
+                .level(1L).build();
     }
 
 
