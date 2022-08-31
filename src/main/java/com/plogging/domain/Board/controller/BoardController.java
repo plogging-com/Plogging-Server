@@ -25,7 +25,7 @@ public class BoardController {
      * 게시글 등록
      * @author 강신현
      */
-    @ApiOperation(value = "게시글 등록", notes = "")
+    @ApiOperation(value = "게시글 등록", notes = "swagger에서 이미지 여러장 업로드 시, 에러가 있으므로 postman에서 테스트 해주세요 (https://solar-desert-882435.postman.co/workspace/My-Workspace~167b7ee1-c23b-4ee3-8c78-29d79a1698e1/request/18177198-883b3d8e-82a7-4228-8bb6-c076ad75749a)")
     @PostMapping("/")
     public ApplicationResponse<BoardRes> boardCreate(@ModelAttribute createBoardReq createBoardReq){
         return boardService.createBoard(createBoardReq);
