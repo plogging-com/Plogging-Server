@@ -2,6 +2,7 @@ package com.plogging.domain.User.dto.request;
 
 import com.plogging.domain.User.entity.User;
 import com.plogging.global.enumerations.PresenceStatus;
+import com.plogging.global.utill.imgae.AwsS3Service;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
@@ -47,7 +48,7 @@ public class UserJoinReq {
                 .password(userJoinReq.getPassword())
                 .nickName(userJoinReq.getNickname())
                 .phone(userJoinReq.getPhone())
-                .photo("https://plogging.s3.ap-northeast-2.amazonaws.com/feee43c9-86c1-4fdd-a208-dcd110564381.png")
+                .photo("feee43c9-86c1-4fdd-a208-dcd110564381.png")
                 .signUpDate(LocalDateTime.now())
                 .growth(1)
                 .status(PresenceStatus.ACTIVE)
