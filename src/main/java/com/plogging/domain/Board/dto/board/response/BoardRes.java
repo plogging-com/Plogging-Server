@@ -2,12 +2,15 @@ package com.plogging.domain.Board.dto.board.response;
 
 import com.plogging.domain.Board.entity.Board;
 import com.plogging.domain.Board.entity.Photo;
+import com.plogging.domain.Board.entity.CategoryName;
 import com.plogging.global.enumerations.PresenceStatus;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +26,8 @@ public class BoardRes {
     private int heartCnt;
     private int commentCnt;
     private List<String> photoUrls = new ArrayList<>();
+
+    private List<CategoryName> categories = new ArrayList<>();
 
     private boolean isFirstBoard;
 
@@ -41,5 +46,9 @@ public class BoardRes {
         }
 
         return boardRes;
+    }
+
+    public void addCategory(CategoryName category){
+        this.categories.add(category);
     }
 }
