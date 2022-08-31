@@ -12,11 +12,7 @@ public interface BoardService {
 
     ApplicationResponse<BoardRes> createBoard(createBoardReq createBoardReq);
 
-    ApplicationResponse<Page<BoardAllRes>> getAllBoards(Pageable pageable);
-
-    ApplicationResponse<Page<BoardAllRes>> getAllBoardsBy1Category(Pageable pageable, getAllBoardsByCategoryReq getAllBoardsByCategoryReq);
-    ApplicationResponse<Page<BoardAllRes>> getAllBoardsBy2Category(Pageable pageable, getAllBoardsByCategoryReq getAllBoardsByCategoryReq);
-    ApplicationResponse<Page<BoardAllRes>> getAllBoardsBy3Category(Pageable pageable, getAllBoardsByCategoryReq getAllBoardsByCategoryReq);
+    ApplicationResponse<Page<BoardAllRes>> getAllBoardsByCategory(Pageable pageable, getAllBoardsByCategoryReq getAllBoardsByCategoryReq);
 
     ApplicationResponse<Void> delBoard(Long id);
 

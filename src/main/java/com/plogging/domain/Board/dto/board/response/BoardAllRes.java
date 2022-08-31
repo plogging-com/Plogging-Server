@@ -38,33 +38,12 @@ public class BoardAllRes {
         boardAllRes.title = board.getTitle();
         boardAllRes.content = board.getContent();
         boardAllRes.time = board.getTime();
-        boardAllRes.photo = "~~~"; // TODO
+        boardAllRes.photo = board.getMainPhotoUrl();
         boardAllRes.heartCnt = board.getHeartCnt();
         boardAllRes.commentCnt = board.getCommentCnt();
 
         boardAllRes.boardCategories = board.getBoardCategories().stream()
                 .map(boardCategory -> new BoardCategoryRes(boardCategory))
-                .collect(Collectors.toList());
-
-        return boardAllRes;
-    }
-
-    public static BoardAllRes create2(BoardCategory boardCategory){
-        BoardAllRes boardAllRes = new BoardAllRes();
-
-        boardAllRes.nickName = boardCategory.getBoard().getUser().getNickName();
-        boardAllRes.userPhoto = boardCategory.getBoard().getUser().getPhoto();
-
-        boardAllRes.boardId = boardCategory.getBoard().getId();
-        boardAllRes.title = boardCategory.getBoard().getTitle();
-        boardAllRes.content = boardCategory.getBoard().getContent();
-        boardAllRes.time = boardCategory.getBoard().getTime();
-        boardAllRes.photo = "~~~"; // TODO
-        boardAllRes.heartCnt = boardCategory.getBoard().getHeartCnt();
-        boardAllRes.commentCnt = boardCategory.getBoard().getCommentCnt();
-
-        boardAllRes.boardCategories = boardCategory.getBoard().getBoardCategories().stream()
-                .map(boardCategoryRepository -> new BoardCategoryRes(boardCategoryRepository))
                 .collect(Collectors.toList());
 
         return boardAllRes;
