@@ -1,7 +1,8 @@
 package com.plogging.domain.Board.controller;
 
 import com.plogging.domain.Board.dto.board.request.createBoardReq;
-import com.plogging.domain.Board.dto.board.response.BoardListRes;
+import com.plogging.domain.Board.dto.board.request.getAllBoardsByCategoryReq;
+import com.plogging.domain.Board.dto.board.response.BoardAllRes;
 import com.plogging.domain.Board.dto.board.response.BoardRes;
 import com.plogging.domain.Board.service.board.BoardService;
 import com.plogging.domain.Board.service.board.BoardServiceImpl;
@@ -25,8 +26,8 @@ public class BoardController {
      * 게시글 등록
      * @author 강신현
      */
-    @ApiOperation(value = "게시글 등록", notes = "")
-    @PostMapping("/")
+    @ApiOperation(value = "게시글 등록", notes = "카테고리는 최소 1개 이상이어야 합니다. categoryName1 부터 카테고리를 등록해 주세요.")
+    @PostMapping("")
     public ApplicationResponse<BoardRes> boardCreate(@ModelAttribute createBoardReq createBoardReq){
         return boardService.createBoard(createBoardReq);
     }
@@ -35,10 +36,10 @@ public class BoardController {
      * 전체 게시글 조회
      * @author 강신현
      */
-    @ApiOperation(value = "전체 게시글 조회", notes = "")
-    @GetMapping("/list")
-    public ApplicationResponse<Page<BoardListRes>> getBoardList(Pageable pageable){
-        return boardService.getBoardList(pageable);
+    @ApiOperation(value = "전체 게시글 조회")
+    @GetMapping("/all")
+    public ApplicationResponse<Page<BoardAllRes>> getAllBoards(Pageable pageable){
+        return boardService.getAllBoards(pageable);
     }
 
     /**
@@ -49,6 +50,32 @@ public class BoardController {
     @GetMapping("{boardId}")
     public ApplicationResponse<BoardRes> getBoardList(@PathVariable Long boardId){
         return boardService.getBoard(boardId);
+    }
+
+    /**
+     * 카테고리에 따른 전체 게시글 조회
+     * @author 강신현
+     */
+    @ApiOperation(value = "카테고리에 따른 전체 게시글 조회")
+    @GetMapping("/all/byCategory")
+    public ApplicationResponse<Page<BoardAllRes>> getAllBoardsByCategory(Pageable pageable, getAllBoardsByCategoryReq getAllBoardsByCategoryReq){
+        if(getAllBoardsByCategoryReq.getCategoryName3()==null){
+            if(getAllBoardsByCategoryReq.getCategoryName2()==null){
+                if(getAllBoardsByCategoryReq.getCategoryName1()==null){
+                    return boardService.getAllBoards(pageable);
+                }
+                else{
+                    return boardService.getAllBoardsBy1Category(pageable, getAllBoardsByCategoryReq);
+                }
+            }
+            else{
+                return boardService.getAllBoardsBy2Category(pageable, getAllBoardsByCategoryReq);
+            }
+        }
+        else{
+            return boardService.getAllBoardsBy3Category(pageable, getAllBoardsByCategoryReq);
+        }
+
     }
 
     /**
