@@ -42,10 +42,10 @@ public class Quest {
         this.photo = photo;
     }
 
-    public void edit(String name, Integer maxLevel, String photoURL){
+    public void edit(String name, Integer maxLevel, String photo){
         if(name != null && !name.isEmpty()) this.name = name;
         if(maxLevel != null) this.maxLevel = maxLevel;
-        if(photoURL != null && !photoURL.isEmpty()) this.photo = photoURL;
+        if(photo != null && !photo.isEmpty()) this.photo = photo;
     }
 
     public void addProceedingQuest(UserQuestProceeding userQuestProceeding) {
