@@ -42,7 +42,7 @@ public class QuestDiaryServiceImpl implements QuestDiaryService {
                 .quest(quest)
                 .user(user)
                 .comment(questDiaryReq.getComment())
-                .photo(AwsS3Service.makeUrlOfFilename(filename)).build();
+                .photo(filename).build();
 
         return ApplicationResponse.create("created", questDiaryResp);
     }

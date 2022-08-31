@@ -41,7 +41,7 @@ public class QuestServiceImpl implements QuestService{
     @Override
     public ApplicationResponse<QuestRes> create(CreateQuestReq createQuestReq){
         String filename = awsS3Service.uploadImage(createQuestReq.getPhoto());
-        Quest quest = questRepository.save(createQuestReq.toEntityWithPhoto(AwsS3Service.makeUrlOfFilename(filename)));
+        Quest quest = questRepository.save(createQuestReq.toEntityWithPhoto(filename));
         return ApplicationResponse.create("created", QuestRes.create(quest));
     }
 
@@ -61,8 +61,8 @@ public class QuestServiceImpl implements QuestService{
     @Override
     public ApplicationResponse<QuestRes> edit(Long id, EditQuestReq editQuestReq){
         Quest quest = questRepository.findById(id).orElseThrow(() -> new QuestIdNotFoundException(id));
-        String photoURL = awsS3Service.uploadImage(editQuestReq.getPhoto());
-        quest.edit(editQuestReq.getName(), editQuestReq.getMaxLevel(), photoURL);
+        String photo = awsS3Service.uploadImage(editQuestReq.getPhoto());
+        quest.edit(editQuestReq.getName(), editQuestReq.getMaxLevel(), photo);
         return ApplicationResponse.ok(QuestRes.create(quest));
     }
 
