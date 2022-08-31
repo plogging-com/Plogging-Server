@@ -26,4 +26,5 @@ public interface UserService {
     UserHomeRes home();
 
     UserInfoRes info();
+
 }
