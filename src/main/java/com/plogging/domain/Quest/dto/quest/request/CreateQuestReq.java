@@ -22,8 +22,6 @@ public class CreateQuestReq{
     @NotNull
     private int maxLevel;
 
-
-
     public Quest toEntityWithPhoto(String photo){
         return new Quest(this.name, this.maxLevel, photo);
     }
