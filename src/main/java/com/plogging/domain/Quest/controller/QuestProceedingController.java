@@ -5,6 +5,7 @@ import com.plogging.domain.Quest.service.questProceeding.QuestProceedingService;
 import com.plogging.domain.User.entity.User;
 import com.plogging.domain.User.exception.UserIDValidException;
 import com.plogging.domain.User.repository.UserRepository;
+import com.plogging.domain.User.service.user.UserService;
 import com.plogging.global.dto.ApplicationResponse;
 import com.plogging.global.jwt.service.JwtService;
 import io.swagger.annotations.Api;
@@ -23,6 +24,7 @@ public class QuestProceedingController {
     private final QuestProceedingService questProceedingService;
     private final JwtService jwtService;
     private final UserRepository userRepository;
+    private final UserService userService;
 
     @ApiOperation(value = "진행중인 quest 전체 조회", notes = "진행중 quest 전체 조회.")
     @GetMapping("/")
