@@ -49,6 +49,7 @@ public class Board {
     private String title;
     private String content;
     private LocalDateTime time;
+    private String mainPhotoUrl;
 
     @Enumerated(EnumType.STRING)
     private PresenceStatus status;
@@ -89,5 +90,13 @@ public class Board {
 
     public void addInquiry(Inquiry inquiry) {
         this.inquiry.add(inquiry);
+    }
+
+    public void addPhoto(Photo photo){
+        this.photos.add(photo);
+    }
+
+    public void addMainPhotoUrl(String url){
+        this.mainPhotoUrl = url;
     }
 }

@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 public class UserHomeRes {
 
     private Long today;
-    private int level;
+    private Long level;
     private int growth;
     private String nickName;
     private int step;
