@@ -19,11 +19,13 @@ public interface UserService {
 
     List<UserFindRes> findUser(UserFindReq userFindReq);
 
-    UserUpdateFormRes getUpdateForm(UserUpdateFormReq userUpdateFormReq);
+    UserUpdateFormRes getUpdateForm();
 
     ApplicationResponse<Void> update(UserUpdateReq userUpdateReq);
 
     UserHomeRes home();
 
     UserInfoRes info();
+
+    void image(UserUpdateReq userUpdateReq);
 }

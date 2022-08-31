@@ -37,7 +37,7 @@ public class User {
     private String photo;
     private int growth;
     private LocalDateTime signUpDate;
-    private int level;
+    private Long level;
 
 
     @Enumerated(EnumType.STRING)
@@ -78,7 +78,6 @@ public class User {
 
 
     public void updateUser(UserUpdateReq userUpdateReq , String photoUrl) {
-
         this.nickName = userUpdateReq.getNickname();
         this.photo = photoUrl;
 

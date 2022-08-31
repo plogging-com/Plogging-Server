@@ -4,6 +4,7 @@ import com.plogging.domain.Board.dto.board.request.createBoardReq;
 import com.plogging.domain.Board.dto.board.response.BoardListRes;
 import com.plogging.domain.Board.dto.board.response.BoardRes;
 import com.plogging.domain.Board.entity.Board;
+import com.plogging.domain.Board.entity.Photo;
 import com.plogging.domain.Board.exception.Board.NotFoundBoardException;
 import com.plogging.domain.Board.exception.Board.OverMaxContentLength;
 import com.plogging.domain.Board.repository.BoardRepository;
@@ -21,6 +22,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.Arrays;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -48,12 +53,20 @@ public class BoardServiceImpl implements BoardService{
 
         Board board = boardRepository.save(createBoardReq.toEntityBoard(user));
 
-//        for(MultipartFile i : createBoardReq.getPhotos()) {
-//            String photoURL = awsS3Service.uploadImage(i);
-//            photoRepository.save(new Photo(board,photoURL));
-//        }
+        // photo 여러개
+        List<String> filenames = awsS3Service.uploadImages(createBoardReq.getPhotos());
+        for(String i : filenames){
+            Photo photo = Photo.builder()
+                    .url(AwsS3Service.makeUrlOfFilename(i))
+                    .board(board)
+                    .build();
 
-        BoardRes boardRes = BoardRes.create(board , isFirstBoard);
+            photoRepository.save(photo);
+        }
+
+        List<Photo> photos = photoRepository.findAllByBoardId(board.getId());
+        if(photos != null) board.addMainPhotoUrl(photos.get(0).getUrl());
+        BoardRes boardRes = BoardRes.create(board , isFirstBoard, photos);
         return ApplicationResponse.create("created", boardRes);
 }
 
@@ -69,9 +82,10 @@ public class BoardServiceImpl implements BoardService{
         Board board = boardRepository.findById(boardId).get();
 
         // 조회 엔티티(inquiry) 생성
-            inquiryService.createInquiry(boardId);
+        inquiryService.createInquiry(boardId);
 
-        return ApplicationResponse.ok(BoardRes.create(board , true));
+        List<Photo> photos = photoRepository.findAllByBoardId(board.getId());
+        return ApplicationResponse.ok(BoardRes.create(board , true, photos));
 }
 
     @Transactional

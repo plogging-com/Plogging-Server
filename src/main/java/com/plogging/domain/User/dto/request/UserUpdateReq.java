@@ -15,7 +15,6 @@ import org.springframework.web.multipart.MultipartFile;
 public class UserUpdateReq {
 
     private String nickname;
-    private Long userIdx;
     private MultipartFile photo;
 
 }
