@@ -40,8 +40,8 @@ public class JwtServiceImpl implements JwtService{
     @Value("${spring.jwt.access-key}")
     private String JWT_ACCESS_SECRET_KEY;
 
-//    @Value("${spring.jwt.refresh-key}")
-    private String JWT_REFRESH_SECRET_KEY = "test";
+    @Value("${spring.jwt.refresh-key}")
+    private String JWT_REFRESH_SECRET_KEY;
 
     private Long userId;
 
