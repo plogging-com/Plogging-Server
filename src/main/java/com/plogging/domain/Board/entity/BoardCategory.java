@@ -1,17 +1,13 @@
 package com.plogging.domain.Board.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Entity
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-@Builder
 public class BoardCategory {
 
     @Id
@@ -26,4 +22,21 @@ public class BoardCategory {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="categoryIdx")
     private Category category;
+
+    @Builder
+    public BoardCategory(Board board, Category category){
+        this.addBoard(board);
+        this.addCategory(category);
+    }
+
+    public void addBoard(Board board){
+        this.board = board;
+        board.addBoardCategory(this);
+    }
+
+    public void addCategory(Category category){
+        this.category = category;
+        category.addBoardCategory(this);
+    }
+
 }

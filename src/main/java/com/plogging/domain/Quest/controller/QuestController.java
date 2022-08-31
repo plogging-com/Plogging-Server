@@ -30,13 +30,13 @@ public class QuestController {
 
     @ApiOperation(value = "모든 quest 목록 조회", notes = "quest 전체 조회.")
     @GetMapping("/")
-    public ApplicationResponse<Page<QuestRes>> findAll(Pageable pageable) {
+    public ApplicationResponse<Page<QuestRes>> findAll(Pageable pageable){
         return questService.findAll(pageable);
     }
 
     @ApiOperation(value = "quest 한 개 id로 조회", notes = "quest id로 조회.")
     @GetMapping("/{quest_id}")
-    public ApplicationResponse<QuestRes> findById(@PathVariable Long quest_id) {
+    public ApplicationResponse<QuestRes> findById(@PathVariable Long quest_id){
         return questService.findById(quest_id);
     }
 

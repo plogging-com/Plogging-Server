@@ -1,7 +1,8 @@
 package com.plogging.domain.Board.controller;
 
 import com.plogging.domain.Board.dto.board.request.createBoardReq;
-import com.plogging.domain.Board.dto.board.response.BoardListRes;
+import com.plogging.domain.Board.dto.board.request.getAllBoardsByCategoryReq;
+import com.plogging.domain.Board.dto.board.response.BoardAllRes;
 import com.plogging.domain.Board.dto.board.response.BoardRes;
 import com.plogging.domain.Board.service.board.BoardService;
 import com.plogging.domain.Board.service.board.BoardServiceImpl;
@@ -32,16 +33,6 @@ public class BoardController {
     }
 
     /**
-     * 전체 게시글 조회
-     * @author 강신현
-     */
-    @ApiOperation(value = "전체 게시글 조회", notes = "")
-    @GetMapping("/list")
-    public ApplicationResponse<Page<BoardListRes>> getBoardList(Pageable pageable){
-        return boardService.getBoardList(pageable);
-    }
-
-    /**
      * 게시글 하나 조회
      * @author 강신현
      */
@@ -49,6 +40,16 @@ public class BoardController {
     @GetMapping("{boardId}")
     public ApplicationResponse<BoardRes> getBoardList(@PathVariable Long boardId){
         return boardService.getBoard(boardId);
+    }
+
+    /**
+     * 카테고리에 따른 전체 게시글 조회결
+     * @author 강신현
+     */
+    @ApiOperation(value = "카테고리에 따른 게시글 조회", notes =  "카테고리를 입력하지 않으면 전체 게시글이 조회 됩니다.")
+    @GetMapping("/all/byCategory")
+    public ApplicationResponse<Page<BoardAllRes>> getAllBoardsByCategory(Pageable pageable, @ModelAttribute getAllBoardsByCategoryReq getAllBoardsByCategoryReq){
+        return boardService.getAllBoardsByCategory(pageable, getAllBoardsByCategoryReq);
     }
 
     /**
