@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 public class QuestProceedingPageRes {
-    private Long questProceedingId; //TODO
+    private Long questProceedingId;
     private String name;
     private String photo;
 
