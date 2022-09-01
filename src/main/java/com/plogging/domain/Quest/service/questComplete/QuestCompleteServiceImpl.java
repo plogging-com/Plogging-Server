@@ -34,6 +34,7 @@ public class QuestCompleteServiceImpl implements QuestCompleteService{
     @Override
     public ApplicationResponse<Page<QuestCompRes>> findAll(Pageable pageable, Long userIdx){
         User user = userRepository.findById(userIdx).orElseThrow(NotFoundUserException::new);
+        questCompleteRepository.findAllByUser(pageable, user).map(QuestCompRes::create);
         return ApplicationResponse.ok(
                 questCompleteRepository.findAllByUser(pageable, user).map(QuestCompRes::create)
         );

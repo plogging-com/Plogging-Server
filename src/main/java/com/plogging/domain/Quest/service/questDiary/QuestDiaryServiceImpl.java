@@ -6,12 +6,15 @@ import com.plogging.domain.Quest.entity.Quest;
 import com.plogging.domain.Quest.entity.UserQuestComplete;
 import com.plogging.domain.Quest.entity.UserQuestDiary;
 import com.plogging.domain.Quest.exception.QuestCompleteIdNotFoundException;
+import com.plogging.domain.Quest.exception.QuestIdNotFoundException;
 import com.plogging.domain.Quest.repository.QuestCompleteRepository;
 import com.plogging.domain.Quest.repository.QuestDiaryRepository;
 import com.plogging.domain.User.entity.User;
 import com.plogging.global.dto.ApplicationResponse;
 import com.plogging.global.utill.imgae.AwsS3Service;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -42,8 +45,18 @@ public class QuestDiaryServiceImpl implements QuestDiaryService {
                 .quest(quest)
                 .user(user)
                 .comment(questDiaryReq.getComment())
-                .photo(filename).build();
+                .filename(filename).build();
 
         return ApplicationResponse.create("created", questDiaryResp);
+    }
+
+    @Override
+    public ApplicationResponse<QuestDiaryResp> findById(Long questDiaryId) {
+        return ApplicationResponse.ok(QuestDiaryResp.create(questDiaryRepository.findById(questDiaryId).orElseThrow(() -> new QuestIdNotFoundException(questDiaryId))));
+    }
+
+    @Override
+    public ApplicationResponse<Page<QuestDiaryResp>> findAllByUser(Pageable pageable, User user) {
+        return ApplicationResponse.ok(questDiaryRepository.findAllByUser(pageable, user).map(QuestDiaryResp::create));
     }
 }
