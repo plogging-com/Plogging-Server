@@ -20,7 +20,9 @@ public class JwtInterceptor implements HandlerInterceptor {
         exceptApi.add("/api/v1/users/check-nickname");
         exceptApi.add("/api/v1/users/check-id");
         exceptApi.add("/api/v1/users/join");
+        exceptApi.add("/api/v1/users/terms");
         exceptApi.add("/api/v1/sms/send");
+
 
         for (String s : exceptApi) {
             if(request.getRequestURI().equals(s)) return true;
