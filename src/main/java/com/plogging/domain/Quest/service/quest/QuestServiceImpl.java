@@ -91,6 +91,7 @@ public class QuestServiceImpl implements QuestService{
         // 해당 quest의 level을 증가시킴
         userQuestProceeding.levelUp();
         // quest가 완료되면 user의 growth를 up시킨다. //TODO
+        user.levelUp();
 //        userService.growthPlus();
         // 해당 Quest가 maxLevel을 달성했다면 진행중인 Quest에서 삭제시킨다(해당 Quest는 끝까지 달성된 것이므로)
         if(userQuestProceeding.isOverMaxLevel(quest.getMaxLevel())) questProceedingRepository.deleteById(userQuestProceeding.getId());
