@@ -1,7 +1,8 @@
 package com.plogging.domain.Quest.service.questDiary;
 
 import com.plogging.domain.Quest.dto.userQuestDiary.request.QuestDiaryReq;
-import com.plogging.domain.Quest.dto.userQuestDiary.response.QuestDiaryResp;
+import com.plogging.domain.Quest.dto.userQuestDiary.response.QuestDiaryDeatilResp;
+import com.plogging.domain.Quest.dto.userQuestDiary.response.QuestDiaryPageResp;
 import com.plogging.domain.Quest.entity.Quest;
 import com.plogging.domain.Quest.entity.UserQuestComplete;
 import com.plogging.domain.Quest.entity.UserQuestDiary;
@@ -10,7 +11,10 @@ import com.plogging.domain.Quest.exception.QuestIdNotFoundException;
 import com.plogging.domain.Quest.repository.QuestCompleteRepository;
 import com.plogging.domain.Quest.repository.QuestDiaryRepository;
 import com.plogging.domain.User.entity.User;
+import com.plogging.domain.User.exception.UserIDValidException;
+import com.plogging.domain.User.repository.UserRepository;
 import com.plogging.global.dto.ApplicationResponse;
+import com.plogging.global.jwt.service.JwtService;
 import com.plogging.global.utill.imgae.AwsS3Service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -25,12 +29,14 @@ public class QuestDiaryServiceImpl implements QuestDiaryService {
 
     private final QuestDiaryRepository questDiaryRepository;
     private final QuestCompleteRepository questCompleteRepository;
+    private final UserRepository userRepository;
+    private final JwtService jwtService;
     private final AwsS3Service awsS3Service;
 
 
     @Transactional
     @Override
-    public ApplicationResponse<QuestDiaryResp> create(Long completeQuestId, QuestDiaryReq questDiaryReq) {
+    public ApplicationResponse<QuestDiaryDeatilResp> create(Long completeQuestId, QuestDiaryReq questDiaryReq) {
         UserQuestComplete userQuestComplete = questCompleteRepository
                 .findById(completeQuestId).orElseThrow(() -> new QuestCompleteIdNotFoundException(completeQuestId));
 
@@ -41,22 +47,24 @@ public class QuestDiaryServiceImpl implements QuestDiaryService {
         UserQuestDiary userQuestDiary = UserQuestDiary.create(questDiaryReq, filename, quest, user);
         questDiaryRepository.save(userQuestDiary);
 
-        QuestDiaryResp questDiaryResp = QuestDiaryResp.builder()
-                .quest(quest)
-                .user(user)
-                .comment(questDiaryReq.getComment())
-                .filename(filename).build();
+        QuestDiaryDeatilResp questDiaryDeatilResp = QuestDiaryDeatilResp.create(userQuestDiary);
 
-        return ApplicationResponse.create("created", questDiaryResp);
+        return ApplicationResponse.create("created", questDiaryDeatilResp);
     }
 
     @Override
-    public ApplicationResponse<QuestDiaryResp> findById(Long questDiaryId) {
-        return ApplicationResponse.ok(QuestDiaryResp.create(questDiaryRepository.findById(questDiaryId).orElseThrow(() -> new QuestIdNotFoundException(questDiaryId))));
+    public ApplicationResponse<QuestDiaryDeatilResp> findById(Long questDiaryId) {
+        return ApplicationResponse.ok(QuestDiaryDeatilResp.create(questDiaryRepository.findById(questDiaryId).orElseThrow(() -> new QuestIdNotFoundException(questDiaryId))));
     }
 
     @Override
-    public ApplicationResponse<Page<QuestDiaryResp>> findAllByUser(Pageable pageable, User user) {
-        return ApplicationResponse.ok(questDiaryRepository.findAllByUser(pageable, user).map(QuestDiaryResp::create));
+    public ApplicationResponse<Page<QuestDiaryPageResp>> findAllByUser(Pageable pageable) {
+        User user = userRepository.findByLoginId(jwtService.getLoginId()).orElseThrow(UserIDValidException::new);
+        return ApplicationResponse.ok(questDiaryRepository.findAllByUser(pageable, user).map(QuestDiaryPageResp::create));
+    }
+
+    @Override
+    public ApplicationResponse<Page<QuestDiaryPageResp>> findAll(Pageable pageable) {
+        return ApplicationResponse.ok(questDiaryRepository.findAll(pageable).map(QuestDiaryPageResp::create));
     }
 }
