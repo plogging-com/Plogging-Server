@@ -9,8 +9,11 @@ import com.plogging.domain.Quest.repository.QuestProceedingRepository;
 import com.plogging.domain.Quest.service.quest.QuestService;
 import com.plogging.domain.User.entity.User;
 import com.plogging.domain.User.exception.NotFoundUserException;
+import com.plogging.domain.User.exception.UserIDValidException;
 import com.plogging.domain.User.repository.UserRepository;
+import com.plogging.domain.User.service.user.UserService;
 import com.plogging.global.dto.ApplicationResponse;
+import com.plogging.global.jwt.service.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -24,8 +27,9 @@ import java.util.List;
 public class QuestProceedingServiceImpl implements QuestProceedingService{
 
     private final QuestProceedingRepository questProceedingRepository;
-    private final QuestService questService;
     private final UserRepository userRepository;
+    private final QuestService questService;
+    private final JwtService jwtService;
 
     @Transactional
     @Override /* to server */
@@ -42,8 +46,8 @@ public class QuestProceedingServiceImpl implements QuestProceedingService{
     }
 
     @Override
-    public ApplicationResponse<Page<QuestProceedingDetailRes>> findAll(Pageable pageable, Long userIdx){
-        User user = userRepository.findById(userIdx).orElseThrow(NotFoundUserException::new);
+    public ApplicationResponse<Page<QuestProceedingDetailRes>> findAll(Pageable pageable){
+        User user = userRepository.findByLoginId(jwtService.getLoginId()).orElseThrow(UserIDValidException::new);
         return ApplicationResponse.ok(questProceedingRepository.findAllByUser(pageable, user).map(QuestProceedingDetailRes::create));
     }
 

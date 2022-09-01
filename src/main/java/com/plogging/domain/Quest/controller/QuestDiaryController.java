@@ -1,14 +1,10 @@
 package com.plogging.domain.Quest.controller;
 
 import com.plogging.domain.Quest.dto.userQuestDiary.request.QuestDiaryReq;
-import com.plogging.domain.Quest.dto.userQuestDiary.response.QuestDiaryResp;
-import com.plogging.domain.Quest.entity.UserQuestDiary;
+import com.plogging.domain.Quest.dto.userQuestDiary.response.QuestDiaryDeatilResp;
+import com.plogging.domain.Quest.dto.userQuestDiary.response.QuestDiaryPageResp;
 import com.plogging.domain.Quest.service.questDiary.QuestDiaryService;
-import com.plogging.domain.User.entity.User;
-import com.plogging.domain.User.exception.UserIDValidException;
-import com.plogging.domain.User.repository.UserRepository;
 import com.plogging.global.dto.ApplicationResponse;
-import com.plogging.global.jwt.service.JwtService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -23,28 +19,32 @@ import org.springframework.web.bind.annotation.*;
 public class QuestDiaryController{
 
     private final QuestDiaryService questDiaryService;
-    private final UserRepository userRepository;
-    private final JwtService jwtService;
+
 
     @ApiOperation(value = "Quest Diary 작성하기", notes = "Quest Diary 작성.")
     @PutMapping("/{complete_quest_id}")
-    public ApplicationResponse<QuestDiaryResp> create(
+    public ApplicationResponse<QuestDiaryDeatilResp> create(
                                             @PathVariable Long complete_quest_id,
                                             @ModelAttribute QuestDiaryReq questDiaryReq){
         return questDiaryService.create(complete_quest_id, questDiaryReq);
     }
 
-    @ApiOperation(value = "Quest Diary 작성하기", notes = "Quest Diary 작성.")
+    @ApiOperation(value = "모든 유저들의 Quest Diary 작성하기", notes = "Quest Diary 작성.")
+    @GetMapping("/all")
+    public ApplicationResponse<Page<QuestDiaryPageResp>> findAll(Pageable pageable){
+        return questDiaryService.findAll(pageable);
+    }
+
+    @ApiOperation(value = "Quest Diary 하나 조회", notes = "Quest Diary 하나 조회")
     @GetMapping("/{quest_diary_id}")
-    public ApplicationResponse<QuestDiaryResp> findById(@PathVariable Long quest_diary_id){
+    public ApplicationResponse<QuestDiaryDeatilResp> findById(@PathVariable Long quest_diary_id){
         return questDiaryService.findById(quest_diary_id);
     }
 
-    @ApiOperation(value = "Quest Diary 작성하기", notes = "Quest Diary 작성.")
-    @GetMapping("/}")
-    public ApplicationResponse<Page<QuestDiaryResp>> findAll(Pageable pageable){
-        String userLoginId = jwtService.getLoginId();
-        User user = userRepository.findByLoginId(userLoginId).orElseThrow(UserIDValidException::new);
-        return questDiaryService.findAllByUser(pageable, user);
+    @ApiOperation(value = "특정 유저의 Quest Diary 작성하기", notes = "Quest Diary 작성.")
+    @GetMapping("/")
+    public ApplicationResponse<Page<QuestDiaryPageResp>> findAllByUser(Pageable pageable){
+        return questDiaryService.findAllByUser(pageable);
     }
+
 }

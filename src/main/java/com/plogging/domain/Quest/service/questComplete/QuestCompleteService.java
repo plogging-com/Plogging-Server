@@ -11,5 +11,5 @@ import org.springframework.data.domain.Pageable;
 public interface QuestCompleteService {
     // R
     ApplicationResponse<QuestCompRes> findById(Long id);
-    ApplicationResponse<Page<QuestCompRes>> findAll(Pageable pageable, Long userIdx);
+    ApplicationResponse<Page<QuestCompRes>> findAll(Pageable pageable);
 }

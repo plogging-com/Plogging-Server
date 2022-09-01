@@ -22,16 +22,12 @@ import org.springframework.web.bind.annotation.*;
 public class QuestProceedingController {
 
     private final QuestProceedingService questProceedingService;
-    private final JwtService jwtService;
-    private final UserRepository userRepository;
-    private final UserService userService;
+
 
     @ApiOperation(value = "진행중인 quest 전체 조회", notes = "진행중 quest 전체 조회.")
     @GetMapping("/")
     public ApplicationResponse<Page<QuestProceedingDetailRes>> findAll(Pageable pageable){
-        String userLoginId = jwtService.getLoginId();
-        User user = userRepository.findByLoginId(userLoginId).orElseThrow(UserIDValidException::new);
-        return questProceedingService.findAll(pageable, user.getId());
+        return questProceedingService.findAll(pageable);
     }
 
     @ApiOperation(value = "진행중인 quest 한 개 id로 조회", notes = "진행중 quest 조회.")
