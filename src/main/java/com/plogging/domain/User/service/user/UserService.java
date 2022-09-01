@@ -27,4 +27,6 @@ public interface UserService {
 
     UserInfoRes info();
 
+    String terms(String condition);
+
 }
