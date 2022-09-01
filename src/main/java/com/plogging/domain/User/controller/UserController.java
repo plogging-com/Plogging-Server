@@ -139,4 +139,13 @@ public class UserController {
         return ApplicationResponse.ok(userService.info());
     }
 
+
+    @GetMapping("/terms")
+    @ApiOperation(value = "서비스 이용약관, 개인정보 처리 방침 조회 \n condition = service(이용약관), privacy(개인정보 처리 방침)")
+    @ApiResponses(value = {
+            @ApiResponse(code = 404, message = "조건 값이 올바르지 않습니다.", response = ApiErrorResponse.class)
+    })
+    public ApplicationResponse<String> terms(String condition){
+        return ApplicationResponse.ok(userService.terms(condition));
+    }
 }
