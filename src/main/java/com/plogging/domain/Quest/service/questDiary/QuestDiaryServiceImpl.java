@@ -10,8 +10,11 @@ import com.plogging.domain.Quest.exception.QuestCompleteIdNotFoundException;
 import com.plogging.domain.Quest.exception.QuestIdNotFoundException;
 import com.plogging.domain.Quest.repository.QuestCompleteRepository;
 import com.plogging.domain.Quest.repository.QuestDiaryRepository;
+import com.plogging.domain.Quest.repository.QuestRepository;
 import com.plogging.domain.User.entity.User;
+import com.plogging.domain.User.exception.UserException;
 import com.plogging.domain.User.exception.UserIDValidException;
+import com.plogging.domain.User.exception.UserIdDuplicationException;
 import com.plogging.domain.User.repository.UserRepository;
 import com.plogging.global.dto.ApplicationResponse;
 import com.plogging.global.jwt.service.JwtService;
@@ -22,13 +25,15 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 @Service
 public class QuestDiaryServiceImpl implements QuestDiaryService {
 
     private final QuestDiaryRepository questDiaryRepository;
-    private final QuestCompleteRepository questCompleteRepository;
+    private final QuestRepository questRepository;
     private final UserRepository userRepository;
     private final JwtService jwtService;
     private final AwsS3Service awsS3Service;
@@ -36,19 +41,14 @@ public class QuestDiaryServiceImpl implements QuestDiaryService {
 
     @Transactional
     @Override
-    public ApplicationResponse<QuestDiaryDeatilResp> create(Long completeQuestId, QuestDiaryReq questDiaryReq) {
-        UserQuestComplete userQuestComplete = questCompleteRepository
-                .findById(completeQuestId).orElseThrow(() -> new QuestCompleteIdNotFoundException(completeQuestId));
-
-        Quest quest = userQuestComplete.getQuest();
-        User user = userQuestComplete.getUser();
-
-        String filename = awsS3Service.uploadImage(questDiaryReq.getPhoto());
-        UserQuestDiary userQuestDiary = UserQuestDiary.create(questDiaryReq, filename, quest, user);
+    public ApplicationResponse<QuestDiaryDeatilResp> create(Long questId, QuestDiaryReq questDiaryReq) {
+        Quest quest = questRepository
+                .findById(questId).orElseThrow(() -> new QuestIdNotFoundException(questId));
+        User user = userRepository.findByLoginId(jwtService.getLoginId()).orElseThrow(UserIdDuplicationException::new);
+        List<String> filenames = awsS3Service.uploadImages(questDiaryReq.getPhotos());
+        UserQuestDiary userQuestDiary = UserQuestDiary.create(questDiaryReq, filenames, quest, user);
         questDiaryRepository.save(userQuestDiary);
-
         QuestDiaryDeatilResp questDiaryDeatilResp = QuestDiaryDeatilResp.create(userQuestDiary);
-
         return ApplicationResponse.create("created", questDiaryDeatilResp);
     }
 
