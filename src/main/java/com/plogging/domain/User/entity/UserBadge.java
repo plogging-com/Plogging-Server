@@ -28,6 +28,8 @@ public class UserBadge {
     @JoinColumn(name="badgeIdx")
     private Badge badge;
 
+    private boolean isMainBadge;
+
     private void addBadge(Badge badge){
         this.badge = badge;
         badge.addBadge(this);
@@ -36,6 +38,10 @@ public class UserBadge {
     private void addUser(User user){
         this.user = user;
         user.addBadge(this);
+    }
+
+    public void setMainBadge(boolean isMainBadge) {
+        this.isMainBadge = isMainBadge;
     }
 
     public static UserBadge toEntity(Badge badge , User user){
