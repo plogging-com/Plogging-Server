@@ -7,9 +7,14 @@ import com.plogging.domain.User.entity.User;
 
 public interface UserBadgeService {
 
-    boolean createBadge(User user , Board board);
 
     void createBadge(BadgeRequest badgeRequest);
 
     void giveBadgeToUser(BadgeList newBiePhotoGrapher , User user);
+
+    void changeMainBadge(Long badgeIdx);
+
+    void getUserBadgeList();
+
+
 }
