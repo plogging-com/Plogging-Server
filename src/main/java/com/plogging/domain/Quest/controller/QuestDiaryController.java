@@ -19,14 +19,13 @@ import org.springframework.web.bind.annotation.*;
 public class QuestDiaryController{
 
     private final QuestDiaryService questDiaryService;
-
-
+    //
     @ApiOperation(value = "Quest Diary 작성하기", notes = "Quest Diary 작성.")
-    @PutMapping("/{complete_quest_id}")
+    @PutMapping("/{quest_id}")
     public ApplicationResponse<QuestDiaryDeatilResp> create(
-                                            @PathVariable Long complete_quest_id,
+                                            @PathVariable Long quest_id,
                                             @ModelAttribute QuestDiaryReq questDiaryReq){
-        return questDiaryService.create(complete_quest_id, questDiaryReq);
+        return questDiaryService.create(quest_id, questDiaryReq);
     }
 
     @ApiOperation(value = "모든 유저들의 Quest Diary 작성하기", notes = "Quest Diary 작성.")
@@ -38,13 +37,13 @@ public class QuestDiaryController{
     @ApiOperation(value = "Quest Diary 하나 조회", notes = "Quest Diary 하나 조회")
     @GetMapping("/{quest_diary_id}")
     public ApplicationResponse<QuestDiaryDeatilResp> findById(@PathVariable Long quest_diary_id){
-        return questDiaryService.findById(quest_diary_id);
+        return questDiaryService.findById(quest_diary_id);//TODO 이미지 3개 조회
+        //TODO 빈환에 시간추가 ex) 2022-08-27 08:47 --> '-'는 '.' 으로 바꾸기 오전, 오후 붙여서.
     }
 
     @ApiOperation(value = "특정 유저의 Quest Diary 작성하기", notes = "Quest Diary 작성.")
-    @GetMapping("/")
+    @GetMapping("/{quest_id}")
     public ApplicationResponse<Page<QuestDiaryPageResp>> findAllByUser(Pageable pageable){
         return questDiaryService.findAllByUser(pageable);
     }
-
 }

@@ -8,14 +8,17 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @NoArgsConstructor
 @Data
-public class QuestDiaryDeatilResp {
+public class QuestDiaryDeatilResp{
     private Long questDiaryId;
     private Long questId;
     private String comment;
-    private String photo;
+    private List<String> photo;
     private String writer;
+    private String createdAt;
 
 //    public QuestDiaryDeatilResp(Quest quest, User user, String comment, String filename){
 //        this.questId = quest.getId();
@@ -28,7 +31,7 @@ public class QuestDiaryDeatilResp {
         questDiaryDeatilResp.questDiaryId = userQuestDiary.getId();
         questDiaryDeatilResp.questId = userQuestDiary.getQuest().getId();
         questDiaryDeatilResp.comment = userQuestDiary.getComment();
-        questDiaryDeatilResp.photo = AwsS3Service.makeUrlOfFilename(userQuestDiary.getPhoto());
+        AwsS3Service.makeUrlsOfFilenames(userQuestDiary.getFilenames());
         questDiaryDeatilResp.writer = userQuestDiary.getUser().getNickName();
         return questDiaryDeatilResp;
     }
