@@ -8,7 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface QuestDiaryService {
-    ApplicationResponse<QuestDiaryDeatilResp> create(Long complete_quest_id, QuestDiaryReq questDiaryReq);
+    ApplicationResponse<QuestDiaryDeatilResp> create(Long quest_id, QuestDiaryReq questDiaryReq);
 
     ApplicationResponse<QuestDiaryDeatilResp> findById(Long quest_diary_id);
 
