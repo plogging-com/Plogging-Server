@@ -58,9 +58,16 @@ public class QuestDiaryServiceImpl implements QuestDiaryService {
     }
 
     @Override
-    public ApplicationResponse<Page<QuestDiaryPageResp>> findAllByUser(Pageable pageable) {
+    public ApplicationResponse<Page<QuestDiaryPageResp>> findAllByUser(Pageable pageable){
         User user = userRepository.findByLoginId(jwtService.getLoginId()).orElseThrow(UserIDValidException::new);
         return ApplicationResponse.ok(questDiaryRepository.findAllByUser(pageable, user).map(QuestDiaryPageResp::create));
+    }
+
+    @Override
+    public ApplicationResponse<Page<QuestDiaryPageResp>> findAllByUserAndQuest(Long questId, Pageable pageable){
+        User user = userRepository.findByLoginId(jwtService.getLoginId()).orElseThrow(UserIDValidException::new);
+        Quest quest = questRepository.findById(questId).orElseThrow(() -> new QuestIdNotFoundException(questId));
+        return ApplicationResponse.ok(questDiaryRepository.findAllByUserAndQuest(pageable, user, quest).map(QuestDiaryPageResp::create));
     }
 
     @Override
