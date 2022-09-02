@@ -12,5 +12,5 @@ import java.util.List;
 @Data
 public class QuestDiaryReq{
     private String comment;
-    private List<MultipartFile> photos; //TODO 3개 받기
+    private List<MultipartFile> photos;
 }

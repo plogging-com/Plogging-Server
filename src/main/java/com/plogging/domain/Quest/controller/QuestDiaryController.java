@@ -37,13 +37,12 @@ public class QuestDiaryController{
     @ApiOperation(value = "Quest Diary 하나 조회", notes = "Quest Diary 하나 조회")
     @GetMapping("/{quest_diary_id}")
     public ApplicationResponse<QuestDiaryDeatilResp> findById(@PathVariable Long quest_diary_id){
-        return questDiaryService.findById(quest_diary_id);//TODO 이미지 3개 조회
-        //TODO 빈환에 시간추가 ex) 2022-08-27 08:47 --> '-'는 '.' 으로 바꾸기 오전, 오후 붙여서.
+        return questDiaryService.findById(quest_diary_id);
     }
 
-    @ApiOperation(value = "특정 유저의 Quest Diary 작성하기", notes = "Quest Diary 작성.")
+    @ApiOperation(value = "특정 Quest의 Quest Diary 전체 조회하기", notes = "특정 Quest의 Quest Diary들 조회.")
     @GetMapping("/{quest_id}")
-    public ApplicationResponse<Page<QuestDiaryPageResp>> findAllByUser(Pageable pageable){
-        return questDiaryService.findAllByUser(pageable);
+    public ApplicationResponse<Page<QuestDiaryPageResp>> findAllByUserAndQuest(@PathVariable Long quest_id, Pageable pageable){
+        return questDiaryService.findAllByUserAndQuest(quest_id, pageable);
     }
 }

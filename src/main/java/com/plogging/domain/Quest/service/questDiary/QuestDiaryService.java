@@ -15,4 +15,6 @@ public interface QuestDiaryService {
     ApplicationResponse<Page<QuestDiaryPageResp>> findAllByUser(Pageable pageable);
 
     ApplicationResponse<Page<QuestDiaryPageResp>> findAll(Pageable pageable);
+
+    ApplicationResponse<Page<QuestDiaryPageResp>> findAllByUserAndQuest(Long quest_id, Pageable pageable);
 }

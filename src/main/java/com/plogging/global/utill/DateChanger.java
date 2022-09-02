@@ -3,9 +3,9 @@ package com.plogging.global.utill;
 public class DateChanger {
 
     // "2022-08-27 08:47:33.554207" --> "2022.08.27 오전 08:47" 으로 바꿔줌
-    public static String changefrom(String localdate){
+    public static String changefrom(String localDateTimeStr){
 
-        String substring = localdate
+        String substring = localDateTimeStr
                 .replace('-', '.')// 1. "2022-08-27 08:47:33.554207"
                 .substring(0, 16);// 2. "2022.08.27 08:47"
 
