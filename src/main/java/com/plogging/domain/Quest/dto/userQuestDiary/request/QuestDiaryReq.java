@@ -5,10 +5,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class QuestDiaryReq {
+public class QuestDiaryReq{
     private String comment;
-    private MultipartFile photo;
+    private List<MultipartFile> photos; //TODO 3개 받기
 }
