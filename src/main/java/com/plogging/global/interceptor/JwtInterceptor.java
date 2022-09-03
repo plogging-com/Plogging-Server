@@ -22,6 +22,7 @@ public class JwtInterceptor implements HandlerInterceptor {
         exceptApi.add("/api/v1/users/join");
         exceptApi.add("/api/v1/users/terms");
         exceptApi.add("/api/v1/users/find-id");
+        exceptApi.add("/api/v1/users/find-pw");
         exceptApi.add("/api/v1/sms/send");
 
 
