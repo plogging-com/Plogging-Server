@@ -26,5 +26,7 @@ public interface UserRepository extends JpaRepository<User, Long>{
         return page.getContent();
     }
 
+    Optional<User> findByPhone(String phone);
+
 
 }

@@ -1,14 +1,12 @@
 package com.plogging.domain.User.service.user;
 
 import com.plogging.domain.Quest.dto.userQuestProceeding.request.CreateQuestProceedingReq;
-import com.plogging.domain.Quest.service.quest.QuestService;
 import com.plogging.domain.Quest.service.questProceeding.QuestProceedingService;
 import com.plogging.domain.User.dto.request.*;
 import com.plogging.domain.User.dto.response.*;
 import com.plogging.domain.User.entity.User;
 import com.plogging.domain.User.exception.*;
 import com.plogging.domain.User.repository.UserRepository;
-//import com.plogging.global.jwt.service.JwtService;
 import com.plogging.domain.User.service.userToken.UserRefreshTokenService;
 import com.plogging.global.dto.ApplicationResponse;
 import com.plogging.global.jwt.service.JwtService;
@@ -18,9 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.Duration;
 import java.time.LocalDateTime;
-import java.time.Period;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
@@ -298,15 +294,20 @@ public class UserServiceImpl implements UserService {
                     "2.\"갑\"은 제12조의 규정에 위반하여 회원간 또는 회원과 제3자간에 서비스를 매개로 하여 물품거래 등과 관련하여 어떠한 책임도 부담하지 아니하고, 회원이 서비스의 이용과 관련하여 기대하는 이익에 관하여 책임을 부담하지 않습니다." + "\n"+
                     "3.회원 아이디(ID)와 비밀번호의 관리 및 이용상의 부주의로 인하여 발생 되는 손해 또는 제3자에 의한 부정사용 등에 대한 책임은 모두 회원에게 있습니다." + "\n"+
                     "4.회원이 제12조, 기타 이 약관의 규정을 위반함으로 인하여 \"갑\"이 회원 또는 제3자에 대하여 책임을 부담하게 되고, 이로써 \"갑\"에게 손해가 발생하게 되는 경우, 이 약관을 위반한 회원은 \"갑\"에게 발생하는 모든 손해를 배상하여야 하며, 동 손해로부터 \"갑\"을 면책시켜야 합니다." + "\n"+
-                    "제18조 (분쟁의 해결)" + "\n"+
-                    "1.\"갑\"과 회원은 서비스와 관련하여 발생한 분쟁을 원만하게 해결하기 위하여 필요한 모든 노력을 하여야 합니다." + "\n"+
-                    "2. 1항의 규정에도 불구하고 분쟁으로 인하여 소송이 제기될 경우 소송은 \"갑\"의 소재지를 관할하는 법원의 관할로 합니다." + "\n"+
+                    "제18조 (분쟁의 해결)" + "\n" +
+                    "1.\"갑\"과 회원은 서비스와 관련하여 발생한 분쟁을 원만하게 해결하기 위하여 필요한 모든 노력을 하여야 합니다." + "\n" +
+                    "2. 1항의 규정에도 불구하고 분쟁으로 인하여 소송이 제기될 경우 소송은 \"갑\"의 소재지를 관할하는 법원의 관할로 합니다." + "\n" +
                     "부 칙 제 1 조 (시행일) 이 약관은 2016년 06월 01일부터 시행한다.";
-        }else{
+        } else {
             throw new UserTermsException();
         }
         return value;
     }
 
-
+    @Override
+    public String findId(String phoneNum) {
+        User user = userRepository.findByPhone(phoneNum).orElseThrow(NotFoundUserException::new);
+        String loginId = user.getLoginId();
+        return loginId.substring(0, loginId.length() - 3) + "***";
+    }
 }
