@@ -21,7 +21,6 @@ import java.time.LocalDateTime;
 public class UserJoinReq {
 
     @NotBlank(message = "회원의 ID를 입력해주세요.")
-//    @Pattern(regexp = "^[a-z0-9]{6,18}$", message = "로그인 Id는 6~18글자의 영소문자, 숫자만 가능합니다.")
     @ApiModelProperty(notes = "로그인 ID를 입력해주세요.")
     private String id;
 
