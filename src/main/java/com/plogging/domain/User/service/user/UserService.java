@@ -29,4 +29,5 @@ public interface UserService {
 
     String terms(String condition);
 
+    String findId(String phoneNum);
 }
