@@ -31,9 +31,9 @@ public class QuestProceedingController {
     }
 
     @ApiOperation(value = "진행중인 quest 한 개 id로 조회", notes = "진행중 quest 조회.")
-    @GetMapping("/{quest_procedding_id}")
-    public ApplicationResponse<QuestProceedingDetailRes> findById(@PathVariable Long quest_procedding_id){
-        return questProceedingService.findById(quest_procedding_id);
+    @GetMapping("/{quest_proceeding_id}")
+    public ApplicationResponse<QuestProceedingDetailRes> findById(@PathVariable Long quest_proceeding_id){
+        return questProceedingService.findById(quest_proceeding_id);
     }
 
     @ApiOperation(value = "진행중인 quest 한 개 gage 상승시키기", notes = "quest 한 개 gage 상승.")
