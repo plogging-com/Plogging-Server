@@ -151,6 +151,10 @@ public class UserController {
         return ApplicationResponse.ok(userService.terms(condition));
     }
 
+    /**
+     * 유저 아이디 찾기 기능
+     * @author 한규범
+     */
     @PostMapping("/find-id")
     @ApiOperation(value = "유저 아이디 찾기")
     @ApiResponses(value = {
@@ -160,6 +164,10 @@ public class UserController {
         return ApplicationResponse.ok(userService.findId(phoneNum));
     }
 
+    /**
+     * 유저 비밀번호 찾기 기능
+     * @author 한규범
+     */
     @PostMapping("/find-pw")
     @ApiOperation(value = "유저 비밀번호 찾기(변경)")
     @ApiResponses(value = {
