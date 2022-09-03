@@ -31,7 +31,9 @@ public class UserController {
     @PostMapping("/join")
     @ApiOperation(value = "사용자 회원가입", notes = "회원가입 진햅합니다.")
     @ApiResponses(value = {
-            @ApiResponse(code = 400, message = "(V0001) \n 로그인 Id는 6~18글자의 영소문자, 숫자만 가능합니다. \n 비밀번호는 특수문자를 포함한 8~20글자의 영대/소문자, 숫자만 가능합니다. \n 닉네임은 2~5글자의 영소문자, 숫자, 한글만 가능합니다.", response = ApiErrorResponse.class)
+            @ApiResponse(code = 400, message = "(V0001) \n 로그인 Id는 6~18글자의 영소문자, 숫자만 가능합니다. \n 비밀번호는 특수문자를 포함한 8~20글자의 영대/소문자, 숫자만 가능합니다. \n 닉네임은 2~5글자의 영소문자, 숫자, 한글만 가능합니다.", response = ApiErrorResponse.class),
+            @ApiResponse(code = 400, message = "(U0008) \n 해당 번호로 이미 가입되어 있습니다.", response = ApiErrorResponse.class)
+
 
     })
     public ApplicationResponse<UserJoinRes> join(@Valid @RequestBody UserJoinReq userJoinReq){
@@ -157,4 +159,15 @@ public class UserController {
     public ApplicationResponse<String> findId(String phoneNum){
         return ApplicationResponse.ok(userService.findId(phoneNum));
     }
+
+    @PostMapping("/find-pw")
+    @ApiOperation(value = "유저 비밀번호 찾기(변경)")
+    @ApiResponses(value = {
+            @ApiResponse(code = 404, message = "해당 유저를 찾을 수 없습니다.", response = ApiErrorResponse.class)
+    })
+    public ApplicationResponse<Boolean> findPw(String loginId, String password){
+        return ApplicationResponse.ok(userService.findPw(loginId,password));
+    }
+
+
 }

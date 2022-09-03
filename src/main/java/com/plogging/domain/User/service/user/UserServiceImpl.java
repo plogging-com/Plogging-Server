@@ -20,6 +20,7 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 
@@ -37,7 +38,8 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public UserJoinRes join(UserJoinReq userJoinReq) {
-
+        if (!Pattern.matches("^(?=.*[a-zA-Z])(?=.*\\d)(?=.*\\W).{8,20}$", userJoinReq.getPassword())) throw new UserPasswordValidException();
+        if (! userRepository.findByPhone(userJoinReq.getPhone()).isEmpty()) throw new UserDuplicationPhoneException();
         userJoinReq.setPassword(SHA256Util.encrypt(userJoinReq.getPassword()));
 
         if(userJoinReq.getPhoto() != null) userJoinReq.setPhotoURL(awsS3Service.uploadImage(userJoinReq.getPhoto()));
@@ -51,8 +53,6 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public ApplicationResponse<Void> delete(UserDeleteReq userDeleteReq) {
-
-//        User user = userRepository.findById(userDeleteReq.getUserIdx()).orElseThrow(NotFoundUserException::new);
 
 
         User user = userRepository.findByLoginId(jwtService.getLoginId()).orElseThrow(NotFoundUserException::new);
@@ -308,6 +308,19 @@ public class UserServiceImpl implements UserService {
     public String findId(String phoneNum) {
         User user = userRepository.findByPhone(phoneNum).orElseThrow(NotFoundUserException::new);
         String loginId = user.getLoginId();
-        return loginId.substring(0, loginId.length() - 3) + "***";
+        return loginId.substring(0, loginId.length() - 2) + "**";
+    }
+
+    @Override
+    @Transactional
+    public Boolean findPw(String loginId, String password) {
+        User user = userRepository.findByLoginId(loginId).orElseThrow(NotFoundUserException::new);
+        if (Pattern.matches("^(?=.*[a-zA-Z])(?=.*\\d)(?=.*\\W).{8,20}$", password)) {
+            user.changePw(SHA256Util.encrypt(password));
+            return true;
+        }else {
+            throw new UserPasswordValidException();
+        }
+
     }
 }
