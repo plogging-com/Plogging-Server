@@ -8,20 +8,17 @@ import lombok.Data;
 @Data
 public class QuestProceedingDetailRes {
     private Long questProceedingId;
+    private  Long questId;
     private String name;
     private String photo;
     private int level;
     private int gage;
     private String startTime;
 
-//    private QuestRes questRes;
-//    private int level;
-//    private int gage;
-//    private String startTime;
-
     public static QuestProceedingDetailRes create(UserQuestProceeding userQuestProceeding){
         QuestProceedingDetailRes questProceedingDetailRes = new QuestProceedingDetailRes();
         questProceedingDetailRes.questProceedingId = userQuestProceeding.getId();
+        questProceedingDetailRes.questId = userQuestProceeding.getQuest().getId();
         questProceedingDetailRes.name = userQuestProceeding.getQuest().getName();
         questProceedingDetailRes.photo = AwsS3Service.makeUrlOfFilename(userQuestProceeding.getQuest().getPhoto());
         questProceedingDetailRes.level = userQuestProceeding.getLevel();
