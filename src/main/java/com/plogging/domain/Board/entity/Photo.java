@@ -18,11 +18,11 @@ public class Photo {
     @JoinColumn(name="boardIdx")
     private Board board;
 
-    private String url;
+    private String fileName;
 
     @Builder
-    public Photo(Board board, String url) {
-        this.url = url;
+    public Photo(Board board, String fileName) {
+        this.fileName = fileName;
 
         this.board = board;
         board.addPhoto(this);
