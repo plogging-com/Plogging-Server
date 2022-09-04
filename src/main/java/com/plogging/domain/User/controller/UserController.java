@@ -31,7 +31,9 @@ public class UserController {
     @PostMapping("/join")
     @ApiOperation(value = "사용자 회원가입", notes = "회원가입 진햅합니다.")
     @ApiResponses(value = {
-            @ApiResponse(code = 400, message = "(V0001) \n 로그인 Id는 6~18글자의 영소문자, 숫자만 가능합니다. \n 비밀번호는 특수문자를 포함한 8~20글자의 영대/소문자, 숫자만 가능합니다. \n 닉네임은 2~5글자의 영소문자, 숫자, 한글만 가능합니다.", response = ApiErrorResponse.class)
+            @ApiResponse(code = 400, message = "(V0001) \n 로그인 Id는 6~18글자의 영소문자, 숫자만 가능합니다. \n 비밀번호는 특수문자를 포함한 8~20글자의 영대/소문자, 숫자만 가능합니다. \n 닉네임은 2~5글자의 영소문자, 숫자, 한글만 가능합니다.", response = ApiErrorResponse.class),
+            @ApiResponse(code = 400, message = "(U0008) \n 해당 번호로 이미 가입되어 있습니다.", response = ApiErrorResponse.class)
+
 
     })
     public ApplicationResponse<UserJoinRes> join(@Valid @RequestBody UserJoinReq userJoinReq){
@@ -138,5 +140,42 @@ public class UserController {
     public ApplicationResponse<UserInfoRes> info(){
         return ApplicationResponse.ok(userService.info());
     }
+
+
+    @GetMapping("/terms")
+    @ApiOperation(value = "서비스 이용약관, 개인정보 처리 방침 조회 \n condition = service(이용약관), privacy(개인정보 처리 방침)")
+    @ApiResponses(value = {
+            @ApiResponse(code = 404, message = "조건 값이 올바르지 않습니다.", response = ApiErrorResponse.class)
+    })
+    public ApplicationResponse<String> terms(String condition){
+        return ApplicationResponse.ok(userService.terms(condition));
+    }
+
+    /**
+     * 유저 아이디 찾기 기능
+     * @author 한규범
+     */
+    @PostMapping("/find-id")
+    @ApiOperation(value = "유저 아이디 찾기")
+    @ApiResponses(value = {
+            @ApiResponse(code = 404, message = "해당 유저를 찾을 수 없습니다.", response = ApiErrorResponse.class)
+    })
+    public ApplicationResponse<String> findId(String phoneNum){
+        return ApplicationResponse.ok(userService.findId(phoneNum));
+    }
+
+    /**
+     * 유저 비밀번호 찾기 기능
+     * @author 한규범
+     */
+    @PostMapping("/find-pw")
+    @ApiOperation(value = "유저 비밀번호 찾기(변경)")
+    @ApiResponses(value = {
+            @ApiResponse(code = 404, message = "해당 유저를 찾을 수 없습니다.", response = ApiErrorResponse.class)
+    })
+    public ApplicationResponse<Boolean> findPw(String loginId, String password){
+        return ApplicationResponse.ok(userService.findPw(loginId,password));
+    }
+
 
 }

@@ -2,6 +2,7 @@ package com.plogging.domain.User.dto.request;
 
 import com.plogging.domain.User.entity.User;
 import com.plogging.global.enumerations.PresenceStatus;
+import com.plogging.global.utill.imgae.AwsS3Service;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
@@ -20,7 +21,6 @@ import java.time.LocalDateTime;
 public class UserJoinReq {
 
     @NotBlank(message = "회원의 ID를 입력해주세요.")
-//    @Pattern(regexp = "^[a-z0-9]{6,18}$", message = "로그인 Id는 6~18글자의 영소문자, 숫자만 가능합니다.")
     @ApiModelProperty(notes = "로그인 ID를 입력해주세요.")
     private String id;
 
@@ -47,7 +47,7 @@ public class UserJoinReq {
                 .password(userJoinReq.getPassword())
                 .nickName(userJoinReq.getNickname())
                 .phone(userJoinReq.getPhone())
-                .photo("https://plogging.s3.ap-northeast-2.amazonaws.com/feee43c9-86c1-4fdd-a208-dcd110564381.png")
+                .photo("feee43c9-86c1-4fdd-a208-dcd110564381.png")
                 .signUpDate(LocalDateTime.now())
                 .growth(1)
                 .status(PresenceStatus.ACTIVE)
