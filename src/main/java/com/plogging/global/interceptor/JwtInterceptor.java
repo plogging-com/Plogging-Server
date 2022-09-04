@@ -19,6 +19,7 @@ public class JwtInterceptor implements HandlerInterceptor {
         ArrayList<String> exceptApi = new ArrayList<>();
         exceptApi.add("/api/v1/users/check-nickname");
         exceptApi.add("/api/v1/users/check-id");
+        exceptApi.add("/api/v1/users/check-phone");
         exceptApi.add("/api/v1/users/join");
         exceptApi.add("/api/v1/users/terms");
         exceptApi.add("/api/v1/users/find-id");
