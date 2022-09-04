@@ -321,6 +321,11 @@ public class UserServiceImpl implements UserService {
         }else {
             throw new UserPasswordValidException();
         }
+    }
 
+    @Override
+    public Boolean checkPhone(String loginId, String phone) {
+        userRepository.findByLoginIdAndPhone(loginId, phone).orElseThrow(NotFoundUserException::new);
+        return true;
     }
 }
