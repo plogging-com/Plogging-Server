@@ -21,7 +21,7 @@ public class QuestDiaryController{
     private final QuestDiaryService questDiaryService;
     //
     @ApiOperation(value = "Quest Diary 작성하기", notes = "Quest Diary 작성.")
-    @PutMapping("/{quest_id}")
+    @PostMapping("/{quest_id}")
     public ApplicationResponse<QuestDiaryDeatilResp> create(
                                             @PathVariable Long quest_id,
                                             @ModelAttribute QuestDiaryReq questDiaryReq){
