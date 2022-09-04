@@ -1,6 +1,7 @@
 package com.plogging.global.exception;
 
 
+import com.plogging.domain.Quest.exception.NothingToShowException;
 import com.plogging.global.dto.ApiErrorResponse;
 
 import com.plogging.global.dto.ApplicationErrorResponse;
@@ -54,5 +55,11 @@ public class GlobalExceptionHandler {
                 .status(HttpStatus.BAD_REQUEST.value())
                 .body(new ApiErrorResponse("V0001", Arrays.asList(errorCode)));
 
+    }
+
+    @ExceptionHandler(NothingToShowException.class)
+    public ApplicationErrorResponse<Void> nothingToShowException(NothingToShowException e){
+        log.info(LOG_FORMAT, e.getClass().getSimpleName(), "V0001", e.getErrorCode());
+        return ApplicationErrorResponse.error(e);
     }
 }
