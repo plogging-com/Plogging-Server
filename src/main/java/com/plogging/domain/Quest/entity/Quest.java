@@ -18,7 +18,8 @@ import static javax.persistence.CascadeType.ALL;
 @AllArgsConstructor
 @Builder
 public class Quest {
-
+    // Pageable.
+    // AwsImageService.
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name="questIdx")
@@ -36,7 +37,7 @@ public class Quest {
     @OneToMany(mappedBy="quest", cascade=ALL)
     private List<UserQuestComplete> userQuestCompletes = new ArrayList<>();
 
-    public Quest(String name, int maxLevel, String photo) {
+    public Quest(String name, int maxLevel, String photo){
         this.name = name;
         this.maxLevel = maxLevel;
         this.photo = photo;
