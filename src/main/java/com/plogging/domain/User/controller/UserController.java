@@ -177,5 +177,17 @@ public class UserController {
         return ApplicationResponse.ok(userService.findPw(loginId,password));
     }
 
+    /**
+     * 유저 아이디와 전화번호 일치 확인
+     * @author 한규범
+     */
+    @PostMapping("check-phone")
+    @ApiOperation(value = "유저 아이디와 전화번호 일치 확인")
+    @ApiResponses(value = {
+            @ApiResponse(code = 404, message = "해당 유저를 찾을 수 없습니다.", response = ApiErrorResponse.class)
+    })
+    public ApplicationResponse<Boolean> checkPhone(String loginId, String phone){
+        return ApplicationResponse.ok(userService.checkPhone(loginId,phone));
+    }
 
 }
