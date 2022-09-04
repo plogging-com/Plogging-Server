@@ -63,7 +63,7 @@ public class BoardServiceImpl implements BoardService{
         List<String> filenames = awsS3Service.uploadImages(createBoardReq.getPhotos());
         for(String i : filenames){
             Photo photo = Photo.builder()
-                    .url(AwsS3Service.makeUrlOfFilename(i))
+                    .fileName(i)
                     .board(board)
                     .build();
 
@@ -71,9 +71,14 @@ public class BoardServiceImpl implements BoardService{
         }
 
         List<Photo> photos = photoRepository.findAllByBoardId(board.getId());
-        if(photos != null) board.addMainPhotoUrl(photos.get(0).getUrl());
+        if(photos != null) board.addMainPhotoUrl(awsS3Service.makeUrlOfFilename((photos.get(0).getFileName())));
 
-        BoardRes boardRes = BoardRes.create(board , isFirstBoard, photos);
+        List<String> urls = new ArrayList<>();
+        for (Photo i : photos){
+            urls.add(awsS3Service.makeUrlOfFilename(i.getFileName()));
+        }
+
+        BoardRes boardRes = BoardRes.create(board , isFirstBoard, urls);
 
         // 카테고리 연관관계 및 생성
         BoardCategory boardCategory1 = BoardCategory.builder()
@@ -123,7 +128,11 @@ public class BoardServiceImpl implements BoardService{
         inquiryService.createInquiry(boardId);
 
         List<Photo> photos = photoRepository.findAllByBoardId(board.getId());
-        return ApplicationResponse.ok(BoardRes.create(board , true, photos));
+        List<String> urls = new ArrayList<>();
+        for (Photo i : photos){
+            urls.add(awsS3Service.makeUrlOfFilename(i.getFileName()));
+        }
+        return ApplicationResponse.ok(BoardRes.create(board , true, urls));
 }
 
     @Transactional
