@@ -23,7 +23,6 @@ public class QuestProceedingController {
 
     private final QuestProceedingService questProceedingService;
 
-
     @ApiOperation(value = "진행중인 quest 전체 조회", notes = "진행중 quest 전체 조회.")
     @GetMapping("/")
     public ApplicationResponse<Page<QuestProceedingDetailRes>> findAll(Pageable pageable){

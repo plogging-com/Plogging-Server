@@ -3,6 +3,8 @@ package com.plogging.domain.Quest.service.questComplete;
 import com.amazonaws.services.kms.model.NotFoundException;
 import com.plogging.domain.Quest.dto.quest.response.QuestRes;
 import com.plogging.domain.Quest.dto.userQuestComplete.response.QuestCompRes;
+import com.plogging.domain.Quest.entity.UserQuestComplete;
+import com.plogging.domain.Quest.exception.NothingToShowException;
 import com.plogging.domain.Quest.exception.QuestCompleteIdNotFoundException;
 import com.plogging.domain.Quest.repository.QuestCompleteRepository;
 import com.plogging.domain.User.entity.User;
@@ -38,9 +40,14 @@ public class QuestCompleteServiceImpl implements QuestCompleteService{
     @Override
     public ApplicationResponse<Page<QuestCompRes>> findAll(Pageable pageable){
         User user = userRepository.findByLoginId(jwtService.getLoginId()).orElseThrow(UserIdDuplicationException::new);
-        questCompleteRepository.findAllByUser(pageable, user).map(QuestCompRes::create);
+        Page<UserQuestComplete> result = questCompleteRepository.findAllByUser(pageable, user);
+        checkContentIsEmpty(result.getNumberOfElements());
         return ApplicationResponse.ok(
-                questCompleteRepository.findAllByUser(pageable, user).map(QuestCompRes::create)
+                result.map(QuestCompRes::create)
         );
+    }
+
+    private void checkContentIsEmpty(int numberOfElements) {
+        if(numberOfElements == 0) throw new NothingToShowException();
     }
 }

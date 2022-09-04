@@ -4,6 +4,7 @@ import com.plogging.domain.Quest.dto.userQuestProceeding.request.CreateQuestProc
 import com.plogging.domain.Quest.dto.userQuestProceeding.response.QuestProceedingDetailRes;
 import com.plogging.domain.Quest.entity.Quest;
 import com.plogging.domain.Quest.entity.UserQuestProceeding;
+import com.plogging.domain.Quest.exception.NothingToShowException;
 import com.plogging.domain.Quest.exception.QuestProceedingIdNotFoundException;
 import com.plogging.domain.Quest.repository.QuestProceedingRepository;
 import com.plogging.domain.Quest.service.quest.QuestService;
@@ -48,7 +49,9 @@ public class QuestProceedingServiceImpl implements QuestProceedingService{
     @Override
     public ApplicationResponse<Page<QuestProceedingDetailRes>> findAll(Pageable pageable){
         User user = userRepository.findByLoginId(jwtService.getLoginId()).orElseThrow(UserIDValidException::new);
-        return ApplicationResponse.ok(questProceedingRepository.findAllByUser(pageable, user).map(QuestProceedingDetailRes::create));
+        Page<UserQuestProceeding> result = questProceedingRepository.findAllByUser(pageable, user);
+        checkContentIsEmpty(result.getNumberOfElements());
+        return ApplicationResponse.ok(result.map(QuestProceedingDetailRes::create));
     }
 
     @Transactional
@@ -72,5 +75,9 @@ public class QuestProceedingServiceImpl implements QuestProceedingService{
                 questProceedingRepository.findById(id).orElseThrow(() -> new QuestProceedingIdNotFoundException(id));
         questProceedingRepository.deleteById(id);
         return ApplicationResponse.ok();
+    }
+
+    private void checkContentIsEmpty(int numberOfElements) {
+        if(numberOfElements == 0) throw new NothingToShowException();
     }
 }
