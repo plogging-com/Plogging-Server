@@ -2,6 +2,7 @@ package com.plogging.domain.Quest.dto.userQuestProceeding.response;
 
 import com.plogging.domain.Quest.dto.quest.response.QuestRes;
 import com.plogging.domain.Quest.entity.UserQuestProceeding;
+import com.plogging.global.utill.DateChanger;
 import com.plogging.global.utill.imgae.AwsS3Service;
 import lombok.Data;
 
@@ -23,7 +24,7 @@ public class QuestProceedingDetailRes {
         questProceedingDetailRes.photo = AwsS3Service.makeUrlOfFilename(userQuestProceeding.getQuest().getPhoto());
         questProceedingDetailRes.level = userQuestProceeding.getLevel();
         questProceedingDetailRes.gage = userQuestProceeding.getGage();
-        questProceedingDetailRes.startTime = userQuestProceeding.getStartTime().toString();
+        questProceedingDetailRes.startTime = DateChanger.changefrom(userQuestProceeding.getStartTime().toString());
         return questProceedingDetailRes;
     }
 }
