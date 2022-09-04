@@ -31,4 +31,6 @@ public interface UserService {
     String findId(String phoneNum);
 
     Boolean findPw(String loginId, String password);
+
+    Boolean checkPhone(String loginId, String phone);
 }
