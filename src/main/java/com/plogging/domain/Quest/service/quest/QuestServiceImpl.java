@@ -7,6 +7,7 @@ import com.plogging.domain.Quest.entity.Quest;
 import com.plogging.domain.Quest.entity.UserQuestComplete;
 import com.plogging.domain.Quest.entity.UserQuestProceeding;
 import com.plogging.domain.Quest.exception.CanNotCompleteQuestException;
+import com.plogging.domain.Quest.exception.NothingToShowException;
 import com.plogging.domain.Quest.exception.QuestIdNotFoundException;
 import com.plogging.domain.Quest.repository.QuestCompleteRepository;
 import com.plogging.domain.Quest.repository.QuestProceedingRepository;
@@ -54,8 +55,11 @@ public class QuestServiceImpl implements QuestService{
 
     @Override
     public ApplicationResponse<Page<QuestRes>> findAll(Pageable pageable){
-        return ApplicationResponse.ok(questRepository.findAll(pageable).map(QuestRes::create));
+        Page<Quest> result = questRepository.findAll(pageable);
+        checkContentIsEmpty(result.getNumberOfElements());
+        return ApplicationResponse.ok(result.map(QuestRes::create));
     }
+
 
     @Transactional
     @Override
@@ -114,5 +118,9 @@ public class QuestServiceImpl implements QuestService{
         List<Quest> quests = findAllOG();
         todayQuest = quests.get((int) (Math.random() * quests.size()));
         log.info("오늘의 퀘스트가 변경되었습니다. 오늘의 퀘스트:{}", todayQuest.getName());
+    }
+
+    private void checkContentIsEmpty(int numberOfElements) {
+        if(numberOfElements == 0) throw new NothingToShowException();
     }
 }
