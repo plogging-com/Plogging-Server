@@ -9,7 +9,7 @@ import lombok.Data;
 @Data
 public class QuestProceedingDetailRes {
     private Long questProceedingId;
-    private  Long questId;
+    private Long questId;
     private String name;
     private String photo;
     private int level;

@@ -16,7 +16,6 @@ public class CreateQuestReq{
     @NotNull
     private String name;
 
-    @NotNull
     private MultipartFile photo;
 
     @NotNull

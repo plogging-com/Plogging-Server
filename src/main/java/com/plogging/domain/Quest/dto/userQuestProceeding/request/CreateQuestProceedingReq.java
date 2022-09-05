@@ -20,7 +20,7 @@ public class CreateQuestProceedingReq {
 
     private User user;
 
-    public static CreateQuestProceedingReq create(User user) {
+    public static CreateQuestProceedingReq create(User user){
         CreateQuestProceedingReq createQuestProceedingReq = new CreateQuestProceedingReq();
         createQuestProceedingReq.user = user;
         List<UserQuestProceeding> userQuestProceedings = user.getUserQuestProceedings();
