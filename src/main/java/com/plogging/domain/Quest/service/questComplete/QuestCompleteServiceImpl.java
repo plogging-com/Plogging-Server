@@ -40,10 +40,8 @@ public class QuestCompleteServiceImpl implements QuestCompleteService{
     @Override
     public ApplicationResponse<Page<QuestCompRes>> findAll(Pageable pageable){
         User user = userRepository.findByLoginId(jwtService.getLoginId()).orElseThrow(UserIdDuplicationException::new);
-        Page<UserQuestComplete> result = questCompleteRepository.findAllByUser(pageable, user);
-        checkContentIsEmpty(result.getNumberOfElements());
         return ApplicationResponse.ok(
-                result.map(QuestCompRes::create)
+                questCompleteRepository.findAllByUser(pageable, user).map(QuestCompRes::create)
         );
     }
 
