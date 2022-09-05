@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @RestController
@@ -60,8 +61,8 @@ public class UserController {
 
     @PostMapping("/delete")
     @ApiOperation(value = "사용자 탈퇴", notes = "탈퇴를 진행합니다.")
-    public ApplicationResponse<Void> login(@Valid @RequestBody UserDeleteReq userDeleteReq){
-        return userService.delete(userDeleteReq);
+    public ApplicationResponse<Void> login(@RequestParam("password") @NotNull(message = "비밀번호를 입력해주세요.") String password){
+        return userService.delete(password);
     }
 
 

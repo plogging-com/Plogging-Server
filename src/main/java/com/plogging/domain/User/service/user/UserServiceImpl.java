@@ -52,11 +52,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public ApplicationResponse<Void> delete(UserDeleteReq userDeleteReq) {
+    public ApplicationResponse<Void> delete(String password) {
 
 
         User user = userRepository.findByLoginId(jwtService.getLoginId()).orElseThrow(NotFoundUserException::new);
-        if(!user.getPassword().equals(SHA256Util.encrypt(userDeleteReq.getPassword()))) throw new UserPasswordWrongException();
+        if(!user.getPassword().equals(SHA256Util.encrypt(password))) throw new UserPasswordWrongException();
 
         user.changeUserDelete();
         return ApplicationResponse.ok();
