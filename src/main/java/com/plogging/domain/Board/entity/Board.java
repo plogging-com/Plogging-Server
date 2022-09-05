@@ -1,5 +1,6 @@
 package com.plogging.domain.Board.entity;
 
+import com.plogging.domain.Board.dto.board.request.modifyBoardReq;
 import com.plogging.domain.User.entity.User;
 import com.plogging.global.enumerations.PresenceStatus;
 import lombok.AllArgsConstructor;
@@ -102,5 +103,10 @@ public class Board {
 
     public void addMainPhotoUrl(String url){
         this.mainPhotoUrl = url;
+    }
+
+    public void modifyBoard(String title, String content) {
+        if(content != null) this.title = title;
+        if(content != null) this.content = content;
     }
 }

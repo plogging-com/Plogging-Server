@@ -12,4 +12,5 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface BoardCategoryRepository extends JpaRepository<BoardCategory, Long> {
+    List<BoardCategory> findAllByBoardId(Long boardId);
 }

@@ -2,6 +2,7 @@ package com.plogging.domain.Board.service.board;
 
 import com.plogging.domain.Board.dto.board.request.createBoardReq;
 import com.plogging.domain.Board.dto.board.request.getAllBoardsByCategoryReq;
+import com.plogging.domain.Board.dto.board.request.modifyBoardReq;
 import com.plogging.domain.Board.dto.board.response.BoardAllRes;
 import com.plogging.domain.Board.dto.board.response.BoardRes;
 import com.plogging.domain.Board.entity.*;
@@ -138,10 +139,89 @@ public class BoardServiceImpl implements BoardService{
     @Transactional
     @Override
     public ApplicationResponse<Void> delBoard(Long id){
+        if(!boardRepository.existsById(id)) throw new NotFoundBoardException();
         Board board = boardRepository.findById(id).get();
         board.changeBoardDelete();
 
         return ApplicationResponse.ok();
     }
 
+    @Transactional
+    @Override
+    public ApplicationResponse<BoardRes> modifyBoard(modifyBoardReq modifyBoardReq){
+        if(!boardRepository.existsById(modifyBoardReq.getBoardId())) throw new NotFoundBoardException();
+        Board board = boardRepository.findById(modifyBoardReq.getBoardId()).get();
+
+        board.modifyBoard(modifyBoardReq.getTitle(), modifyBoardReq.getContent());
+
+        List<String> urls = new ArrayList<>();
+        if(modifyBoardReq.getPhotos() != null){
+            // 기존 사진 모두 삭제
+            List<Photo> oldPhotos = photoRepository.findAllByBoardId(board.getId());
+            for (Photo i : oldPhotos){
+                photoRepository.delete(i);
+            }
+
+            // photo 생성
+            List<String> filenames = awsS3Service.uploadImages(modifyBoardReq.getPhotos());
+            for(String i : filenames){
+                Photo photo = Photo.builder()
+                        .fileName(i)
+                        .board(board)
+                        .build();
+
+                photoRepository.save(photo);
+            }
+
+            List<Photo> photos = photoRepository.findAllByBoardId(board.getId());
+            board.addMainPhotoUrl(awsS3Service.makeUrlOfFilename((photos.get(0).getFileName())));
+
+            for (Photo i : photos){
+                urls.add(awsS3Service.makeUrlOfFilename(i.getFileName()));
+            }
+        }
+
+        BoardRes boardRes = BoardRes.create(board , false, urls);
+
+        // 카테고리 수정할게 하나라도 있는 경우
+        if(modifyBoardReq.getCategoryName1() != null || modifyBoardReq.getCategoryName2() != null || modifyBoardReq.getCategoryName3() != null){
+            // 기존 카테고리 모두 삭제
+            List<BoardCategory> boardCategories = boardCategoryRepository.findAllByBoardId(board.getId());
+            for(BoardCategory i : boardCategories){
+                boardCategoryRepository.delete(i);
+            }
+
+            if(modifyBoardReq.getCategoryName1() != null) {
+                BoardCategory boardCategory1 = BoardCategory.builder()
+                        .board(board)
+                        .category(categoryRepository.findByName(modifyBoardReq.getCategoryName1()).get())
+                        .build();
+                boardCategoryRepository.save(boardCategory1);
+
+                boardRes.addCategory(modifyBoardReq.getCategoryName1());
+            }
+
+            if(modifyBoardReq.getCategoryName2() != null) {
+                BoardCategory boardCategory2 = BoardCategory.builder()
+                        .board(board)
+                        .category(categoryRepository.findByName(modifyBoardReq.getCategoryName2()).get())
+                        .build();
+                boardCategoryRepository.save(boardCategory2);
+
+                boardRes.addCategory(modifyBoardReq.getCategoryName2());
+            }
+
+            if(modifyBoardReq.getCategoryName3() != null) {
+                BoardCategory boardCategory3 = BoardCategory.builder()
+                        .board(board)
+                        .category(categoryRepository.findByName(modifyBoardReq.getCategoryName3()).get())
+                        .build();
+                boardCategoryRepository.save(boardCategory3);
+
+                boardRes.addCategory(modifyBoardReq.getCategoryName3());
+            }
+        }
+
+        return ApplicationResponse.ok(boardRes);
+    }
 }
