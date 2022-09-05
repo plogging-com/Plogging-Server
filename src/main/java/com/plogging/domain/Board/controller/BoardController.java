@@ -27,7 +27,7 @@ public class BoardController {
      * 게시글 등록
      * @author 강신현
      */
-    @ApiOperation(value = "게시글 등록", notes = "swagger에서 이미지 여러장 업로드 시, 에러가 있으므로 postman에서 테스트 해주세요 (https://solar-desert-882435.postman.co/workspace/My-Workspace~167b7ee1-c23b-4ee3-8c78-29d79a1698e1/request/18177198-883b3d8e-82a7-4228-8bb6-c076ad75749a)")
+    @ApiOperation(value = "게시글 등록", notes = "swagger에서 이미지 여러장 업로드 시, 에러가 있으므로 postman에서 테스트 해주세요 (https://www.postman.com/solar-desert-882435/workspace/plogging/request/18177198-883b3d8e-82a7-4228-8bb6-c076ad75749a)")
     @PostMapping("")
     public ApplicationResponse<BoardRes> boardCreate(@ModelAttribute createBoardReq createBoardReq){
         return boardService.createBoard(createBoardReq);
@@ -67,7 +67,7 @@ public class BoardController {
      * 게시글 수정
      * @author 강신현
      */
-    @ApiOperation(value = "게시글 수정", notes = "")
+    @ApiOperation(value = "게시글 수정", notes = "swagger에서 이미지 여러장 업로드 시, 에러가 있으므로 postman에서 테스트 해주세요 (https://www.postman.com/solar-desert-882435/workspace/plogging/request/18177198-010a0bbb-0bdd-4910-856a-5c83035e5dce)")
     @PatchMapping("")
     public ApplicationResponse<BoardRes> modifyBoard(@ModelAttribute modifyBoardReq modifyBoardReq){
         return boardService.modifyBoard(modifyBoardReq);
