@@ -6,11 +6,17 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.constraints.NotNull;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 public class EditQuestReq {
+    @NotNull
     private String name;
+
     private MultipartFile photo;
-    private Integer maxLevel;
+
+    @NotNull
+    private int maxLevel;
 }

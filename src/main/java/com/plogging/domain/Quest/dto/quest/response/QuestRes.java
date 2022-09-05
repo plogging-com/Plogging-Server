@@ -12,8 +12,8 @@ import lombok.NoArgsConstructor;
 public class QuestRes{
 
     private String name;
-    private int maxLevel;
     private String photo;
+    private int maxLevel;
 
     public static QuestRes create(Quest quest){
         QuestRes questRes = new QuestRes();
