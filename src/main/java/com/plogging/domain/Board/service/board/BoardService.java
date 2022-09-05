@@ -2,6 +2,7 @@ package com.plogging.domain.Board.service.board;
 
 import com.plogging.domain.Board.dto.board.request.createBoardReq;
 import com.plogging.domain.Board.dto.board.request.getAllBoardsByCategoryReq;
+import com.plogging.domain.Board.dto.board.request.modifyBoardReq;
 import com.plogging.domain.Board.dto.board.response.BoardAllRes;
 import com.plogging.domain.Board.dto.board.response.BoardRes;
 import com.plogging.global.dto.ApplicationResponse;
@@ -17,4 +18,6 @@ public interface BoardService {
     ApplicationResponse<Void> delBoard(Long id);
 
     ApplicationResponse<BoardRes> getBoard(Long boardId);
+
+    ApplicationResponse<BoardRes> modifyBoard(modifyBoardReq modifyBoardReq);
 }
