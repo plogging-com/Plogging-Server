@@ -45,7 +45,7 @@ public class QuestDiaryServiceImpl implements QuestDiaryService {
     public ApplicationResponse<QuestDiaryDeatilResp> create(Long questId, QuestDiaryReq questDiaryReq) {
         Quest quest = questRepository
                 .findById(questId).orElseThrow(() -> new QuestIdNotFoundException(questId));
-        User user = userRepository.findByLoginId(jwtService.getLoginId()).orElseThrow(UserIdDuplicationException::new);
+        User user = userRepository.findByLoginId(jwtService.getLoginId()).orElseThrow(UserIdDuplicationException::new);//TODO
         List<String> filenames = awsS3Service.uploadImages(questDiaryReq.getPhotos());
         UserQuestDiary userQuestDiary = UserQuestDiary.create(questDiaryReq, filenames, quest, user);
         questDiaryRepository.save(userQuestDiary);
