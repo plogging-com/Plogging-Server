@@ -17,7 +17,7 @@ public class QuestDiaryDeatilResp{
     private Long questDiaryId;
     private Long questId;
     private String comment;
-    private List<String> photo;
+    private List<String> photos;
     private String writer;
     private String createdAt;
 
@@ -26,7 +26,7 @@ public class QuestDiaryDeatilResp{
         questDiaryDeatilResp.questDiaryId = userQuestDiary.getId();
         questDiaryDeatilResp.questId = userQuestDiary.getQuest().getId();
         questDiaryDeatilResp.comment = userQuestDiary.getComment();
-        AwsS3Service.makeUrlsOfFilenames(userQuestDiary.getFilenames());
+        questDiaryDeatilResp.photos = AwsS3Service.makeUrlsOfFilenames(userQuestDiary.getFilenames());
         questDiaryDeatilResp.writer = userQuestDiary.getUser().getNickName();
         questDiaryDeatilResp.createdAt = DateChanger.changefrom(userQuestDiary.getTime().toString());
         return questDiaryDeatilResp;
