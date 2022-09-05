@@ -175,7 +175,7 @@ public class UserServiceImpl implements UserService {
                 .nickname(user.getNickName())
                 .grade(grade)
                 .level(user.getLevel())
-                .photo(user.getPhoto())
+                .photo(AwsS3Service.makeUrlOfFilename(user.getPhoto()))
                 .step(0L)
                 .build();
     }
