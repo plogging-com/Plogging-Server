@@ -70,6 +70,7 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findByLoginId(userLoginReq.getLoginId()).orElseThrow(NotFoundUserException::new);
 
         if(!user.getPassword().equals(SHA256Util.encrypt(userLoginReq.getPassword())))throw new NotFoundUserException();
+        if(!user.getStatus().equals("ACTIVE")) throw new UserDeleteException();
 
         String accessJwt = jwtService.createAccessJwt(user.getLoginId());
         String refreshJwt = jwtService.createRefreshJwt(user.getLoginId());
