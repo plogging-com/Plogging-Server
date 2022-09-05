@@ -9,6 +9,7 @@ import com.plogging.domain.User.exception.*;
 import com.plogging.domain.User.repository.UserRepository;
 import com.plogging.domain.User.service.userToken.UserRefreshTokenService;
 import com.plogging.global.dto.ApplicationResponse;
+import com.plogging.global.enumerations.PresenceStatus;
 import com.plogging.global.jwt.service.JwtService;
 import com.plogging.global.utill.SHA256Util;
 import com.plogging.global.utill.imgae.AwsS3Service;
@@ -70,7 +71,7 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findByLoginId(userLoginReq.getLoginId()).orElseThrow(NotFoundUserException::new);
 
         if(!user.getPassword().equals(SHA256Util.encrypt(userLoginReq.getPassword())))throw new NotFoundUserException();
-        if(!user.getStatus().equals("ACTIVE")) throw new UserDeleteException();
+        if(user.getStatus() == PresenceStatus.DELETE) throw new UserDeleteException();
 
         String accessJwt = jwtService.createAccessJwt(user.getLoginId());
         String refreshJwt = jwtService.createRefreshJwt(user.getLoginId());
