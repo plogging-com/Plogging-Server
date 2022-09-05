@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface UserService {
     UserJoinRes join(UserJoinReq userJoinReq);
-    ApplicationResponse<Void> delete(UserDeleteReq userDeleteReq);
+    ApplicationResponse<Void> delete(String password);
 
     UserLoginRes login(UserLoginReq userLoginReq);
 
