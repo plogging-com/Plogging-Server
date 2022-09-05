@@ -32,7 +32,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Service
 public class QuestDiaryServiceImpl implements QuestDiaryService {
-
+    //hihi
     private final QuestDiaryRepository questDiaryRepository;
     private final QuestRepository questRepository;
     private final UserRepository userRepository;
