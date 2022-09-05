@@ -25,8 +25,6 @@ import org.springframework.web.bind.annotation.*;
 public class QuestCompleteController{
 
     private final QuestCompleteService questCompleteService;
-    private final UserRepository userRepository;
-    private final JwtService jwtService;
 
     @ApiOperation(value = "모든 완료된 quest 목록 조회", notes = "quest 전체 조회.")
     @GetMapping("/")

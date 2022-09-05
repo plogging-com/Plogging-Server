@@ -65,8 +65,8 @@ public class QuestServiceImpl implements QuestService{
     @Override
     public ApplicationResponse<QuestRes> edit(Long id, EditQuestReq editQuestReq){
         Quest quest = questRepository.findById(id).orElseThrow(() -> new QuestIdNotFoundException(id));
-        String photo = awsS3Service.uploadImage(editQuestReq.getPhoto());
-        quest.edit(editQuestReq.getName(), editQuestReq.getMaxLevel(), photo);
+        String filename = awsS3Service.uploadImage(editQuestReq.getPhoto());
+        quest.edit(editQuestReq.getName(), editQuestReq.getMaxLevel(), filename);
         return ApplicationResponse.ok(QuestRes.create(quest));
     }
 

@@ -13,8 +13,8 @@ public class QuestCompRes {
     private Long questCompleteId;
     private String name;
     private String photo;
-    private int level;
     private String endTime;
+    private int level;
 
     public static QuestCompRes create(UserQuestComplete userQuestComplete) {
         QuestCompRes questCompRes = new QuestCompRes();
