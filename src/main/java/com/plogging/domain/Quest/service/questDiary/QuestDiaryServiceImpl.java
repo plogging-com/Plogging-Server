@@ -61,8 +61,6 @@ public class QuestDiaryServiceImpl implements QuestDiaryService {
     @Override
     public ApplicationResponse<Page<QuestDiaryPageResp>> findAllByUser(Pageable pageable){
         User user = userRepository.findByLoginId(jwtService.getLoginId()).orElseThrow(UserIDValidException::new);
-        Page<UserQuestDiary> result = questDiaryRepository.findAllByUser(pageable, user);
-        checkContentIsEmpty(result.getNumberOfElements());
         return ApplicationResponse.ok(questDiaryRepository.findAllByUser(pageable, user).map(QuestDiaryPageResp::create));
     }
 
@@ -70,16 +68,12 @@ public class QuestDiaryServiceImpl implements QuestDiaryService {
     public ApplicationResponse<Page<QuestDiaryPageResp>> findAllByUserAndQuest(Long questId, Pageable pageable){
         User user = userRepository.findByLoginId(jwtService.getLoginId()).orElseThrow(UserIDValidException::new);
         Quest quest = questRepository.findById(questId).orElseThrow(() -> new QuestIdNotFoundException(questId));
-        Page<UserQuestDiary> result = questDiaryRepository.findAllByUserAndQuest(pageable, user, quest);
-        checkContentIsEmpty(result.getNumberOfElements());
         return ApplicationResponse.ok(questDiaryRepository.findAllByUserAndQuest(pageable, user, quest).map(QuestDiaryPageResp::create));
     }
 
     @Override
     public ApplicationResponse<Page<QuestDiaryPageResp>> findAll(Pageable pageable) {
-        Page<UserQuestDiary> result = questDiaryRepository.findAll(pageable);
-        checkContentIsEmpty(result.getNumberOfElements());
-        return ApplicationResponse.ok(result.map(QuestDiaryPageResp::create));
+        return ApplicationResponse.ok(questDiaryRepository.findAll(pageable).map(QuestDiaryPageResp::create));
     }
 
     private void checkContentIsEmpty(int numberOfElements) {
