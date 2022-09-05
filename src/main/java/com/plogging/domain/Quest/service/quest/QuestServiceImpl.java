@@ -55,11 +55,8 @@ public class QuestServiceImpl implements QuestService{
 
     @Override
     public ApplicationResponse<Page<QuestRes>> findAll(Pageable pageable){
-        Page<Quest> result = questRepository.findAll(pageable);
-        checkContentIsEmpty(result.getNumberOfElements());
-        return ApplicationResponse.ok(result.map(QuestRes::create));
+        return ApplicationResponse.ok(questRepository.findAll(pageable).map(QuestRes::create));
     }
-
 
     @Transactional
     @Override
