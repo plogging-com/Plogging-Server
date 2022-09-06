@@ -2,19 +2,15 @@ package com.plogging.domain.Board.entity;
 
 import com.plogging.domain.User.entity.User;
 import com.plogging.global.enumerations.PresenceStatus;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-@Builder
 public class Comment {
 
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
@@ -35,6 +31,15 @@ public class Comment {
     private String content;
     private LocalDateTime time;
     private Long groupNum;
+
+    @Builder
+    public Comment(User user, Board board, PresenceStatus status, String content, LocalDateTime time, Long groupNum){
+        this.user = user;
+        this.board = board;
+        this.content = content;
+        this.time = time;
+        this.groupNum = groupNum;
+    }
 
     public void changeCommentDelete() {
         this.status = PresenceStatus.DELETE;

@@ -3,10 +3,7 @@ package com.plogging.domain.Board.entity;
 import com.plogging.domain.Board.dto.board.request.modifyBoardReq;
 import com.plogging.domain.User.entity.User;
 import com.plogging.global.enumerations.PresenceStatus;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -17,9 +14,8 @@ import static javax.persistence.CascadeType.ALL;
 
 @Entity
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-@Builder
 public class Board {
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name="boardIdx")
@@ -58,6 +54,7 @@ public class Board {
     private int heartCnt;
     private int commentCnt;
 
+    @Builder
     public Board (User user, String title, String content, LocalDateTime time){
         this.user = user;
         this.title = title;
