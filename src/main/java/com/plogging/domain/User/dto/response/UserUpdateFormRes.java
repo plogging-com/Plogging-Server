@@ -1,6 +1,7 @@
 package com.plogging.domain.User.dto.response;
 
 import com.plogging.domain.User.entity.User;
+import com.plogging.global.utill.imgae.AwsS3Service;
 import io.swagger.annotations.ApiModel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,7 +23,7 @@ public class UserUpdateFormRes {
         return UserUpdateFormRes.builder()
                 .userIdx(user.getId())
                 .nickname(user.getNickName())
-                .photo(user.getPhoto()).build();
+                .photo(AwsS3Service.makeUrlOfFilename(user.getPhoto())).build();
     }
 
 

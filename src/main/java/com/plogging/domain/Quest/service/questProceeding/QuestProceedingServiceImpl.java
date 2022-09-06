@@ -49,9 +49,7 @@ public class QuestProceedingServiceImpl implements QuestProceedingService{
     @Override
     public ApplicationResponse<Page<QuestProceedingDetailRes>> findAll(Pageable pageable){
         User user = userRepository.findByLoginId(jwtService.getLoginId()).orElseThrow(UserIDValidException::new);
-        Page<UserQuestProceeding> result = questProceedingRepository.findAllByUser(pageable, user);
-        checkContentIsEmpty(result.getNumberOfElements());
-        return ApplicationResponse.ok(result.map(QuestProceedingDetailRes::create));
+        return ApplicationResponse.ok(questProceedingRepository.findAllByUser(pageable, user).map(QuestProceedingDetailRes::create));
     }
 
     @Transactional
