@@ -9,7 +9,6 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
 public class Report {
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name="reportIdx")

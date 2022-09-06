@@ -15,7 +15,6 @@ import static javax.persistence.CascadeType.ALL;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
 public class Board {
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name="boardIdx")

@@ -8,7 +8,6 @@ import javax.persistence.*;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
 public class Inquiry {
 
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
