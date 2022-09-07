@@ -1,9 +1,12 @@
 package com.plogging.domain.User.service.userBadge;
 
-import com.plogging.domain.Board.entity.Board;
 import com.plogging.domain.User.BadgeList;
 import com.plogging.domain.User.dto.request.BadgeRequest;
+import com.plogging.domain.User.dto.response.UserBadgeListRes;
 import com.plogging.domain.User.entity.User;
+import com.plogging.global.dto.ApplicationResponse;
+
+import java.util.List;
 
 public interface UserBadgeService {
 
@@ -12,9 +15,12 @@ public interface UserBadgeService {
 
     void giveBadgeToUser(BadgeList newBiePhotoGrapher , User user);
 
-    void changeMainBadge(Long badgeIdx);
+    ApplicationResponse<Void> changeMainBadge(Long badgeIdx);
 
-    void getUserBadgeList();
+    List<UserBadgeListRes> getUserBadgeList();
 
+    void getButton();
+
+    void getFootWork(Long footworkNum);
 
 }

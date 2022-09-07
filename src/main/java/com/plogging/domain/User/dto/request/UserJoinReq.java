@@ -50,6 +50,8 @@ public class UserJoinReq {
                 .photo("feee43c9-86c1-4fdd-a208-dcd110564381.png")
                 .signUpDate(LocalDateTime.now())
                 .growth(1)
+                .boardCount(0L)
+                .isFirstPlogging(false)
                 .status(PresenceStatus.ACTIVE)
                 .level(1L).build();
     }
