@@ -39,6 +39,9 @@ public class User {
     private LocalDateTime signUpDate;
     private Long level;
 
+    private Long boardCount;
+
+    private boolean isFirstPlogging;
 
     @Enumerated(EnumType.STRING)
     private PresenceStatus status;
@@ -76,11 +79,9 @@ public class User {
     @OneToOne(mappedBy = "user", cascade = ALL, fetch = FetchType.LAZY)
     private UserRefreshToken userRefreshToken;
 
-
     public void updateUser(UserUpdateReq userUpdateReq , String photoUrl) {
         this.nickName = userUpdateReq.getNickname();
         this.photo = photoUrl;
-
     }
 
 
@@ -121,6 +122,17 @@ public class User {
         }
     }
 
+    public void addBoardCount() {
+        this.boardCount = this.boardCount + 1;
+    }
+
+    public void isFirstPlogging() {
+        this.isFirstPlogging = true;
+    }
+
+    public boolean getIsFirstPlogging() {
+        return this.isFirstPlogging;
+    }
 
     public void addBadge(UserBadge userBadge) {
         this.userBadges.add(userBadge);
