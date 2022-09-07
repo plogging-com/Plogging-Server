@@ -57,6 +57,11 @@ public class BoardServiceImpl implements BoardService{
         User user = userRepository.findById(createBoardReq.getUserId()).orElseThrow(() -> new NotFoundUserException());
         Board board = boardRepository.save(createBoardReq.toEntityBoard(user));
 
+
+
+
+
+
         boolean isFirstBoard = boardRepository.findByUser(user).get().isEmpty();
         if(isFirstBoard) userBadgeService.giveBadgeToUser(BadgeList.NewBiePhotoGrapher, user);
 

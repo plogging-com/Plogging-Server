@@ -1,4 +1,4 @@
-package com.plogging.domain.User.dto.userBadge.response;
+package com.plogging.domain.User.dto.response;
 
 import com.plogging.domain.User.entity.Badge;
 import io.swagger.annotations.ApiModel;
