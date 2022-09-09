@@ -1,6 +1,7 @@
 package com.plogging.domain.User.controller;
 
 import com.plogging.domain.User.dto.request.BadgeRequest;
+import com.plogging.domain.User.dto.response.UserBadgeCreateRes;
 import com.plogging.domain.User.dto.response.UserBadgeListRes;
 import com.plogging.domain.User.service.userBadge.UserBadgeService;
 import com.plogging.global.dto.ApplicationResponse;
@@ -54,25 +55,24 @@ public class UserBadgeController {
 
     /**
      * author 신동민
-     * 최초 버튼 클릭시 뱃지 부여
+     * 발걸음수 추가하기 및 그에따른 뱃지부여
      */
-    @ApiOperation(value = "버튼 클릭시" , notes = "최초 버튼 클릭시 배지 부여")
-    @PostMapping("/button")
-    public ApplicationResponse<Void> button() {
-        userBadgeService.getButton();
-        return null;
+    @ApiOperation(value = "발걸음수 추가하기 및 그에따른 뱃지부여" , notes = "발걸음수를 저장하고 특정 조건 달성시에 그에 걸맞는 뱃지를 부여하고 그값을 리턴합니다.")
+    @PostMapping("/addWalkNum/{walkingNum}")
+    public ApplicationResponse<UserBadgeCreateRes> addWalkNum(@PathVariable Long walkingNum) {
+        return userBadgeService.startWalking(walkingNum);
     }
 
     /**
      * author 신동민
-     * 특정 발걸음 도달시 특정 배지부여
+     * 플로깅 버튼을 누르고 플로깅 버튼을 누른수를 카운트하여 그에따른 뱃지를 부여합니다.
      */
-    @ApiOperation(value = "특정 발걸음 도달시" , notes = "특정 발걸음 도달시에 뱃지를 부여합니다.")
-    @PostMapping("/footwork/{footworkNum}")
-    public ApplicationResponse<Void> footwork(@PathVariable Long footworkNum) {
-        userBadgeService.getFootWork(footworkNum);
-        return null;
+    @ApiOperation(value = "플로깅 버튼 누르기 및 뱃지부여" , notes = "플로깅 버튼누르면 플로깅 버튼누른 만큼 카운트 됩니다.")
+    @PostMapping("/startPlogging")
+    public ApplicationResponse<UserBadgeCreateRes> startPlogging() {
+       return userBadgeService.startPlogging();
     }
+
 
 
 

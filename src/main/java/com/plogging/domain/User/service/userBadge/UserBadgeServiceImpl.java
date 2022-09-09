@@ -3,14 +3,13 @@ package com.plogging.domain.User.service.userBadge;
 import com.plogging.domain.Board.exception.Board.NotFoundBoardException;
 import com.plogging.domain.User.BadgeList;
 import com.plogging.domain.User.dto.request.BadgeRequest;
+import com.plogging.domain.User.dto.response.UserBadgeCreateRes;
 import com.plogging.domain.User.dto.response.UserBadgeListRes;
 import com.plogging.domain.User.entity.Badge;
 import com.plogging.domain.User.entity.User;
 import com.plogging.domain.User.entity.UserBadge;
-import com.plogging.domain.User.exception.NotFirstPloggingException;
 import com.plogging.domain.User.exception.NotFoundBadgeException;
 import com.plogging.domain.User.exception.NotFoundUserException;
-import com.plogging.domain.User.exception.ValidUserFindPagingException;
 import com.plogging.domain.User.repository.BadgeRepository;
 import com.plogging.domain.User.repository.UserBadgeRepository;
 import com.plogging.domain.User.repository.UserRepository;
@@ -24,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -44,7 +44,6 @@ public class UserBadgeServiceImpl implements UserBadgeService{
     @Override
     public void createBadge(BadgeRequest badgeRequest) {
 
-        System.out.println(badgeRequest.getMultipartFile() == null);
 
         String fileName = awsS3Service.uploadImage(badgeRequest.getMultipartFile());
         Badge save = badgeRepository.save(Badge.toEntity(badgeRequest , fileName));
@@ -52,14 +51,6 @@ public class UserBadgeServiceImpl implements UserBadgeService{
 
     }
 
-    @Override
-    public void giveBadgeToUser(BadgeList newBiePhotoGrapher , User user) {
-
-        Badge badge = badgeRepository.findByName(newBiePhotoGrapher.getName()).orElseThrow(NotFoundBoardException::new);
-
-        UserBadge save = userBadgeRepository.save(UserBadge.toEntity(badge, user));
-
-    }
 
     @Override
     @Transactional
@@ -92,49 +83,77 @@ public class UserBadgeServiceImpl implements UserBadgeService{
 
         return result;
 
-    }
+}
 
     @Override
     @Transactional
-    public void getButton() {
-
+    public ApplicationResponse<UserBadgeCreateRes> startWalking(Long walkingNum) {
         User user = userRepository.findByLoginId(jwtService.getLoginId()).orElseThrow(NotFoundUserException::new);
 
-        if(!user.getIsFirstPlogging()) {
-            Badge isFirstButton = badgeRepository.findByName("처음 시작!").orElseThrow(NotFoundBadgeException::new);
+        user.addWalkingCount(walkingNum);
 
-            user.isFirstPlogging();
+        Badge badge = badgeRepository.findByName(getWalkingBadgeName(user.getWalkingCount())).orElseThrow(NotFoundBadgeException::new);
 
-            UserBadge userBadge = UserBadge.toEntity(isFirstButton, user);
-
-            userBadgeRepository.save(userBadge);
-
-        }else {
-            throw new NotFirstPloggingException();
-        }
+        return getUserBadge(user, badge);
 
     }
 
-    @Override
-    public void getFootWork(Long footworkNum) {
 
-        String footWorkBadgeName ="";
-        if (footworkNum >= 10000) {
-            footWorkBadgeName = "초보 워커";
-        }else if(footworkNum >= 30000) {
-            footWorkBadgeName = "중수 워커";
-        }else if(footworkNum >= 50000) {
-            footWorkBadgeName = "고수 워커";
+
+
+    @Override
+    @Transactional
+    public ApplicationResponse<UserBadgeCreateRes> startPlogging() {
+
+        User user = userRepository.findByLoginId(jwtService.getLoginId()).orElseThrow(NotFoundUserException::new);
+
+        user.addButtonCount();
+
+        Long buttonCount = user.getButtonCount();
+        Badge badge = badgeRepository.findByName(getButtonBadgeName(buttonCount)).orElseThrow(NotFoundBadgeException::new);
+
+        return getUserBadge(user, badge);
+
+    }
+
+    private String getButtonBadgeName(Long buttonCount) {
+        String buttonBadgeName ="";
+        if (buttonCount >= 40) {
+            buttonBadgeName = BadgeList.날아라플로깅.name();
+        }else if(buttonCount >= 25) {
+            buttonBadgeName = BadgeList.뛰어라플로깅.name();
+        }else if(buttonCount >= 10) {
+            buttonBadgeName = BadgeList.달려라플로깅.name();
+        } else if(buttonCount >= 1) {
+            buttonBadgeName = BadgeList.첫걸음.name();
         }
 
+        return buttonBadgeName;
+    }
 
 
 
+    private String getWalkingBadgeName(Long footworkNum) {
+        String footWorkBadgeName ="";
+        if (footworkNum >= 700000) {
+            footWorkBadgeName = BadgeList.세계일주.name();
+        }else if(footworkNum >= 500000) {
+            footWorkBadgeName = BadgeList.국토대장정.name();
+        }else if(footworkNum >= 300000) {
+            footWorkBadgeName = BadgeList.동네한바퀴.name();
+        } else if(footworkNum >= 100000) {
+            footWorkBadgeName = BadgeList.운동장한바퀴.name();
+        }
+        return footWorkBadgeName;
+    }
 
-
-
-
-
+    private ApplicationResponse<UserBadgeCreateRes> getUserBadge(User user, Badge badge) {
+        if(userBadgeRepository.findByUserAndBadge(user, badge).isEmpty()) {
+            userBadgeRepository.save(UserBadge.toEntity(badge, user));
+            return ApplicationResponse.create("새로운 뱃지 달성!", UserBadgeCreateRes.create(user, badge));
+        }else {
+            return ApplicationResponse.create("이미 존재하는 뱃지입니다.", UserBadgeCreateRes.create(user, badge));
+        }
     }
 
 

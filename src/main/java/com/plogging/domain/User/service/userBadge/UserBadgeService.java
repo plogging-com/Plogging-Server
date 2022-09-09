@@ -2,6 +2,7 @@ package com.plogging.domain.User.service.userBadge;
 
 import com.plogging.domain.User.BadgeList;
 import com.plogging.domain.User.dto.request.BadgeRequest;
+import com.plogging.domain.User.dto.response.UserBadgeCreateRes;
 import com.plogging.domain.User.dto.response.UserBadgeListRes;
 import com.plogging.domain.User.entity.User;
 import com.plogging.global.dto.ApplicationResponse;
@@ -13,14 +14,11 @@ public interface UserBadgeService {
 
     void createBadge(BadgeRequest badgeRequest);
 
-    void giveBadgeToUser(BadgeList newBiePhotoGrapher , User user);
-
     ApplicationResponse<Void> changeMainBadge(Long badgeIdx);
 
     List<UserBadgeListRes> getUserBadgeList();
 
-    void getButton();
+    ApplicationResponse<UserBadgeCreateRes> startWalking(Long walkingNum);
 
-    void getFootWork(Long footworkNum);
-
+    ApplicationResponse<UserBadgeCreateRes> startPlogging();
 }
