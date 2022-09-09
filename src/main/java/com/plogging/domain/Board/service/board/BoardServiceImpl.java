@@ -58,13 +58,6 @@ public class BoardServiceImpl implements BoardService{
         Board board = boardRepository.save(createBoardReq.toEntityBoard(user));
 
 
-
-
-
-
-        boolean isFirstBoard = boardRepository.findByUser(user).get().isEmpty();
-        if(isFirstBoard) userBadgeService.giveBadgeToUser(BadgeList.NewBiePhotoGrapher, user);
-
         // photo 생성
         List<String> filenames = awsS3Service.uploadImages(createBoardReq.getPhotos());
         for(String i : filenames){
@@ -84,7 +77,7 @@ public class BoardServiceImpl implements BoardService{
             urls.add(awsS3Service.makeUrlOfFilename(i.getFileName()));
         }
 
-        BoardRes boardRes = BoardRes.create(board , isFirstBoard, urls);
+        BoardRes boardRes = BoardRes.create(board , urls);
 
         // 카테고리 연관관계 및 생성
         BoardCategory boardCategory1 = BoardCategory.builder()
@@ -138,7 +131,7 @@ public class BoardServiceImpl implements BoardService{
         for (Photo i : photos){
             urls.add(awsS3Service.makeUrlOfFilename(i.getFileName()));
         }
-        return ApplicationResponse.ok(BoardRes.create(board , true, urls));
+        return ApplicationResponse.ok(BoardRes.create(board , urls));
 }
 
     @Transactional
@@ -186,7 +179,7 @@ public class BoardServiceImpl implements BoardService{
             }
         }
 
-        BoardRes boardRes = BoardRes.create(board , false, urls);
+        BoardRes boardRes = BoardRes.create(board , urls);
 
         // 카테고리 수정할게 하나라도 있는 경우
         if(modifyBoardReq.getCategoryName1() != null || modifyBoardReq.getCategoryName2() != null || modifyBoardReq.getCategoryName3() != null){

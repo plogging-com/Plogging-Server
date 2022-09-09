@@ -30,9 +30,8 @@ public class BoardRes {
 
     private List<CategoryName> categories = new ArrayList<>();
 
-    private boolean isFirstBoard;
 
-    public static BoardRes create(Board board , boolean isFirstBoard, List<String> urls) {
+    public static BoardRes create(Board board , List<String> urls) {
         BoardRes boardRes = new BoardRes();
         boardRes.title = board.getTitle();
         boardRes.content = board.getContent();
@@ -40,7 +39,6 @@ public class BoardRes {
         boardRes.status = board.getStatus();
         boardRes.heartCnt = board.getHeartCnt();
         boardRes.commentCnt = board.getCommentCnt();
-        boardRes.isFirstBoard = isFirstBoard;
         boardRes.photoUrls = urls;
 
         return boardRes;

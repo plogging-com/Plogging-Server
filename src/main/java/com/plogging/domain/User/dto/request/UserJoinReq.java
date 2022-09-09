@@ -49,9 +49,9 @@ public class UserJoinReq {
                 .phone(userJoinReq.getPhone())
                 .photo("feee43c9-86c1-4fdd-a208-dcd110564381.png")
                 .signUpDate(LocalDateTime.now())
+                .buttonCount(0L)
+                .walkingCount(0L)
                 .growth(1)
-                .boardCount(0L)
-                .isFirstPlogging(false)
                 .status(PresenceStatus.ACTIVE)
                 .level(1L).build();
     }
