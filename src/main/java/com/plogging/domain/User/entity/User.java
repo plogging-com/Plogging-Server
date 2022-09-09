@@ -39,9 +39,9 @@ public class User {
     private LocalDateTime signUpDate;
     private Long level;
 
-    private Long boardCount;
+    private Long buttonCount;
 
-    private boolean isFirstPlogging;
+    private Long walkingCount;
 
     @Enumerated(EnumType.STRING)
     private PresenceStatus status;
@@ -114,25 +114,24 @@ public class User {
         this.userQuestDiaries.add(userQuestDiary);
     }
 
-    public void levelUp() {
-        if(this.growth >= 100){
-            this.level += 1;
-        }else {
-            this.growth += 5;
+        public void levelUp() {
+            if(this.growth >= 100){
+                this.level += 1;
+            }else {
+                this.growth += 5;
+            }
         }
+
+        public void addButtonCount() {
+
+        this.buttonCount++;
+
     }
 
-    public void addBoardCount() {
-        this.boardCount = this.boardCount + 1;
+    public void addWalkingCount(Long walkingNum) {
+        this.walkingCount = this.walkingCount + walkingNum;
     }
 
-    public void isFirstPlogging() {
-        this.isFirstPlogging = true;
-    }
-
-    public boolean getIsFirstPlogging() {
-        return this.isFirstPlogging;
-    }
 
     public void addBadge(UserBadge userBadge) {
         this.userBadges.add(userBadge);

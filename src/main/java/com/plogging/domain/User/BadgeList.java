@@ -7,9 +7,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum BadgeList {
 
-    NewBiePhotoGrapher(1L , "초보사진가");
-
-    private final Long idx;
-    private final  String name;
+    운동장한바퀴 , 동네한바퀴 , 국토대장정 ,세계일주 , 첫걸음 , 달려라플로깅 , 뛰어라플로깅 , 날아라플로깅
 
 }
