@@ -2,8 +2,12 @@ package com.plogging.domain.User.exception;
 
 import org.springframework.http.HttpStatus;
 
+import static com.plogging.domain.User.exception.UserExceptionList.*;
+
 public class NotFoundBadgeException extends UserException{
     public NotFoundBadgeException() {
-        super(HttpStatus.NOT_FOUND.toString(), HttpStatus.NOT_FOUND, "해당뱃지를 찾을수 없습니다.");
+        super(NOT_FOUND_BADGE_EXCEPTION.getCODE(),
+                NOT_FOUND_BADGE_EXCEPTION.getHTTPSTATUS(),
+                NOT_FOUND_BADGE_EXCEPTION.getMESSAGE());
     }
 }

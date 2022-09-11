@@ -5,7 +5,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 
 import static org.springframework.http.HttpStatus.*;
-import static org.springframework.http.HttpStatus.Series.CLIENT_ERROR;
 
 @Getter
 @RequiredArgsConstructor
@@ -19,7 +18,15 @@ public enum UserExceptionList {
     TERMS_NOT_FOUND("U0006", NOT_FOUND,"조건 값이 올바르지 않습니다."),
     VALID_FORM_PASSWORD("U0007", CONFLICT,"비밀번호는 영문과 특수문자 숫자를 포함하여 8자 이상이어야 합니다."),
     DUPLICATION_PHONE("U0008", CONFLICT, "해당 번호로 이미 가입되어 있습니다."),
-    DELETE_USER("U0009", CONFLICT, "탈퇴한 아이디입니다.");
+    DELETE_USER("U0009", CONFLICT, "탈퇴한 아이디입니다."),
+
+    VAILD_USER_FINDPAGING("U00010" , BAD_REQUEST , "페이징 입력이 잘못되었습니다,"),
+
+    NOT_FOUND_BADGE_EXCEPTION("U00011" , NOT_FOUND , "해당 뱃지를 찾을 수 없습니다."),
+
+    NOT_FOUND_USER_EXCEPTION("U00012" , NOT_FOUND, "해당 유저를 찾을 수 없습니다."),
+
+    NOT_FOUND_USER_BADGE_EXCEPTION("U00013" , NOT_FOUND, "해당 유저의 뱃지를 찾을 수 없습니다.");
 
     private final String CODE;
     private final HttpStatus HTTPSTATUS;

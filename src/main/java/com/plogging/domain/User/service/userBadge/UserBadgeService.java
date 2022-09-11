@@ -21,4 +21,6 @@ public interface UserBadgeService {
     ApplicationResponse<UserBadgeCreateRes> startWalking(Long walkingNum);
 
     ApplicationResponse<UserBadgeCreateRes> startPlogging();
+
+    List<User> findAllOG();
 }

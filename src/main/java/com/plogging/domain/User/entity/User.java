@@ -132,6 +132,10 @@ public class User {
         this.walkingCount = this.walkingCount + walkingNum;
     }
 
+    public void initWalkingCount() {
+        this.walkingCount = 0L;
+    }
+
 
     public void addBadge(UserBadge userBadge) {
         this.userBadges.add(userBadge);
