@@ -1,11 +1,13 @@
 package com.plogging.domain.User.exception;
 
-import org.springframework.http.HttpStatus;
+import static com.plogging.domain.User.exception.UserExceptionList.*;
 
 public class ValidUserFindPagingException extends UserException{
 
     public ValidUserFindPagingException() {
-        super(HttpStatus.BAD_REQUEST.toString(), HttpStatus.BAD_REQUEST, "페이징 입력이 잘못되었습니다");
+            super(VAILD_USER_FINDPAGING.getCODE(),
+                VAILD_USER_FINDPAGING.getHTTPSTATUS(),
+                VALID_FORM_NICKNAME.getMESSAGE());
     }
 
 }

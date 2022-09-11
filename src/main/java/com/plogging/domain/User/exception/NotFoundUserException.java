@@ -2,8 +2,13 @@ package com.plogging.domain.User.exception;
 
 import org.springframework.http.HttpStatus;
 
+import static com.plogging.domain.User.exception.UserExceptionList.*;
+
 public class NotFoundUserException extends UserException{
     public NotFoundUserException() {
-        super(HttpStatus.NOT_FOUND.toString(), HttpStatus.NOT_FOUND, "해당 유저를 찾을 수 없습니다.");
+        super(
+                NOT_FOUND_USER_EXCEPTION.getCODE(),
+                NOT_FOUND_USER_EXCEPTION.getHTTPSTATUS(),
+                NOT_FOUND_USER_EXCEPTION.getMESSAGE());
     }
 }
