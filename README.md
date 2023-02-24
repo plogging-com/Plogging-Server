@@ -5,11 +5,6 @@
 
 <br><br>
 
-# SW 요구명세서
-https://www.notion.so/72d35f2003094bbb89bfc9cae065414d?pvs=4#02862bc5174f466d8fad314bef4a0dd8
-
-<br><br>
-
 # 개발환경
 | Language | JAVA (JDK 1.8) |
 | --- | --- |
